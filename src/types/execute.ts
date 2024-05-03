@@ -1,5 +1,5 @@
-import cacheData from "./cache";
+import Cache from "./cache";
 
-type Execute = (cache: cacheData, ...data: any) => any;
+type Execute = (cache: Cache, ...data: any) => any;
 
 export default Execute;

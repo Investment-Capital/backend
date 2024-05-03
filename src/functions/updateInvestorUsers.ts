@@ -9,7 +9,7 @@ const updateInvestorUsers = (cache: Cache, client: Client): void => {
         id: cachedUser.id,
         displayName: cachedUser.displayName,
         username: cachedUser.username,
-        avatarURL: cachedUser.displayAvatarURL(),
+        avatar: cachedUser.displayAvatarURL(),
       };
   }
 };

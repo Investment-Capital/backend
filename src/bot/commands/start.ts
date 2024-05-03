@@ -34,7 +34,7 @@ export default {
         id: interaction.user.id,
         displayName: interaction.user.displayName,
         username: interaction.user.username,
-        avatarURL: interaction.user.displayAvatarURL(),
+        avatar: interaction.user.displayAvatarURL(),
       },
       blacklist: {
         author: null,

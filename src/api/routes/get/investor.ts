@@ -11,6 +11,7 @@ export default {
       return res.json({
         error: "User not found.",
       });
+
     res.json(user);
   },
 } satisfies Route;

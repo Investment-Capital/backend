@@ -1,8 +1,7 @@
 import Execute from "./execute";
 
 type SchedualedTask = {
-  nextDate: number;
-  interval: number;
+  date: number | (() => number);
   execute: Execute;
 };
 

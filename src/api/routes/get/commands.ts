@@ -10,6 +10,7 @@ export default {
         category: e.category,
         disabled: typeof e.disabled == "function" ? e.disabled() : e.disabled,
         requiedPrestige: e.requiedPrestige,
+        global: e.guilds ? false : true,
       }))
     );
   },

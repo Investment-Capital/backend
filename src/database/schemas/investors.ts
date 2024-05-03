@@ -6,7 +6,7 @@ const user = new Schema<SavedUser>({
   id: String,
   displayName: String || null,
   username: String,
-  avatarURL: String,
+  avatar: String,
 });
 
 const blacklistData = new Schema<Omit<Investor["blacklist"], "history">>({

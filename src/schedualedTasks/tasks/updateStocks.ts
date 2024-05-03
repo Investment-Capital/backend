@@ -1,7 +1,6 @@
 import emitterValues from "../../classes/emitterValues";
 import stocks from "../../classes/stocks";
 import timeManager from "../../classes/timeManager";
-import times from "../../classes/times";
 import basePrices from "../../config/investments/basePrices";
 import volatility from "../../config/investments/volatility";
 import markets from "../../database/schemas/markets";
@@ -10,9 +9,9 @@ import StockMarket from "../../types/markets/stockMarket";
 import SchedualedTask from "../../types/schedualedTask";
 
 export default {
-  nextDate: timeManager.stockUpdate() / 1000,
-  interval: times.hour / 1000,
+  date: timeManager.stockUpdate,
   execute: async (cache) => {
+    console.log("stock update");
     const before = cache.markets.stocks;
     const after = {} as StockMarket;
 

@@ -12,19 +12,38 @@ export default (async (cache) => {
     const command: Command = (await import(`../commands/${file}`)).default;
     cache.commands.push(command);
 
-    logger.info(`Command /${command.data.name} has passed threw the handler`);
+    logger.info(
+      `${command.guilds ? "Guild" : "Global"} Command /${
+        command.data.name
+      } has passed threw the handler`
+    );
   }
 
   logger.success(
     `Passed ${cache.commands.length} command(s) threw the handler`
   );
 
-  new REST({ version: "10" })
-    .setToken(process.env.TOKEN as string)
-    .put(
-      Routes.applicationCommands(getIdBytoken(process.env.TOKEN as string)),
-      {
-        body: cache.commands.map((command) => command.data),
-      }
-    );
+  const rest = new REST({ version: "10" }).setToken(
+    process.env.TOKEN as string
+  );
+
+  const clientId = getIdBytoken(process.env.TOKEN as string);
+
+  rest.put(Routes.applicationCommands(clientId), {
+    body: cache.commands
+      .filter((e) => !e.guilds)
+      .map((command) => command.data),
+  });
+
+  new Set(
+    cache.commands
+      .filter((guildCommand) => guildCommand.guilds)
+      .flatMap((guildCommand) => guildCommand.guilds)
+  ).forEach((guild) => {
+    rest.put(Routes.applicationGuildCommands(clientId, guild as string), {
+      body: cache.commands
+        .filter((command) => command.guilds?.includes(guild as string))
+        .map((command) => command.data),
+    });
+  });
 }) satisfies Handler;
