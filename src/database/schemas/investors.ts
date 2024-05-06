@@ -13,7 +13,7 @@ const blacklistData = new Schema<Omit<Investor["blacklist"], "history">>({
   blacklisted: Boolean,
   reason: String || null,
   date: Number || null,
-  author: Number || null,
+  author: String || null,
 });
 
 const investorData = new Schema<Investor>({

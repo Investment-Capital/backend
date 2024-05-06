@@ -8,7 +8,7 @@ type Investor = {
     blacklisted: boolean;
     reason: string | null;
     date: number | null;
-    author: number | null;
+    author: string | null;
 
     history: Omit<Investor["blacklist"], "history">[];
   };

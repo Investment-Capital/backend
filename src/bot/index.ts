@@ -9,7 +9,10 @@ dotenv.config();
 const startBot = async (cache: Cache) => {
   logger.info("Starting Bot");
 
-  const client = new Client({ intents: [], shardCount: 1 });
+  const client = new Client({
+    intents: [],
+    shards: "auto",
+  });
 
   for (const file of fs.readdirSync("src/bot/handlers")) {
     const handler: Handler = (await import(`./handlers/${file}`)).default;
