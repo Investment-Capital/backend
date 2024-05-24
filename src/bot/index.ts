@@ -1,4 +1,3 @@
-import { Client } from "discord.js";
 import dotenv from "dotenv";
 import fs from "fs";
 import Cache from "../types/cache";
@@ -9,17 +8,12 @@ dotenv.config();
 const startBot = async (cache: Cache) => {
   logger.info("Starting Bot");
 
-  const client = new Client({
-    intents: [],
-    shards: "auto",
-  });
-
   for (const file of fs.readdirSync("src/bot/handlers")) {
     const handler: Handler = (await import(`./handlers/${file}`)).default;
-    handler(cache, client);
+    handler(cache);
   }
 
-  client.login(process.env.TOKEN);
+  cache.client.login(process.env.TOKEN);
 };
 
 export default startBot;

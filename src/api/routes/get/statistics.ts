@@ -6,7 +6,7 @@ export default {
   execute: (cache, _, res: Response) => {
     res.json({
       investors: cache.investors.length,
-      guilds: cache.guilds,
+      guilds: cache.client.guilds.cache.size,
       businesses: null,
     });
   },

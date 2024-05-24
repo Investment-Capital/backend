@@ -6,6 +6,7 @@ import startDatabase from "./database/startDatabase";
 import { EventEmitter } from "events";
 import StockMarket from "./types/markets/stockMarket";
 import schedualTasks from "./schedualedTasks/schedualTasks";
+import { Client } from "discord.js";
 dotenv.config();
 
 (async () => {
@@ -23,9 +24,12 @@ dotenv.config();
     markets: {
       stocks: data.marketData.stocks as StockMarket,
     },
-
-    guilds: null,
     events: new EventEmitter(),
+
+    client: new Client({
+      intents: [],
+      shards: "auto",
+    }),
   };
 
   startBot(cache);

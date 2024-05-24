@@ -1,5 +1,5 @@
 import { EmbedBuilder, User } from "discord.js";
-import addDefaults from "./addDefaults";
+import addDefaults from "./defaults/addDefaults";
 
 const notFound = (user: User) => {
   return addDefaults(

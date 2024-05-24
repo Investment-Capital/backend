@@ -1,6 +1,5 @@
-import { Client } from "discord.js";
 import Cache from "./cache";
 
-type Handler = (cache: Cache, client: Client) => any;
+type Handler = (cache: Cache) => any;
 
 export default Handler;

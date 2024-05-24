@@ -1,3 +1,4 @@
+import { Client } from "discord.js";
 import Command from "./command";
 import Components from "./components";
 import Investor from "./investor";
@@ -9,8 +10,9 @@ type Cache = {
   commands: Command[];
   components: Components;
   markets: Markets;
-  guilds: number | null;
   events: EventEmitter;
+
+  client: Client;
 };
 
 export default Cache;

@@ -1,6 +1,6 @@
 import { EmbedBuilder, User } from "discord.js";
-import addDefaults from "./addDefaults";
 import emojis from "../../../classes/emojis";
+import addDefaults from "./defaults/addDefaults";
 
 const executionError = (user: User) => {
   return addDefaults(
