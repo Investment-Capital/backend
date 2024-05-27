@@ -5,7 +5,7 @@ export default {
   path: "/investor/:id",
   execute: (cache, req: Request, res: Response) => {
     const { id } = req.params;
-    const user = cache.investors.find((e) => e.user.id == id);
+    const user = cache.investors.find((investor) => investor.user.id == id);
 
     if (!user)
       return res.json({

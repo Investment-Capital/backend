@@ -1,13 +1,12 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import Command from "../../types/command";
-import alreadyCreatedAccount from "../responces/embeds/alreadyCreatedAccount";
-import accountCreated from "../responces/embeds/accountCreated";
+import Command from "../../../types/command";
+import alreadyCreatedAccount from "../../responces/embeds/alreadyCreatedAccount";
+import accountCreated from "../../responces/embeds/accountCreated";
 
 export default {
   data: new SlashCommandBuilder()
     .setName("start")
     .setDescription("Start your investment capital account!"),
-  category: "uncategorized",
   disabled: false,
   requiedPrestige: null,
   execute: async (cache, interaction: CommandInteraction) => {

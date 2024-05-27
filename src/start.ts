@@ -25,7 +25,6 @@ dotenv.config();
       stocks: data.marketData.stocks as StockMarket,
     },
     events: new EventEmitter(),
-
     client: new Client({
       intents: [],
       shards: "auto",

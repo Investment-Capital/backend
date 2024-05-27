@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import Cache from "../types/cache";
@@ -9,7 +9,7 @@ import Route from "../types/route";
 import enableWs from "express-ws";
 
 dotenv.config();
-let app = express();
+const app = express();
 const server = http.createServer(app);
 enableWs(app, server);
 app.use(
@@ -31,7 +31,7 @@ const startAPI = async (cache: Cache) => {
     }
   }
 
-  app.get("*", (_: Request, res: Response) =>
+  app.get("*", (_, res: Response) =>
     res.json({
       error: "Route Not Found",
     })

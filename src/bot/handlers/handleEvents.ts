@@ -1,6 +1,6 @@
 import fs from "fs";
 import Event from "../../types/event";
-import Handler from "../../types/handler";
+import Execute from "../../types/execute";
 
 export default (async (cache) => {
   for (const file of fs.readdirSync("src/bot/events")) {
@@ -9,4 +9,4 @@ export default (async (cache) => {
       event.execute(cache, ...data)
     );
   }
-}) satisfies Handler;
+}) satisfies Execute;

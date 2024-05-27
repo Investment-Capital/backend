@@ -5,12 +5,15 @@ export default {
   path: "/commands",
   execute: (cache, _, res: Response) => {
     res.json(
-      cache.commands.map((e) => ({
-        data: e.data,
-        category: e.category,
-        disabled: typeof e.disabled == "function" ? e.disabled() : e.disabled,
-        requiedPrestige: e.requiedPrestige,
-        global: e.guilds ? false : true,
+      cache.commands.map((command) => ({
+        data: command.data,
+        category: command.category,
+        disabled:
+          typeof command.disabled == "function"
+            ? command.disabled()
+            : command.disabled,
+        requiedPrestige: command.requiedPrestige,
+        global: command.guilds ? false : true,
       }))
     );
   },

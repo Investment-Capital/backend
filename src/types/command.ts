@@ -1,14 +1,23 @@
-import { ContextMenuCommandBuilder, SlashCommandBuilder } from "discord.js";
+import {
+  ContextMenuCommandBuilder,
+  SlashCommandBuilder,
+  SlashCommandSubcommandBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
+} from "discord.js";
 import Execute from "./execute";
 
 type Command = {
-  data: SlashCommandBuilder | ContextMenuCommandBuilder;
-  category: "investment" | "market" | "uncategorized" | "event" | "admin";
+  data:
+    | SlashCommandBuilder
+    | SlashCommandSubcommandBuilder
+    | ContextMenuCommandBuilder
+    | SlashCommandSubcommandsOnlyBuilder;
   disabled: boolean | (() => boolean);
   requiedPrestige: number | null;
   execute: Execute;
   autocomplete?: Execute;
   guilds?: string[];
+  category?: string;
 };
 
 export default Command;

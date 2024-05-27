@@ -16,8 +16,8 @@ export default {
       .filter(
         (e) =>
           e.user.displayName?.toLowerCase().includes(search.toLowerCase()) ||
-          e.user.username?.toLowerCase().includes(search.toLowerCase()) ||
-          e.user.id?.toLowerCase().includes(search.toLowerCase())
+          e.user.username.toLowerCase().includes(search.toLowerCase()) ||
+          e.user.id.toLowerCase().includes(search.toLowerCase())
       )
       .slice((page - 1) * 10, page * 10);
 

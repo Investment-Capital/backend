@@ -1,4 +1,5 @@
 import emitterValues from "../../classes/emitterValues";
+import logger from "../../classes/logger";
 import stocks from "../../classes/stocks";
 import timeManager from "../../classes/timeManager";
 import basePrices from "../../config/investments/basePrices";
@@ -11,7 +12,7 @@ import SchedualedTask from "../../types/schedualedTask";
 export default {
   date: timeManager.stockUpdate,
   execute: async (cache) => {
-    console.log("stock update");
+    logger.success("Stock Market has been updated");
     const before = cache.markets.stocks;
     const after = {} as StockMarket;
 

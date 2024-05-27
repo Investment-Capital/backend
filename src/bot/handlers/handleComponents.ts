@@ -1,5 +1,5 @@
 import Component from "../../types/component";
-import Handler from "../../types/handler";
+import Execute from "../../types/execute";
 import fs from "fs";
 
 export default (async (cache) => {
@@ -12,4 +12,4 @@ export default (async (cache) => {
       ((cache.components as any)[folder] as Component[]).push(component);
     }
   }
-}) satisfies Handler;
+}) satisfies Execute;

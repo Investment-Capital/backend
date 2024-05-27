@@ -1,22 +1,27 @@
 import fs from "fs";
 import dotenv from "dotenv";
-import Handler from "../../types/handler";
 import Command from "../../types/command";
 import { REST, Routes } from "discord.js";
 import getIdBytoken from "../../functions/getIdByToken";
 import logger from "../../classes/logger";
+import Execute from "../../types/execute";
 dotenv.config();
 
 export default (async (cache) => {
-  for (const file of fs.readdirSync("src/bot/commands")) {
-    const command: Command = (await import(`../commands/${file}`)).default;
-    cache.commands.push(command);
+  for (const folder of fs.readdirSync("src/bot/commands")) {
+    for (const file of fs.readdirSync(`src/bot/commands/${folder}`)) {
+      const command: Command = (await import(`../commands/${folder}/${file}`))
+        .default;
 
-    logger.info(
-      `${command.guilds ? "Guild" : "Global"} Command /${
-        command.data.name
-      } has passed threw the handler`
-    );
+      if (!command.category) command.category = folder;
+      cache.commands.push(command);
+
+      logger.info(
+        `${command.guilds ? "Guild" : "Global"} Command /${
+          command.data.name
+        } has passed threw the handler`
+      );
+    }
   }
 
   logger.success(
@@ -46,4 +51,4 @@ export default (async (cache) => {
         .map((command) => command.data),
     });
   });
-}) satisfies Handler;
+}) satisfies Execute;
