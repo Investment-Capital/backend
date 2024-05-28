@@ -3,7 +3,7 @@ import Route from "../../../types/route";
 
 export default {
   path: "/commands",
-  execute: (cache, _, res: Response) => {
+  execute: (cache, _, res: Response) =>
     res.json(
       cache.commands.map((command) => ({
         data: command.data,
@@ -15,6 +15,5 @@ export default {
         requiedPrestige: command.requiedPrestige,
         global: command.guilds ? false : true,
       }))
-    );
-  },
+    ),
 } satisfies Route;

@@ -1,5 +1,5 @@
 import times from "../../classes/times";
-import SchedualedTask from "../../types/schedualedTask";
+import ScheduledTask from "../../types/scheduledTask";
 
 export default {
   date: times.minute * 5,
@@ -15,4 +15,4 @@ export default {
         };
     }
   },
-} satisfies SchedualedTask;
+} satisfies ScheduledTask;

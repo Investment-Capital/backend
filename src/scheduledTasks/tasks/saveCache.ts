@@ -1,6 +1,6 @@
 import times from "../../classes/times";
 import investors from "../../database/schemas/investors";
-import SchedualedTask from "../../types/schedualedTask";
+import ScheduledTask from "../../types/scheduledTask";
 
 export default {
   date: times.second,
@@ -9,4 +9,4 @@ export default {
       investors: cache.investors,
     });
   },
-} satisfies SchedualedTask;
+} satisfies ScheduledTask;

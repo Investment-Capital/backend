@@ -1,19 +1,16 @@
 import Cache from "../types/cache";
-import SchedualedTask from "../types/schedualedTask";
 import fs from "fs";
+import ScheduledTask from "../types/scheduledTask";
 
 const schedualTasks = async (cache: Cache) => {
-  for (const file of fs.readdirSync("src/schedualedTasks/tasks")) {
-    const task: SchedualedTask = (await import(`./tasks/${file}`)).default;
+  for (const file of fs.readdirSync("src/scheduledTasks/tasks")) {
+    const task: ScheduledTask = (await import(`./tasks/${file}`)).default;
 
     (async () => {
       while (true) {
         await new Promise((resolve) =>
           setTimeout(
-            async () => {
-              await task.execute(cache);
-              resolve(null);
-            },
+            () => task.execute(cache).then(resolve),
             typeof task.date == "function" ? task.date() : task.date
           )
         );

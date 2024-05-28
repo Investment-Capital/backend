@@ -1,8 +1,8 @@
 import Execute from "./execute";
 
-type SchedualedTask = {
+type ScheduledTask = {
   date: number | (() => number);
   execute: Execute;
 };
 
-export default SchedualedTask;
+export default ScheduledTask;

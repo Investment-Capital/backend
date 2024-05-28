@@ -7,7 +7,7 @@ import volatility from "../../config/investments/volatility";
 import markets from "../../database/schemas/markets";
 import Stocks from "../../types/investments/stocks";
 import StockMarket from "../../types/markets/stockMarket";
-import SchedualedTask from "../../types/schedualedTask";
+import ScheduledTask from "../../types/scheduledTask";
 
 export default {
   date: timeManager.stockUpdate,
@@ -52,4 +52,4 @@ export default {
       stocks: after,
     });
   },
-} satisfies SchedualedTask;
+} satisfies ScheduledTask;

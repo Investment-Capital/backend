@@ -4,8 +4,8 @@ import Route from "../../../types/route";
 export default {
   path: "/investors",
   execute: (cache, req: Request, res: Response) => {
-    const search = (req.query.search as string) ?? "";
-    const page = parseInt((req.query.page as string) ?? "1");
+    const search = (req.query.search as string | undefined) ?? "";
+    const page = parseInt((req.query.page as string | undefined) ?? "1");
 
     if (page < 1)
       return res.json({

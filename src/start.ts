@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import startDatabase from "./database/startDatabase";
 import { EventEmitter } from "events";
 import StockMarket from "./types/markets/stockMarket";
-import schedualTasks from "./schedualedTasks/schedualTasks";
+import scheduleTasks from "./scheduledTasks/scheduleTasks";
 import { Client } from "discord.js";
 dotenv.config();
 
@@ -33,5 +33,5 @@ dotenv.config();
 
   startBot(cache);
   startAPI(cache);
-  schedualTasks(cache);
+  scheduleTasks(cache);
 })();

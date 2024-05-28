@@ -108,7 +108,7 @@ export default {
       else throw new Error("Invalid Interaction Type");
     } catch (error: any) {
       await replyWithError(interaction);
-      logger.error("Error executing command/autocomplete", error);
+      logger.error(error);
     }
   },
 } satisfies Event;

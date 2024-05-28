@@ -13,7 +13,7 @@ const log = (logs: any) => {
 
   console.log(
     chalk.grey(
-      `${formatDateValue(date.getDay())}/${formatDateValue(
+      `${formatDateValue(date.getDate())}/${formatDateValue(
         date.getMonth() + 1
       )}/${
         date.getFullYear().toString().charAt(2) +
@@ -36,11 +36,10 @@ class logger {
       content: `Warning: ${text}`,
     });
   };
-  static error = (text: any, error: Error) => {
-    log(chalk.red(text));
-    console.log(chalk.red(error.stack));
+  static error = (error: Error) => {
+    log(chalk.red(error.stack));
     webhook.send({
-      content: `Error Occurred: ${text}`,
+      content: `Error Occurred: ${error.message}`,
     });
   };
 }
