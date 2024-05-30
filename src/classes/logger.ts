@@ -3,7 +3,9 @@ import { WebhookClient } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const webhook = new WebhookClient({ url: process.env.WEBHOOK_URL as string });
+const webhook = new WebhookClient({
+  url: process.env.WEBHOOK_LOGGING_URL as string,
+});
 
 const formatDateValue = (number: number) =>
   number < 10 ? `0${number}` : number.toString();

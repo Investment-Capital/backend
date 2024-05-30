@@ -2,7 +2,7 @@ import { EmbedBuilder, User } from "discord.js";
 import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 
-const executionError = (user: User) => {
+const executionErrorEmbed = (user: User) => {
   return addDefaults(
     new EmbedBuilder()
       .setTitle("An Error has occured")
@@ -14,4 +14,4 @@ const executionError = (user: User) => {
   );
 };
 
-export default executionError;
+export default executionErrorEmbed;

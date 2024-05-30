@@ -1,7 +1,7 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import Command from "../../../types/command";
 import alreadyCreatedAccount from "../../responces/embeds/alreadyCreatedAccount";
-import accountCreated from "../../responces/embeds/accountCreated";
+import accountCreatedEmbed from "../../responces/embeds/accountCreated";
 
 export default {
   data: new SlashCommandBuilder()
@@ -45,7 +45,7 @@ export default {
     });
 
     await interaction.editReply({
-      embeds: [accountCreated(interaction.user)],
+      embeds: [accountCreatedEmbed(interaction.user)],
     });
   },
 } satisfies Command;

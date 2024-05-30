@@ -2,7 +2,7 @@ import { User, EmbedBuilder } from "discord.js";
 import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 
-const accountCreated = (user: User) => {
+const accountCreatedEmbed = (user: User) => {
   return addDefaults(
     new EmbedBuilder()
       .setTitle("Account Created")
@@ -14,4 +14,4 @@ const accountCreated = (user: User) => {
   );
 };
 
-export default accountCreated;
+export default accountCreatedEmbed;

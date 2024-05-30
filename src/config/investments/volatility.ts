@@ -3,7 +3,7 @@
 
 class volatility {
   static sop = 7.5;
-  static rbx = 7.5;
+  static rbx = 7.25;
   static apl = 7;
 }
 

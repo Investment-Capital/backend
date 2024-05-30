@@ -2,7 +2,7 @@ import { EmbedBuilder, User } from "discord.js";
 import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 
-const alreadyCreatedAccount = (user: User) => {
+const alreadyCreatedAccountEmbed = (user: User) => {
   return addDefaults(
     new EmbedBuilder()
       .setColor("Red")
@@ -14,4 +14,4 @@ const alreadyCreatedAccount = (user: User) => {
   );
 };
 
-export default alreadyCreatedAccount;
+export default alreadyCreatedAccountEmbed;

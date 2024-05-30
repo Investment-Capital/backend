@@ -12,20 +12,21 @@ export default {
         error: "Invalid Page",
       });
 
-    const users = cache.investors
+    const investors = cache.investors
       .filter(
         (e) =>
-          e.user.displayName?.toLowerCase().includes(search.toLowerCase()) ||
-          e.user.username.toLowerCase().includes(search.toLowerCase()) ||
-          e.user.id.toLowerCase().includes(search.toLowerCase())
+          !e.blacklist.blacklisted &&
+          (e.user.displayName?.toLowerCase().includes(search.toLowerCase()) ||
+            e.user.username.toLowerCase().includes(search.toLowerCase()) ||
+            e.user.id.toLowerCase().includes(search.toLowerCase()))
       )
       .slice((page - 1) * 10, page * 10);
 
-    if (!users.length)
+    if (!investors.length)
       return res.json({
-        error: "No users found on this page",
+        error: "No investors found on this page",
       });
 
-    res.json(users.map((e) => e.user));
+    res.json(investors.map((investor) => investor.user));
   },
 } satisfies Route;

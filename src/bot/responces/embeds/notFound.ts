@@ -1,7 +1,7 @@
 import { EmbedBuilder, User } from "discord.js";
 import addDefaults from "./defaults/addDefaults";
 
-const notFound = (user: User) => {
+const notFoundEmbed = (user: User) => {
   return addDefaults(
     new EmbedBuilder()
       .setTitle("Not Found")
@@ -11,4 +11,4 @@ const notFound = (user: User) => {
   );
 };
 
-export default notFound;
+export default notFoundEmbed;

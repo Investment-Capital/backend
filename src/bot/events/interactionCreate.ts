@@ -6,12 +6,13 @@ import {
 } from "discord.js";
 import Event from "../../types/event";
 import logger from "../../classes/logger";
-import replyWithError from "../../functions/replyWithError";
-import replyWithNotFound from "../../functions/replyWithNotFound";
 import Investor from "../../types/investor";
 import Command from "../../types/command";
 import Component from "../../types/component";
 import Execute from "../../types/execute";
+import replyWithEmbed from "../../functions/replyWithEmbed";
+import notFoundEmbed from "../responces/embeds/notFound";
+import executionErrorEmbed from "../responces/embeds/executionError";
 
 export default {
   event: Events.InteractionCreate,
@@ -54,7 +55,11 @@ export default {
       else if (interaction.isUserSelectMenu())
         componentCache = cache.components.userSelectMenus;
       else {
-        await replyWithNotFound(interaction);
+        await replyWithEmbed(
+          interaction,
+          notFoundEmbed(interaction.user),
+          true
+        );
         return logger.warn(
           `Invalid Component Type: ${interaction.component.type}`
         );
@@ -66,13 +71,22 @@ export default {
     }
 
     if (!executeData) {
-      await replyWithNotFound(interaction);
+      await replyWithEmbed(interaction, notFoundEmbed(interaction.user), true);
       return logger.warn(
         `Invalid Execution: ${
           (interaction as CommandInteraction).commandName ??
           (interaction as MessageComponentInteraction).customId
         }`
       );
+    }
+
+    if (
+      executeData.guilds &&
+      (!interaction.inGuild() ||
+        !executeData.guilds.includes(interaction.guildId))
+    ) {
+      console.log("this command isnt in this guild");
+      return;
     }
 
     if (
@@ -107,7 +121,11 @@ export default {
         await executeData.execute(cache, interaction);
       else throw new Error("Invalid Interaction Type");
     } catch (error: any) {
-      await replyWithError(interaction);
+      await replyWithEmbed(
+        interaction,
+        executionErrorEmbed(interaction.user),
+        true
+      );
       logger.error(error);
     }
   },
