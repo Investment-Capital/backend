@@ -14,6 +14,7 @@ export default {
             : command.disabled,
         requiedPrestige: command.requiedPrestige,
         global: command.guilds ? false : true,
+        requiresAccount: command.requiresAccount,
       }))
     ),
 } satisfies Route;

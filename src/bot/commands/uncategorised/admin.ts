@@ -6,5 +6,7 @@ export default {
   guilds: [],
   disabled: false,
   requiedPrestige: null,
+  requiresAccount: true,
+  category: "admin",
   execute: () => null,
 } satisfies Command;

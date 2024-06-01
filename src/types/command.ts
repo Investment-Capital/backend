@@ -15,6 +15,7 @@ type Command = {
   disabled: boolean | (() => boolean);
   requiedPrestige: number | null;
   execute: Execute;
+  requiresAccount: boolean;
   autocomplete?: Execute;
   guilds?: string[];
   category?: string;

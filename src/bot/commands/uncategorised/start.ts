@@ -9,6 +9,7 @@ export default {
     .setDescription("Start your investment capital account!"),
   disabled: false,
   requiedPrestige: null,
+  requiresAccount: false,
   execute: async (cache, interaction: CommandInteraction) => {
     const user = cache.investors.find(
       (investor) => investor.user.id == interaction.user.id

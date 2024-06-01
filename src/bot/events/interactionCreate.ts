@@ -21,20 +21,6 @@ export default {
       (e) => interaction.user.id == e.user.id
     );
 
-    if (
-      (interaction as CommandInteraction).commandName !== "start" &&
-      (interaction as MessageComponentInteraction).customId !== "start" &&
-      !foundUser
-    ) {
-      console.log("user doesnt have an account");
-      return;
-    }
-
-    if (foundUser?.blacklist.blacklisted) {
-      console.log("user blacklisted");
-      return;
-    }
-
     let executeData: Command | Component | undefined;
 
     if (interaction.isChatInputCommand() || interaction.isAutocomplete()) {
@@ -80,6 +66,16 @@ export default {
       );
     }
 
+    if (executeData.requiresAccount && !foundUser) {
+      console.log("user doesnt have an account");
+      return;
+    }
+
+    if (foundUser?.blacklist.blacklisted) {
+      console.log("user blacklisted");
+      return;
+    }
+
     if (
       executeData.guilds &&
       (!interaction.inGuild() ||
@@ -100,8 +96,7 @@ export default {
 
     if (
       executeData.requiedPrestige &&
-      (interaction as CommandInteraction).commandName !== "start" &&
-      (interaction as MessageComponentInteraction).customId !== "start" &&
+      executeData.requiresAccount &&
       executeData.requiedPrestige > (foundUser as Investor).prestige
     ) {
       console.log("not right pt");

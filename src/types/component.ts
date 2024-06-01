@@ -5,6 +5,7 @@ type Component = {
   execute: Execute;
   disabled: boolean | (() => boolean);
   requiedPrestige: number | null;
+  requiresAccount: boolean;
   guilds?: string[];
 };
 

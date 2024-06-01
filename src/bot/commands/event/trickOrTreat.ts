@@ -17,5 +17,6 @@ export default {
     );
   },
   requiedPrestige: 2,
+  requiresAccount: true,
   execute: () => null,
 } satisfies Command;
