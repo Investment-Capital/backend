@@ -12,13 +12,13 @@ type Command = {
     | SlashCommandSubcommandBuilder
     | ContextMenuCommandBuilder
     | SlashCommandSubcommandsOnlyBuilder;
-  disabled: boolean | (() => boolean);
-  requiedPrestige: number | null;
   execute: Execute;
-  requiresAccount: boolean;
   autocomplete?: Execute;
+  requiresAccount?: boolean;
   guilds?: string[];
   category?: string;
+  disabled?: boolean | (() => boolean);
+  requiedPrestige?: number;
 };
 
 export default Command;

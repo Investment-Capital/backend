@@ -4,12 +4,10 @@ import alreadyCreatedAccount from "../../responces/embeds/alreadyCreatedAccount"
 import accountCreatedEmbed from "../../responces/embeds/accountCreated";
 
 export default {
+  requiresAccount: false,
   data: new SlashCommandBuilder()
     .setName("start")
     .setDescription("Start your investment capital account!"),
-  disabled: false,
-  requiedPrestige: null,
-  requiresAccount: false,
   execute: async (cache, interaction: CommandInteraction) => {
     const user = cache.investors.find(
       (investor) => investor.user.id == interaction.user.id

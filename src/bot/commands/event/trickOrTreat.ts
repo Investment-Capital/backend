@@ -16,7 +16,5 @@ export default {
         currentDate.getMonth() !== months.november)
     );
   },
-  requiedPrestige: 2,
-  requiresAccount: true,
   execute: () => null,
 } satisfies Command;

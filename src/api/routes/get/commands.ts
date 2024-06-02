@@ -11,10 +11,11 @@ export default {
         disabled:
           typeof command.disabled == "function"
             ? command.disabled()
-            : command.disabled,
-        requiedPrestige: command.requiedPrestige,
+            : command.disabled ?? false,
+        requiedPrestige: command.requiedPrestige ?? 1,
         global: command.guilds ? false : true,
-        requiresAccount: command.requiresAccount,
+        requiresAccount:
+          command.requiresAccount == undefined ? true : command.requiresAccount,
       }))
     ),
 } satisfies Route;

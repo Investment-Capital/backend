@@ -66,7 +66,12 @@ export default {
       );
     }
 
-    if (executeData.requiresAccount && !foundUser) {
+    const requiresAccount =
+      executeData.requiresAccount == undefined
+        ? true
+        : executeData.requiresAccount;
+
+    if (requiresAccount && !foundUser) {
       console.log("user doesnt have an account");
       return;
     }
@@ -96,7 +101,7 @@ export default {
 
     if (
       executeData.requiedPrestige &&
-      executeData.requiresAccount &&
+      requiresAccount &&
       executeData.requiedPrestige > (foundUser as Investor).prestige
     ) {
       console.log("not right pt");
