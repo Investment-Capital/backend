@@ -1,6 +1,6 @@
 type SavedUser = {
   id: string;
-  displayName: string | null;
+  displayName: string;
   username: string;
   avatar: string;
 };

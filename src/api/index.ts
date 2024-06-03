@@ -37,9 +37,9 @@ const startAPI = async (cache: Cache) => {
     })
   );
 
-  server.listen(process.env.PORT, () => {
-    logger.success(`Running API at http://localhost:${process.env.PORT}`);
-  });
+  server.listen(process.env.PORT, () =>
+    logger.success(`Running API at http://localhost:${process.env.PORT}`)
+  );
 };
 
 export default startAPI;

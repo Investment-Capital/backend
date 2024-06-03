@@ -14,11 +14,15 @@ export default {
 
     const investors = cache.investors
       .filter(
-        (e) =>
-          !e.blacklist.blacklisted &&
-          (e.user.displayName?.toLowerCase().includes(search.toLowerCase()) ||
-            e.user.username.toLowerCase().includes(search.toLowerCase()) ||
-            e.user.id.toLowerCase().includes(search.toLowerCase()))
+        (investor) =>
+          !investor.blacklist.blacklisted &&
+          (investor.user.displayName
+            ?.toLowerCase()
+            .includes(search.toLowerCase()) ||
+            investor.user.username
+              .toLowerCase()
+              .includes(search.toLowerCase()) ||
+            investor.user.id.toLowerCase().includes(search.toLowerCase()))
       )
       .slice((page - 1) * 10, page * 10);
 

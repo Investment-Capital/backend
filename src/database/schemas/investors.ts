@@ -1,27 +1,43 @@
 import { Schema, model } from "mongoose";
 import Investor from "../../types/investor";
 import SavedUser from "../../types/savedUser";
+import Blacklist from "../../types/blacklist";
 
-const user = new Schema<SavedUser>({
-  id: String,
-  displayName: String || null,
-  username: String,
-  avatar: String,
-});
+const user = new Schema<SavedUser>(
+  {
+    id: String,
+    displayName: String,
+    username: String,
+    avatar: String,
+  },
+  {
+    _id: false,
+  }
+);
 
-const blacklistData = new Schema<Omit<Investor["blacklist"], "history">>({
-  blacklisted: Boolean,
-  reason: String || null,
-  date: Number || null,
-  author: String || null,
-});
+const blacklistData = new Schema<Omit<Blacklist, "history">>(
+  {
+    blacklisted: Boolean,
+    reason: String || null,
+    date: Number || null,
+    author: String || null,
+  },
+  {
+    _id: false,
+  }
+);
 
-const investorData = new Schema<Investor>({
-  cash: Number,
-  prestige: Number,
-  user: user,
-  blacklist: { ...blacklistData.obj, history: [blacklistData] },
-});
+const investorData = new Schema<Investor>(
+  {
+    cash: Number,
+    prestige: Number,
+    user: user,
+    blacklist: { ...blacklistData.obj, history: [blacklistData] },
+  },
+  {
+    _id: false,
+  }
+);
 
 const investors = new Schema({
   investors: [investorData],

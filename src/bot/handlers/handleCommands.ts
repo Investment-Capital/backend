@@ -36,7 +36,7 @@ export default (async (cache) => {
 
   rest.put(Routes.applicationCommands(clientId), {
     body: cache.commands
-      .filter((e) => !e.guilds)
+      .filter((command) => !command.guilds)
       .map((command) => command.data),
   });
 
