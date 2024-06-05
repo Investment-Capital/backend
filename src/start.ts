@@ -12,7 +12,7 @@ dotenv.config();
   const data = await startDatabase();
 
   const cache: Cache = {
-    investors: [], // data.investorData.investors,
+    investors: data.investorData.investors,
     commands: [],
     components: {
       buttons: [],
