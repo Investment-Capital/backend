@@ -20,6 +20,7 @@ export default {
 
     const response: Partial<Investor> = { ...investor };
     delete response.blacklist;
+    delete response.authorization;
 
     res.json(response);
   },

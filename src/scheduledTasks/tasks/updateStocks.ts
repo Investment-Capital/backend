@@ -1,55 +1,42 @@
-import emitterValues from "../../classes/emitterValues";
-import logger from "../../classes/logger";
-import stocks from "../../classes/stocks";
-import timeManager from "../../classes/timeManager";
-import basePrices from "../../config/investments/basePrices";
-import volatility from "../../config/investments/volatility";
+import Logger from "../../classes/logger";
+import TimeManager from "../../classes/timeManager";
+import BasePrices from "../../config/investments/basePrices";
+import Volatility from "../../config/investments/volatility";
 import markets from "../../database/schemas/markets";
-import Stocks from "../../types/investments/stocks";
-import StockMarket from "../../types/markets/stockMarket";
+import EmitterValues from "../../classes/emitterValues";
+import Stocks from "../../enum/stocks";
 import ScheduledTask from "../../types/scheduledTask";
+import calculatePrice from "../../functions/calculatePrice";
 
 export default {
-  date: timeManager.stockUpdate,
+  date: TimeManager.stockUpdate,
   execute: async (cache) => {
-    logger.success("Stock Market has been updated");
-    const before = cache.markets.stocks;
-    const after = {} as StockMarket;
+    Logger.success("Stock Market has been updated");
+    const stockMarket = { ...cache.markets.stocks };
 
-    for (const stock of Object.keys(stocks) as Stocks[]) {
-      const basePrice = basePrices[stock];
-      const newPrice = Math.max(
-        Math.min(
-          Math.floor(
-            (Math.random() * basePrice * 2) / volatility[stock] -
-              basePrice / volatility[stock]
-          ) + before[stock].price,
-          basePrice * 3
-        ),
-        basePrice
+    for (const stock of Object.values(Stocks)) {
+      const newPrice = calculatePrice(
+        stockMarket[stock].price,
+        BasePrices[stock],
+        Volatility[stock]
       );
 
-      after[stock] = {
-        price: newPrice,
-        history: [
-          ...before[stock].history,
-          {
-            date: Date.now(),
-            value: newPrice,
-          },
-        ],
-      };
+      stockMarket[stock].price = newPrice;
+      stockMarket[stock].history.push({
+        date: Date.now(),
+        value: newPrice,
+      });
     }
 
-    cache.events.emit(emitterValues.markets, {
+    cache.events.emit(EmitterValues.markets, {
       market: "stocks",
-      data: after,
+      data: stockMarket,
     });
 
-    cache.markets.stocks = after;
+    cache.markets.stocks = stockMarket;
 
     await markets.updateOne({
-      stocks: after,
+      stocks: stockMarket,
     });
   },
 } satisfies ScheduledTask;

@@ -1,4 +1,4 @@
-class days {
+class Days {
   static monday = 1;
   static tuesday = 2;
   static wednesday = 3;
@@ -8,4 +8,4 @@ class days {
   static sunday = 7;
 }
 
-export default days;
+export default Days;

@@ -5,7 +5,7 @@ import {
   MessageComponentInteraction,
 } from "discord.js";
 import Event from "../../types/event";
-import logger from "../../classes/logger";
+import Logger from "../../classes/logger";
 import Investor from "../../types/investor";
 import Command from "../../types/command";
 import Component from "../../types/component";
@@ -46,7 +46,7 @@ export default {
           notFoundEmbed(interaction.user),
           true
         );
-        return logger.warn(
+        return Logger.warn(
           `Invalid Component Type: ${interaction.component.type}`
         );
       }
@@ -58,7 +58,7 @@ export default {
 
     if (!executeData) {
       await replyWithEmbed(interaction, notFoundEmbed(interaction.user), true);
-      return logger.warn(
+      return Logger.warn(
         `Invalid Execution: ${
           (interaction as CommandInteraction).commandName ??
           (interaction as MessageComponentInteraction).customId
@@ -126,7 +126,7 @@ export default {
         executionErrorEmbed(interaction.user),
         true
       );
-      logger.error(error);
+      Logger.error(error);
     }
   },
 } satisfies Event;

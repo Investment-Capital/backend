@@ -1,6 +1,6 @@
-class emitterValues {
+class EmitterValues {
   static markets = "markets";
   static lottery = "lottery";
 }
 
-export default emitterValues;
+export default EmitterValues;

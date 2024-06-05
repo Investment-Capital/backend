@@ -1,4 +1,4 @@
-class months {
+class Months {
   static january = 0;
   static february = 1;
   static march = 2;
@@ -13,4 +13,4 @@ class months {
   static december = 11;
 }
 
-export default months;
+export default Months;

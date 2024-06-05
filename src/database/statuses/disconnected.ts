@@ -1,7 +1,7 @@
-import logger from "../../classes/logger";
+import Logger from "../../classes/logger";
 import DatabaseStatus from "../../types/databaseStatus";
 
 export default {
   status: "disconnected",
-  execute: () => logger.warn("Disconnected from database"),
-} as DatabaseStatus;
+  execute: () => Logger.warn("Disconnected from database"),
+} satisfies DatabaseStatus;

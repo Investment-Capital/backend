@@ -1,9 +1,9 @@
-import times from "../../classes/times";
+import Times from "../../classes/times";
 import investors from "../../database/schemas/investors";
 import ScheduledTask from "../../types/scheduledTask";
 
 export default {
-  date: times.second,
+  date: Times.second,
   execute: async (cache) => {
     await investors.updateOne({
       investors: cache.investors,

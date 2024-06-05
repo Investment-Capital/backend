@@ -1,9 +1,9 @@
-class times {
+class Times {
   static ms = 1;
-  static second = times.ms * 1000;
-  static minute = times.second * 60;
-  static hour = times.minute * 60;
-  static day = times.hour * 24;
+  static second = Times.ms * 1000;
+  static minute = Times.second * 60;
+  static hour = Times.minute * 60;
+  static day = Times.hour * 24;
 }
 
-export default times;
+export default Times;

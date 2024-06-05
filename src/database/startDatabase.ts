@@ -3,7 +3,7 @@ import { connect, connection } from "mongoose";
 import DatabaseStatus from "../types/databaseStatus";
 import investors from "./schemas/investors";
 import markets from "./schemas/markets";
-import defaultValues from "../config/defaultValues";
+import DefaultValues from "../config/defaultValues";
 
 const startDatabase = async () => {
   for (const file of fs.readdirSync("src/database/statuses")) {
@@ -15,10 +15,10 @@ const startDatabase = async () => {
 
   let investorData = await investors.findOne();
   if (!investorData)
-    investorData = await new investors(defaultValues.investors).save();
+    investorData = await new investors(DefaultValues.investors).save();
 
   let marketData = await markets.findOne();
-  if (!marketData) marketData = await new markets(defaultValues.markets).save();
+  if (!marketData) marketData = await new markets(DefaultValues.markets).save();
 
   return {
     investorData: investorData.toObject(),

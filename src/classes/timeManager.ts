@@ -9,9 +9,9 @@ const calculateTime = (calculate: data) => {
   return nextTime.getTime() - currentTime.getTime();
 };
 
-class timeManager {
+class TimeManager {
   static stockUpdate = () =>
     calculateTime((hours, setHours) => setHours(hours + 1, 0, 0, 0));
 }
 
-export default timeManager;
+export default TimeManager;

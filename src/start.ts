@@ -4,7 +4,6 @@ import Cache from "./types/cache";
 import dotenv from "dotenv";
 import startDatabase from "./database/startDatabase";
 import { EventEmitter } from "events";
-import StockMarket from "./types/markets/stockMarket";
 import scheduleTasks from "./scheduledTasks/scheduleTasks";
 import { Client } from "discord.js";
 dotenv.config();
@@ -13,7 +12,7 @@ dotenv.config();
   const data = await startDatabase();
 
   const cache: Cache = {
-    investors: data.investorData.investors,
+    investors: [], // data.investorData.investors,
     commands: [],
     components: {
       buttons: [],
@@ -21,9 +20,7 @@ dotenv.config();
       modals: [],
       userSelectMenus: [],
     },
-    markets: {
-      stocks: data.marketData.stocks as StockMarket,
-    },
+    markets: data.marketData,
     events: new EventEmitter(),
     client: new Client({
       intents: [],

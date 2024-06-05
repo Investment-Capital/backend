@@ -1,32 +1,32 @@
-import Investments from "../types/investments/investments";
+import Stocks from "../enum/stocks";
 import Investment from "../types/markets/investment";
 import Markets from "../types/markets/markets";
-import basePrices from "./investments/basePrices";
+import BasePrices from "./investments/basePrices";
 
-const getValues = (name: Investments) => {
+const getValues = (name: Stocks) => {
   return {
-    price: basePrices[name],
+    price: BasePrices[name],
     history: [
       {
         date: Date.now(),
-        value: basePrices[name],
+        value: BasePrices[name],
       },
     ],
   } satisfies Investment;
 };
 
-class defaultValues {
+class DefaultValues {
   static investors = {
     investors: [],
   };
 
   static markets: Markets = {
     stocks: {
-      sop: getValues("sop"),
-      rbx: getValues("rbx"),
-      apl: getValues("apl"),
+      sop: getValues(Stocks.sop),
+      rbx: getValues(Stocks.rbx),
+      apl: getValues(Stocks.apl),
     },
   };
 }
 
-export default defaultValues;
+export default DefaultValues;

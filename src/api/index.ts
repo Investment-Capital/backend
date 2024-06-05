@@ -2,11 +2,11 @@ import express, { Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import Cache from "../types/cache";
-import logger from "../classes/logger";
 import http from "http";
 import fs from "fs";
 import Route from "../types/route";
 import enableWs from "express-ws";
+import Logger from "../classes/logger";
 
 dotenv.config();
 const app = express();
@@ -19,7 +19,7 @@ app.use(
 );
 
 const startAPI = async (cache: Cache) => {
-  logger.info("Starting API.");
+  Logger.info("Starting API.");
 
   for (const folder of fs.readdirSync("src/api/routes")) {
     for (const file of fs.readdirSync(`src/api/routes/${folder}`)) {
@@ -38,7 +38,7 @@ const startAPI = async (cache: Cache) => {
   );
 
   server.listen(process.env.PORT, () =>
-    logger.success(`Running API at http://localhost:${process.env.PORT}`)
+    Logger.success(`Running API at http://localhost:${process.env.PORT}`)
   );
 };
 

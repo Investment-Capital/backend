@@ -2,6 +2,7 @@ import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import Command from "../../../types/command";
 import alreadyCreatedAccount from "../../responces/embeds/alreadyCreatedAccount";
 import accountCreatedEmbed from "../../responces/embeds/accountCreated";
+import createAccount from "../../../functions/createAccount";
 
 export default {
   requiresAccount: false,
@@ -9,11 +10,11 @@ export default {
     .setName("start")
     .setDescription("Start your investment capital account!"),
   execute: async (cache, interaction: CommandInteraction) => {
-    const user = cache.investors.find(
+    const investor = cache.investors.find(
       (investor) => investor.user.id == interaction.user.id
     );
 
-    if (user) {
+    if (investor) {
       await interaction.deferReply({
         ephemeral: true,
       });
@@ -25,23 +26,7 @@ export default {
 
     await interaction.deferReply();
 
-    cache.investors.push({
-      cash: 1,
-      prestige: 1,
-      user: {
-        id: interaction.user.id,
-        displayName: interaction.user.displayName,
-        username: interaction.user.username,
-        avatar: interaction.user.displayAvatarURL(),
-      },
-      blacklist: {
-        author: null,
-        reason: null,
-        date: null,
-        blacklisted: false,
-        history: [],
-      },
-    });
+    createAccount(cache, interaction.user);
 
     await interaction.editReply({
       embeds: [accountCreatedEmbed(interaction.user)],

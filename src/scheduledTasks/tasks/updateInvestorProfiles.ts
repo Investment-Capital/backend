@@ -1,8 +1,8 @@
-import times from "../../classes/times";
+import Times from "../../classes/times";
 import ScheduledTask from "../../types/scheduledTask";
 
 export default {
-  date: times.minute * 5,
+  date: Times.minute * 5,
   execute: async (cache) => {
     for (const investor of cache.investors) {
       const cachedUser = cache.client.users.cache.get(investor.user.id);

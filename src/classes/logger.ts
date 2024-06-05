@@ -29,7 +29,7 @@ const log = (logs: any) => {
   );
 };
 
-class logger {
+class Logger {
   static success = (text: any) => log(chalk.green(text));
   static info = (text: any) => log(chalk.blue(text));
   static warn = (text: any) => {
@@ -46,4 +46,4 @@ class logger {
   };
 }
 
-export default logger;
+export default Logger;

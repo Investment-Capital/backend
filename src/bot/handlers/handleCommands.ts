@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import Command from "../../types/command";
 import { REST, Routes } from "discord.js";
 import getIdBytoken from "../../functions/getIdByToken";
-import logger from "../../classes/logger";
+import Logger from "../../classes/logger";
 import Execute from "../../types/execute";
 dotenv.config();
 
@@ -16,7 +16,7 @@ export default (async (cache) => {
       if (!command.category) command.category = folder;
       cache.commands.push(command);
 
-      logger.info(
+      Logger.info(
         `${command.guilds ? "Guild" : "Global"} Command /${
           command.data.name
         } has passed threw the handler`
@@ -24,7 +24,7 @@ export default (async (cache) => {
     }
   }
 
-  logger.success(
+  Logger.success(
     `Passed ${cache.commands.length} command(s) threw the handler`
   );
 
