@@ -9,12 +9,12 @@ export default {
     const investor = cache.investors.find((investor) => investor.user.id == id);
 
     if (!investor)
-      return res.json({
+      return res.status(404).json({
         error: "Investor not found.",
       });
 
     if (investor.blacklist.blacklisted)
-      return res.json({
+      return res.status(403).json({
         error: "Investor is blacklisted.",
       });
 

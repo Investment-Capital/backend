@@ -1,4 +1,4 @@
-import express, { Response } from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import Cache from "../types/cache";
@@ -25,9 +25,31 @@ const startAPI = async (cache: Cache) => {
     for (const file of fs.readdirSync(`src/api/routes/${folder}`)) {
       const route: Route = (await import(`./routes/${folder}/${file}`)).default;
 
-      (app as any)[folder](route.path, (...data: any) =>
-        route.execute(cache, ...data)
-      );
+      (app as any)[folder](route.path, (...data: any[]) => {
+        if (route.authorised && folder == "get") {
+          const req: Request = data[0];
+          const res: Response = data[1];
+
+          const investor = cache.investors.find(
+            (investor) => investor.authorization == req.headers.authorization
+          );
+
+          if (!investor)
+            return res.status(404).json({
+              error: "Unauthorised",
+            });
+
+          if (investor.blacklist.blacklisted)
+            return res.status(403).json({
+              error: "Blacklisted",
+              reason: investor.blacklist.reason,
+            });
+
+          data.unshift(investor);
+        }
+
+        route.execute(cache, ...data);
+      });
     }
   }
 

@@ -8,7 +8,7 @@ export default {
     const page = parseInt((req.query.page as string | undefined) ?? "1");
 
     if (page < 1)
-      return res.json({
+      return res.status(404).json({
         error: "Invalid Page",
       });
 
@@ -27,7 +27,7 @@ export default {
       .slice((page - 1) * 10, page * 10);
 
     if (!investors.length)
-      return res.json({
+      return res.status(404).json({
         error: "No investors found on this page",
       });
 

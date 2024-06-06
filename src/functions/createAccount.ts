@@ -6,7 +6,7 @@ const createAccount = (cache: Cache, user: User) =>
     cash: 1000,
     prestige: 1,
     created: Date.now(),
-    authorization: Math.random().toString(16).substring(2, 14),
+    authorization: Math.random().toString(16).substring(2, 16),
     user: {
       id: user.id,
       displayName: user.displayName,
