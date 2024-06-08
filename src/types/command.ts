@@ -5,6 +5,7 @@ import {
   SlashCommandSubcommandsOnlyBuilder,
 } from "discord.js";
 import Execute from "./execute";
+import Cache from "./cache";
 
 type Command = {
   data:
@@ -17,7 +18,7 @@ type Command = {
   requiresAccount?: boolean;
   guilds?: string[];
   category?: string;
-  disabled?: boolean | (() => boolean);
+  disabled?: boolean | ((cache: Cache) => boolean);
   requiedPrestige?: number;
 };
 

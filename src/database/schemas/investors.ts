@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import Investor from "../../types/investor";
 import SavedUser from "../../types/savedUser";
 import Blacklist from "../../types/blacklist";
+import Permissions from "../../types/permissions";
 
 const user = new Schema<SavedUser>(
   {
@@ -27,22 +28,29 @@ const blacklistData = new Schema<Omit<Blacklist, "history">>(
   }
 );
 
-const investorData = new Schema<Investor>(
+const permissions = new Schema<Permissions>(
   {
-    cash: Number,
-    prestige: Number,
-    created: Number,
-    authorization: String,
-    user: user,
-    blacklist: { ...blacklistData.obj, history: [blacklistData] },
+    owner: Boolean,
+    admin: Boolean,
   },
   {
     _id: false,
   }
 );
 
-const investors = new Schema({
-  investors: [investorData],
-});
+const investors = new Schema<Investor>(
+  {
+    cash: Number,
+    prestige: Number,
+    created: Number,
+    authorization: String,
+    user,
+    blacklist: { ...blacklistData.obj, history: [blacklistData] },
+    permissions,
+  },
+  {
+    versionKey: false,
+  }
+);
 
 export default model("investors", investors, "investors");

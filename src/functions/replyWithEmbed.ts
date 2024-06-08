@@ -1,7 +1,7 @@
-import { EmbedBuilder, Interaction } from "discord.js";
+import { CommandInteraction, EmbedBuilder, Interaction } from "discord.js";
 
 const replyWithEmbed = async (
-  interaction: Interaction,
+  interaction: Interaction | CommandInteraction,
   embed: EmbedBuilder,
   ephemeral: boolean = false
 ) => {

@@ -13,15 +13,17 @@ const startDatabase = async () => {
 
   await connect(process.env.MONGODB_CONNECTION_STRING as string);
 
-  let investorData = await investors.findOne();
-  if (!investorData)
-    investorData = await new investors(DefaultValues.investors).save();
+  const investorData = await investors.find();
 
   let marketData = await markets.findOne();
   if (!marketData) marketData = await new markets(DefaultValues.markets).save();
 
   return {
-    investorData: investorData.toObject(),
+    investorData: investorData.map((investor) => {
+      const newData: any = { ...investor.toObject() };
+      delete newData._id;
+      return newData;
+    }),
     marketData: marketData.toObject(),
   };
 };

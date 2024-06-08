@@ -26,7 +26,7 @@ const startAPI = async (cache: Cache) => {
       const route: Route = (await import(`./routes/${folder}/${file}`)).default;
 
       (app as any)[folder](route.path, (...data: any[]) => {
-        if (route.authorised && folder == "get") {
+        if (route.authorized && folder == "get") {
           const req: Request = data[0];
           const res: Response = data[1];
 
@@ -36,7 +36,7 @@ const startAPI = async (cache: Cache) => {
 
           if (!investor)
             return res.status(404).json({
-              error: "Unauthorised",
+              error: "Unauthorized",
             });
 
           if (investor.blacklist.blacklisted)

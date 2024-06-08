@@ -92,7 +92,7 @@ export default {
 
     if (
       typeof executeData.disabled == "function"
-        ? executeData.disabled()
+        ? executeData.disabled(cache)
         : executeData.disabled
     ) {
       console.log("disabled");

@@ -3,6 +3,7 @@ import Command from "../../../types/command";
 import alreadyCreatedAccount from "../../responces/embeds/alreadyCreatedAccount";
 import accountCreatedEmbed from "../../responces/embeds/accountCreated";
 import createAccount from "../../../functions/createAccount";
+import replyWithEmbed from "../../../functions/replyWithEmbed";
 
 export default {
   requiresAccount: false,
@@ -15,13 +16,11 @@ export default {
     );
 
     if (investor) {
-      await interaction.deferReply({
-        ephemeral: true,
-      });
-
-      return await interaction.editReply({
-        embeds: [alreadyCreatedAccount(interaction.user)],
-      });
+      return await replyWithEmbed(
+        interaction,
+        alreadyCreatedAccount(interaction.user),
+        true
+      );
     }
 
     await interaction.deferReply();

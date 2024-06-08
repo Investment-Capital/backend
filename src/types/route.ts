@@ -3,7 +3,7 @@ import Execute from "./execute";
 type Route = {
   path: string;
   execute: Execute;
-  authorised?: boolean;
+  authorized?: boolean;
 };
 
 export default Route;

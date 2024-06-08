@@ -5,6 +5,8 @@ import Logger from "../../classes/logger";
 export default {
   event: Events.ClientReady,
   once: true,
-  execute: (cache) =>
+  execute: async (cache) => {
     Logger.success(`Logged into ${cache.client.user?.username}`),
+      await cache.client.application?.fetch();
+  },
 } satisfies Event;

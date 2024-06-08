@@ -16,10 +16,6 @@ const getValues = (name: Stocks) => {
 };
 
 class DefaultValues {
-  static investors = {
-    investors: [],
-  };
-
   static markets: Markets = {
     stocks: {
       sop: getValues(Stocks.sop),

@@ -1,7 +1,14 @@
 import { User } from "discord.js";
 import Cache from "../types/cache";
 
-const createAccount = (cache: Cache, user: User) =>
+const createAccount = (cache: Cache, user: User) => {
+  const applicationOwner = cache.client.application?.owner;
+  const ownerId = !applicationOwner
+    ? null
+    : "ownerId" in applicationOwner
+    ? applicationOwner.ownerId
+    : applicationOwner.id;
+
   cache.investors.push({
     cash: 1000,
     prestige: 1,
@@ -20,6 +27,11 @@ const createAccount = (cache: Cache, user: User) =>
       blacklisted: false,
       history: [],
     },
+    permissions: {
+      owner: ownerId == user.id,
+      admin: false,
+    },
   });
+};
 
 export default createAccount;
