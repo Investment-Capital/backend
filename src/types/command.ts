@@ -20,6 +20,9 @@ type Command = {
   category?: string;
   disabled?: boolean | ((cache: Cache) => boolean);
   requiedPrestige?: number;
+
+  admin?: boolean;
+  owner?: boolean;
 };
 
 export default Command;

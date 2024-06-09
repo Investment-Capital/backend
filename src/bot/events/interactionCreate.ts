@@ -100,6 +100,16 @@ export default {
     }
 
     if (
+      (executeData.admin &&
+        !foundUser?.permissions.admin &&
+        !foundUser?.permissions.owner) ||
+      (executeData.owner && !foundUser?.permissions.owner)
+    ) {
+      console.log("they dont have correct perms");
+      return;
+    }
+
+    if (
       executeData.requiedPrestige &&
       requiresAccount &&
       executeData.requiedPrestige > (foundUser as Investor).prestige

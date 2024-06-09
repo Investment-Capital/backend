@@ -16,6 +16,9 @@ export default {
         global: command.guilds ? false : true,
         requiresAccount:
           command.requiresAccount == undefined ? true : command.requiresAccount,
+
+        owner: command.owner ?? false,
+        admin: command.admin ?? false,
       }))
     ),
 } satisfies Route;

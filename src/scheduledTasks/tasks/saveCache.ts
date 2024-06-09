@@ -1,8 +1,8 @@
-import { isEqual } from "lodash";
 import EmitterValues from "../../classes/emitterValues";
 import Times from "../../classes/times";
 import investors from "../../database/schemas/investors";
 import ScheduledTask from "../../types/scheduledTask";
+import { isEqual } from "lodash";
 
 export default {
   date: Times.second * 5,
@@ -14,13 +14,14 @@ export default {
     });
 
     const bulk = [];
+    let index = 0;
     for (const investor of cache.investors) {
-      bulk.length % 25 == 0 &&
-        (await new Promise((resolve) => setTimeout(resolve, 0)));
-
+      index++;
       const foundBefore = beforeInvestors.find(
         (beforeInvestor) => beforeInvestor.user.id == investor.user.id
       );
+      index % 10 == 0 &&
+        (await new Promise((resolve) => setTimeout(resolve, 0)));
 
       if (!foundBefore || !isEqual(investor, foundBefore)) {
         bulk.push({
@@ -33,7 +34,7 @@ export default {
       }
     }
 
-    bulk.length > 0 && (await investors.bulkWrite(bulk));
+    if (bulk.length > 0) await investors.bulkWrite(bulk);
     cache.events.emit(EmitterValues.cached);
   },
 } satisfies ScheduledTask;
