@@ -1,12 +1,12 @@
 import Logger from "../../classes/logger";
 import TimeManager from "../../classes/timeManager";
-import BasePrices from "../../config/investments/basePrices";
-import Volatility from "../../config/investments/volatility";
 import markets from "../../database/schemas/markets";
 import EmitterValues from "../../classes/emitterValues";
 import Stocks from "../../enum/stocks";
 import ScheduledTask from "../../types/scheduledTask";
 import calculatePrice from "../../functions/calculatePrice";
+import BasePrice from "../../config/basePrice";
+import Volatility from "../../config/volatility";
 
 export default {
   date: TimeManager.stockUpdate,
@@ -17,8 +17,8 @@ export default {
     for (const stock of Object.values(Stocks)) {
       const newPrice = calculatePrice(
         stockMarket[stock].price,
-        BasePrices[stock],
-        Volatility[stock]
+        BasePrice.stocks[stock],
+        Volatility.stocks[stock]
       );
 
       stockMarket[stock].price = newPrice;

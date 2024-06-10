@@ -1,15 +1,15 @@
 import Stocks from "../enum/stocks";
 import Investment from "../types/markets/investment";
 import Markets from "../types/markets/markets";
-import BasePrices from "./investments/basePrices";
+import BasePrice from "./basePrice";
 
 const getValues = (name: Stocks) => {
   return {
-    price: BasePrices[name],
+    price: BasePrice.stocks[name],
     history: [
       {
         date: Date.now(),
-        value: BasePrices[name],
+        value: BasePrice.stocks[name],
       },
     ],
   } satisfies Investment;
@@ -21,6 +21,7 @@ class DefaultValues {
       sop: getValues(Stocks.sop),
       rbx: getValues(Stocks.rbx),
       apl: getValues(Stocks.apl),
+      abc: getValues(Stocks.abc),
     },
   };
 }
