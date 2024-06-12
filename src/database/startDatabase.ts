@@ -4,6 +4,7 @@ import DatabaseStatus from "../types/databaseStatus";
 import investors from "./schemas/investors";
 import markets from "./schemas/markets";
 import DefaultValues from "../config/defaultValues";
+import objectifyDocument from "../functions/objectifyDocument";
 
 const startDatabase = async () => {
   for (const file of fs.readdirSync("src/database/statuses")) {
@@ -11,7 +12,9 @@ const startDatabase = async () => {
     connection.on(status.status, (...data) => status.execute(...data));
   }
 
-  await connect(process.env.MONGODB_CONNECTION_STRING as string);
+  await connect(process.env.MONGODB_CONNECTION_STRING as string, {
+    dbName: process.env.DATABASE_NAME,
+  });
 
   const investorData = await investors.find();
 
@@ -19,12 +22,8 @@ const startDatabase = async () => {
   if (!marketData) marketData = await new markets(DefaultValues.markets).save();
 
   return {
-    investorData: investorData.map((investor) => {
-      const newData: any = { ...investor.toObject() };
-      delete newData._id;
-      return newData;
-    }),
-    marketData: marketData.toObject(),
+    investorData: investorData.map(objectifyDocument),
+    marketData: objectifyDocument(marketData),
   };
 };
 

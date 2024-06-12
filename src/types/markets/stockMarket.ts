@@ -1,10 +1,8 @@
+import Stocks from "../../enum/stocks";
 import Investment from "./investment";
 
 type StockMarket = {
-  sop: Investment;
-  rbx: Investment;
-  apl: Investment;
-  abc: Investment;
+  [_ in Stocks]: Investment;
 };
 
 export default StockMarket;

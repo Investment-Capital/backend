@@ -3,6 +3,7 @@ import StockMarket from "../../types/markets/stockMarket";
 import Investment from "../../types/markets/investment";
 import History from "../../types/markets/history";
 import Markets from "../../types/markets/markets";
+import Stocks from "../../enum/stocks";
 
 const history = new Schema<History>(
   {
@@ -25,11 +26,10 @@ const investment = new Schema<Investment>(
 );
 
 const stockMarket = new Schema<StockMarket>(
-  {
-    sop: investment,
-    rbx: investment,
-    apl: investment,
-  },
+  Object.values(Stocks).reduce((object: any, stock) => {
+    object[stock] = investment;
+    return object;
+  }, {}),
   {
     _id: false,
   }

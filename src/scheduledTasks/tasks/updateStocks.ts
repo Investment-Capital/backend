@@ -5,8 +5,7 @@ import EmitterValues from "../../classes/emitterValues";
 import Stocks from "../../enum/stocks";
 import ScheduledTask from "../../types/scheduledTask";
 import calculatePrice from "../../functions/calculatePrice";
-import BasePrice from "../../config/basePrice";
-import Volatility from "../../config/volatility";
+import InvestmentConfig from "../../config/investmentConfig";
 
 export default {
   date: TimeManager.stockUpdate,
@@ -15,10 +14,12 @@ export default {
     const stockMarket = { ...cache.markets.stocks };
 
     for (const stock of Object.values(Stocks)) {
+      const stockConfig = InvestmentConfig.stocks[stock];
+
       const newPrice = calculatePrice(
         stockMarket[stock].price,
-        BasePrice.stocks[stock],
-        Volatility.stocks[stock]
+        stockConfig.basePrice,
+        stockConfig.volatility
       );
 
       stockMarket[stock].price = newPrice;

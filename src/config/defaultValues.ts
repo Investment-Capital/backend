@@ -1,15 +1,17 @@
 import Stocks from "../enum/stocks";
 import Investment from "../types/markets/investment";
 import Markets from "../types/markets/markets";
-import BasePrice from "./basePrice";
+import InvestmentConfig from "./investmentConfig";
 
-const getValues = (name: Stocks) => {
+const getValues = (stock: Stocks) => {
+  const stockConfig = InvestmentConfig.stocks[stock];
+
   return {
-    price: BasePrice.stocks[name],
+    price: stockConfig.basePrice,
     history: [
       {
         date: Date.now(),
-        value: BasePrice.stocks[name],
+        value: stockConfig.basePrice,
       },
     ],
   } satisfies Investment;
