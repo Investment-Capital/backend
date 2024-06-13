@@ -4,7 +4,7 @@ import ScheduledTask from "../../types/scheduledTask";
 import editInvestor from "../../functions/editInvestor";
 
 export default {
-  date: Times.minute * 5,
+  date: Times.minute / 1000,
   execute: async (cache) => {
     for (const investor of cache.investors) {
       const cachedUser = cache.client.users.cache.get(investor.user.id);
@@ -17,7 +17,7 @@ export default {
           avatar: cachedUser.displayAvatarURL(),
         };
 
-        !isEqual(newData, investor.user) &&
+        if (!isEqual(newData, investor.user))
           editInvestor(
             cache,
             investor,

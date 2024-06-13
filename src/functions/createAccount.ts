@@ -1,6 +1,7 @@
 import { User } from "discord.js";
 import Cache from "../types/cache";
 import EmitterValues from "../classes/emitterValues";
+import Investor from "../types/investor";
 
 const createAccount = (cache: Cache, user: User) => {
   const applicationOwner = cache.client.application?.owner;
@@ -10,7 +11,7 @@ const createAccount = (cache: Cache, user: User) => {
     ? applicationOwner.ownerId
     : applicationOwner.id;
 
-  const data = {
+  const data: Investor = {
     cash: 1000,
     prestige: 1,
     created: Date.now(),

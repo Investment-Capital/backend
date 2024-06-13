@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Route from "../../../types/route";
-import Investor from "../../../types/investor";
+import publicInvestor from "../../../functions/publicInvestor";
 
 export default {
   path: "/investor/:id",
@@ -18,10 +18,6 @@ export default {
         error: "Investor is blacklisted.",
       });
 
-    const response: Partial<Investor> = { ...investor };
-    delete response.blacklist;
-    delete response.authorization;
-
-    res.json(response);
+    res.json(publicInvestor(investor));
   },
 } satisfies Route;
