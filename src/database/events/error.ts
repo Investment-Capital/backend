@@ -1,7 +1,7 @@
-import DatabaseStatus from "../../types/databaseStatus";
+import Event from "../../types/event";
 import Logger from "../../classes/logger";
 
 export default {
-  status: "error",
+  event: "error",
   execute: (error: Error) => Logger.error(error),
-} satisfies DatabaseStatus;
+} satisfies Event;

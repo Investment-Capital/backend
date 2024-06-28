@@ -5,15 +5,21 @@ import { REST, Routes } from "discord.js";
 import getIdBytoken from "../../functions/getIdByToken";
 import Logger from "../../classes/logger";
 import Execute from "../../types/execute";
+import Cache from "../../types/cache";
 dotenv.config();
 
-export default (async (cache) => {
+export default (async (cache: Cache) => {
   for (const folder of fs.readdirSync("src/bot/commands")) {
     for (const file of fs.readdirSync(`src/bot/commands/${folder}`)) {
       const command: Command = (await import(`../commands/${folder}/${file}`))
         .default;
 
       if (!command.category) command.category = folder;
+      if (!command.requiedPrestige) command.requiedPrestige = 1;
+      if (command.requiresAccount == undefined) command.requiresAccount = true;
+      if (!command.owner) command.owner = false;
+      if (!command.admin) command.admin = false;
+
       cache.commands.push(command);
 
       Logger.info(

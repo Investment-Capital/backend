@@ -1,8 +1,7 @@
-import { Events } from "discord.js";
 import Execute from "./execute";
 
 type Event = {
-  event: Events;
+  event: string;
   once?: boolean;
   execute: Execute;
 };

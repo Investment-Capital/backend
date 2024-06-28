@@ -6,10 +6,11 @@ import Stocks from "../../enum/stocks";
 import ScheduledTask from "../../types/scheduledTask";
 import calculatePrice from "../../functions/calculatePrice";
 import InvestmentConfig from "../../config/investmentConfig";
+import Cache from "../../types/cache";
 
 export default {
   date: TimeManager.stockUpdate,
-  execute: async (cache) => {
+  execute: async (cache: Cache) => {
     Logger.success("Stock Market has been updated");
     const stockMarket = { ...cache.markets.stocks };
 

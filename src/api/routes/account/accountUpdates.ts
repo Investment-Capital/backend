@@ -1,16 +1,19 @@
 import Route from "../../../types/route";
 import Investor from "../../../types/investor";
 import EmitterValues from "../../../classes/emitterValues";
+import Cache from "../../../types/cache";
 
 export default {
-  path: "/investor/update",
+  path: "/account/updates",
   authorized: true,
-  execute: (cache, investor: Investor, ws: WebSocket) => {
-    ws.send(JSON.stringify(investor));
+  method: "ws",
+  execute: (cache: Cache, investor: Investor, ws: WebSocket) => {
+    const authorization = { ...investor }.authorization;
 
     const callback = (info: Investor) => {
-      if (investor.authorization == info.authorization)
+      if (authorization == info.authorization) {
         ws.send(JSON.stringify(info));
+      }
     };
 
     cache.events.on(EmitterValues.investorUpdate, callback);

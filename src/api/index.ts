@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
 import Cache from "../types/cache";
 import http from "http";
@@ -12,11 +11,6 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 enableWs(app, server);
-app.use(
-  cors({
-    origin: "*",
-  })
-);
 
 const startAPI = async (cache: Cache) => {
   Logger.info("Starting API.");

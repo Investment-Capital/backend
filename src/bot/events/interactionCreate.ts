@@ -10,13 +10,14 @@ import Investor from "../../types/investor";
 import Command from "../../types/command";
 import Component from "../../types/component";
 import Execute from "../../types/execute";
-import replyWithEmbed from "../../functions/replyWithEmbed";
+import deferReply from "../../functions/deferReply";
 import notFoundEmbed from "../responces/embeds/notFound";
 import executionErrorEmbed from "../responces/embeds/executionError";
+import Cache from "../../types/cache";
 
 export default {
   event: Events.InteractionCreate,
-  execute: async (cache, interaction: Interaction) => {
+  execute: async (cache: Cache, interaction: Interaction) => {
     const foundUser = cache.investors.find(
       (e) => interaction.user.id == e.user.id
     );
@@ -41,10 +42,12 @@ export default {
       else if (interaction.isUserSelectMenu())
         componentCache = cache.components.userSelectMenus;
       else {
-        await replyWithEmbed(
+        await deferReply(
           interaction,
-          notFoundEmbed(interaction.user),
-          true
+          { embeds: [notFoundEmbed(interaction.user)] },
+          {
+            ephemeral: true,
+          }
         );
         return Logger.warn(
           `Invalid Component Type: ${interaction.component.type}`
@@ -57,7 +60,13 @@ export default {
     }
 
     if (!executeData) {
-      await replyWithEmbed(interaction, notFoundEmbed(interaction.user), true);
+      await deferReply(
+        interaction,
+        { embeds: [notFoundEmbed(interaction.user)] },
+        {
+          ephemeral: true,
+        }
+      );
       return Logger.warn(
         `Invalid Execution: ${
           (interaction as CommandInteraction).commandName ??
@@ -66,12 +75,7 @@ export default {
       );
     }
 
-    const requiresAccount =
-      executeData.requiresAccount == undefined
-        ? true
-        : executeData.requiresAccount;
-
-    if (requiresAccount && !foundUser) {
+    if (executeData.requiresAccount && !foundUser) {
       console.log("user doesnt have an account");
       return;
     }
@@ -111,7 +115,7 @@ export default {
 
     if (
       executeData.requiedPrestige &&
-      requiresAccount &&
+      executeData.requiresAccount &&
       executeData.requiedPrestige > (foundUser as Investor).prestige
     ) {
       console.log("not right pt");
@@ -131,11 +135,14 @@ export default {
         await executeData.execute(cache, interaction);
       else throw new Error("Invalid Interaction Type");
     } catch (error: any) {
-      await replyWithEmbed(
+      await deferReply(
         interaction,
-        executionErrorEmbed(interaction.user),
-        true
+        { embeds: [executionErrorEmbed(interaction.user)] },
+        {
+          ephemeral: true,
+        }
       );
+
       Logger.error(error);
     }
   },

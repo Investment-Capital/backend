@@ -26,6 +26,7 @@ dotenv.config();
       intents: [],
       shards: "auto",
     }),
+    routes: [],
   };
 
   startBot(cache);

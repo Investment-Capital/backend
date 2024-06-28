@@ -3,23 +3,26 @@ import Command from "../../../types/command";
 import alreadyCreatedAccount from "../../responces/embeds/alreadyCreatedAccount";
 import accountCreatedEmbed from "../../responces/embeds/accountCreated";
 import createAccount from "../../../functions/createAccount";
-import replyWithEmbed from "../../../functions/replyWithEmbed";
+import deferReply from "../../../functions/deferReply";
+import Cache from "../../../types/cache";
 
 export default {
   requiresAccount: false,
   data: new SlashCommandBuilder()
     .setName("start")
     .setDescription("Start your investment capital account!"),
-  execute: async (cache, interaction: CommandInteraction) => {
+  execute: async (cache: Cache, interaction: CommandInteraction) => {
     const investor = cache.investors.find(
       (investor) => investor.user.id == interaction.user.id
     );
 
     if (investor) {
-      return await replyWithEmbed(
+      return await deferReply(
         interaction,
-        alreadyCreatedAccount(interaction.user),
-        true
+        { embeds: [alreadyCreatedAccount(interaction.user)] },
+        {
+          ephemeral: true,
+        }
       );
     }
 

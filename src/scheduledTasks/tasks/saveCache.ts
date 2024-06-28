@@ -1,12 +1,13 @@
 import EmitterValues from "../../classes/emitterValues";
 import Times from "../../classes/times";
 import investors from "../../database/schemas/investors";
+import Cache from "../../types/cache";
 import ScheduledTask from "../../types/scheduledTask";
 import { isEqual } from "lodash";
 
 export default {
   date: Times.second * 5,
-  execute: async (cache) => {
+  execute: async (cache: Cache) => {
     const beforeInvestors = (await investors.find()).map((investor) => {
       const newData: any = { ...investor.toObject() };
       delete newData._id;

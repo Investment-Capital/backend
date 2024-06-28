@@ -6,4 +6,5 @@ export default {
   path: "/account/data",
   authorized: true,
   execute: (_, investor: Investor, __, res: Response) => res.json(investor),
+  method: "get",
 } satisfies Route;

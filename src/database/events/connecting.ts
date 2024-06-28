@@ -1,7 +1,7 @@
 import Logger from "../../classes/logger";
-import DatabaseStatus from "../../types/databaseStatus";
+import Event from "../../types/event";
 
 export default {
-  status: "connecting",
+  event: "connecting",
   execute: () => Logger.info("Connecting to database"),
-} satisfies DatabaseStatus;
+} satisfies Event;

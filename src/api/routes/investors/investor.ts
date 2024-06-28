@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import Route from "../../../types/route";
 import publicInvestor from "../../../functions/publicInvestor";
+import Cache from "../../../types/cache";
 
 export default {
   path: "/investor/:id",
-  execute: (cache, req: Request, res: Response) => {
+  method: "get",
+  execute: (cache: Cache, req: Request, res: Response) => {
     const { id } = req.params;
     const investor = cache.investors.find((investor) => investor.user.id == id);
 

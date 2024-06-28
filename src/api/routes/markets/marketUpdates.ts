@@ -1,14 +1,16 @@
 import EmitterValues from "../../../classes/emitterValues";
+import Cache from "../../../types/cache";
 import Route from "../../../types/route";
 
 export default {
-  path: "/lottery",
-  execute: (cache, ws: WebSocket) => {
+  path: "/markets",
+  method: "ws",
+  execute: (cache: Cache, ws: WebSocket) => {
     const callback = (info: any) => ws.send(JSON.stringify(info));
 
-    cache.events.on(EmitterValues.lottery, callback);
+    cache.events.on(EmitterValues.markets, callback);
     ws.addEventListener("close", () =>
-      cache.events.off(EmitterValues.lottery, callback)
+      cache.events.off(EmitterValues.markets, callback)
     );
   },
 } satisfies Route;

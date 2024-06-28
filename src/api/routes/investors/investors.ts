@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import Route from "../../../types/route";
+import Cache from "../../../types/cache";
 
 export default {
   path: "/investors",
-  execute: (cache, req: Request, res: Response) => {
+  method: "get",
+  execute: (cache: Cache, req: Request, res: Response) => {
     const search = (
       (req.query.search as string | undefined) ?? ""
     ).toLowerCase();
