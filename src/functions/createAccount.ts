@@ -1,9 +1,10 @@
-import { User } from "discord.js";
 import Cache from "../types/cache";
 import EmitterValues from "../classes/emitterValues";
 import Investor from "../types/investor";
+import generateAuthorization from "./generateAuthorization";
+import SavedUser from "../types/savedUser";
 
-const createAccount = (cache: Cache, user: User) => {
+const createAccount = (cache: Cache, user: SavedUser) => {
   const applicationOwner = cache.client.application?.owner;
   const ownerId = !applicationOwner
     ? null
@@ -15,13 +16,8 @@ const createAccount = (cache: Cache, user: User) => {
     cash: 1000,
     prestige: 1,
     created: Date.now(),
-    authorization: Math.random().toString(16).substring(2, 16),
-    user: {
-      id: user.id,
-      displayName: user.displayName,
-      username: user.username,
-      avatar: user.displayAvatarURL(),
-    },
+    authorization: generateAuthorization(),
+    user,
     blacklist: {
       author: null,
       reason: null,
@@ -37,6 +33,9 @@ const createAccount = (cache: Cache, user: User) => {
 
   cache.investors.push(data);
   cache.events.emit(EmitterValues.investorCreate, data);
+  if (!cache.unsavedInvestors.includes(data.user.id))
+    cache.unsavedInvestors.push(data.user.id);
+
   return data;
 };
 

@@ -28,7 +28,12 @@ export default {
 
     await interaction.deferReply();
 
-    createAccount(cache, interaction.user);
+    createAccount(cache, {
+      avatar: interaction.user.displayAvatarURL(),
+      username: interaction.user.username,
+      displayName: interaction.user.displayName,
+      id: interaction.user.id,
+    });
 
     await interaction.editReply({
       embeds: [accountCreatedEmbed(interaction.user)],

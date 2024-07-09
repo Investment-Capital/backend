@@ -12,7 +12,7 @@ export default (async (cache: Cache, app: Application) => {
         .default;
 
       if (!route.category) route.category = folder;
-      if (!route.ratelimit) route.ratelimit = 5;
+      if (!route.ratelimit) route.ratelimit = 15;
       if (!route.ratelimitDuration) route.ratelimitDuration = Times.second * 10;
 
       cache.routes.push(route);

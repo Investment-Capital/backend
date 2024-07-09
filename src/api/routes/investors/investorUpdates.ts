@@ -14,6 +14,8 @@ export default {
     const investor = cache.investors.find((investor) => investor.user.id == id);
 
     if (!investor) return ws.close(1008, "Invalid user ID.");
+    if (investor.blacklist.blacklisted)
+      return ws.close(1008, "Invalid is blacklisted.");
 
     const callback = (info: Investor) => {
       if (

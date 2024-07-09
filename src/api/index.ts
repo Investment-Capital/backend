@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json, NextFunction, Response } from "express";
 import dotenv from "dotenv";
 import Cache from "../types/cache";
 import http from "http";
@@ -6,14 +6,32 @@ import fs from "fs";
 import enableWs from "express-ws";
 import Logger from "../classes/logger";
 import Execute from "../types/execute";
+import cors from "cors";
 
 dotenv.config();
-const app = express();
-const server = http.createServer(app);
-enableWs(app, server);
 
 const startAPI = async (cache: Cache) => {
   Logger.info("Starting API.");
+
+  const app = express();
+  app.set("trust proxy", true);
+  app.use(
+    cors({
+      origin: "*",
+    })
+  );
+  app.use(json());
+  app.use((error: any, _: any, res: Response, next: NextFunction) => {
+    if (error.type == "entity.parse.failed")
+      return res.json({
+        error: "Invalid JSON body.",
+      });
+
+    next();
+  });
+
+  const server = http.createServer(app);
+  enableWs(app, server);
 
   for (const file of fs.readdirSync("src/api/handlers")) {
     const handler: Execute = (await import(`./handlers/${file}`)).default;

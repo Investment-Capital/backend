@@ -9,7 +9,9 @@ import Event from "../types/event";
 const startDatabase = async () => {
   for (const file of fs.readdirSync("src/database/events")) {
     const event: Event = (await import(`./events/${file}`)).default;
-    connection.on(event.event, (...data) => event.execute(...data));
+    (connection as any).on(event.event, (...data: any[]) =>
+      event.execute(...data)
+    );
   }
 
   await connect(process.env.MONGODB_CONNECTION_STRING as string, {

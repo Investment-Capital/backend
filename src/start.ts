@@ -3,7 +3,7 @@ import startBot from "./bot";
 import Cache from "./types/cache";
 import dotenv from "dotenv";
 import startDatabase from "./database/startDatabase";
-import { EventEmitter } from "events";
+import EventEmitter from "events";
 import scheduleTasks from "./scheduledTasks/scheduleTasks";
 import { Client } from "discord.js";
 dotenv.config();
@@ -27,6 +27,7 @@ dotenv.config();
       shards: "auto",
     }),
     routes: [],
+    unsavedInvestors: [],
   };
 
   startBot(cache);
