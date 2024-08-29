@@ -5,6 +5,7 @@ import Investor from "./investor";
 import Markets from "./markets/markets";
 import EventEmitter from "events";
 import Route from "./route";
+import UnsavedCache from "./unsavedCache";
 
 type Cache = {
   investors: Investor[];
@@ -15,7 +16,7 @@ type Cache = {
   routes: Route[];
   client: Client;
 
-  unsavedInvestors: string[];
+  unsavedCache: UnsavedCache;
 };
 
 export default Cache;

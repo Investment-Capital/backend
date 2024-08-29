@@ -29,7 +29,7 @@ export default {
         error: "You can only lookup 5 investors per request.",
       });
 
-    const invalidIds: any[] = [];
+    const invalidIds: string[] = [];
     const foundInvestors = investors.map((investor) => {
       const foundCache = cache.investors.find(
         (cachedInvestor) => cachedInvestor.user.id == investor

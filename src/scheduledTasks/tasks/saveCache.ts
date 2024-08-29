@@ -5,10 +5,10 @@ import Cache from "../../types/cache";
 import ScheduledTask from "../../types/scheduledTask";
 
 export default {
-  date: Times.second * 5,
+  date: Times.ms * 400,
   execute: async (cache: Cache) => {
-    const updatingInvestors = [...cache.unsavedInvestors];
-    cache.unsavedInvestors = [];
+    const updatingInvestors = [...cache.unsavedCache.investors];
+    cache.unsavedCache.investors = [];
 
     const bulk = updatingInvestors.map((investor) => ({
       updateOne: {

@@ -27,7 +27,9 @@ dotenv.config();
       shards: "auto",
     }),
     routes: [],
-    unsavedInvestors: [],
+    unsavedCache: {
+      investors: [],
+    },
   };
 
   startBot(cache);
