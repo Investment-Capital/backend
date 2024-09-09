@@ -4,6 +4,7 @@ import Route from "../../types/route";
 import fs from "fs";
 import Cache from "../../types/cache";
 import Times from "../../classes/times";
+import Logger from "../../classes/logger";
 
 export default (async (cache: Cache, app: Application) => {
   for (const folder of fs.readdirSync("src/api/routes")) {
@@ -23,7 +24,7 @@ export default (async (cache: Cache, app: Application) => {
         requests = [];
       }, route.ratelimitDuration);
 
-      (app as any)[route.method](route.path, (...data: any[]) => {
+      (app as any)[route.method](route.path, async (...data: any[]) => {
         const req: Request = data[route.method == "ws" ? 1 : 0];
         const res: Response = data[route.method == "ws" ? 2 : 1];
 
@@ -69,7 +70,15 @@ export default (async (cache: Cache, app: Application) => {
 
         requests.push(req.ip);
 
-        route.execute(cache, ...data);
+        try {
+          await route.execute(cache, ...data);
+        } catch (err) {
+          res.status(403).json({
+            error: "Unknown Error",
+          });
+
+          Logger.error(err as Error);
+        }
       });
     }
   }
