@@ -32,9 +32,8 @@ const createAccount = (cache: Cache, user: SavedUser) => {
   };
 
   cache.investors.push(data);
+  cache.unsavedCache.investors.push(data.user.id);
   cache.events.emit(EmitterValues.investorCreate, data);
-  if (!cache.unsavedCache.investors.includes(data.user.id))
-    cache.unsavedCache.investors.push(data.user.id);
 
   return data;
 };

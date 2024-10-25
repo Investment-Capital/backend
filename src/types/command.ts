@@ -8,11 +8,13 @@ import Execute from "./execute";
 import Cache from "./cache";
 
 type Command = {
-  data:
+  data: Partial<
     | SlashCommandBuilder
     | SlashCommandSubcommandBuilder
     | ContextMenuCommandBuilder
-    | SlashCommandSubcommandsOnlyBuilder;
+    | SlashCommandSubcommandsOnlyBuilder
+  >;
+
   execute: Execute;
   autocomplete?: Execute;
   requiresAccount?: boolean;

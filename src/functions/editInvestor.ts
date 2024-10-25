@@ -9,6 +9,7 @@ const editInvestor = (
 ) => {
   update(investor);
   cache.events.emit(EmitterValues.investorUpdate, investor);
+
   if (!cache.unsavedCache.investors.includes(investor.user.id))
     cache.unsavedCache.investors.push(investor.user.id);
 

@@ -40,7 +40,9 @@ export default (async (cache: Cache, app: Application) => {
           if (route.method == "ws") ws = data[0];
 
           const investor = cache.investors.find(
-            (investor) => investor.authorization == req.headers.authorization
+            (investor) =>
+              investor.authorization ==
+              (req.headers.authorization ?? req.query.authorization)
           );
 
           if (!investor) {

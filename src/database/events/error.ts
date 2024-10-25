@@ -3,5 +3,5 @@ import Logger from "../../classes/logger";
 
 export default {
   event: "error",
-  execute: (error: Error) => Logger.error(error),
+  execute: Logger.error,
 } satisfies Event;
