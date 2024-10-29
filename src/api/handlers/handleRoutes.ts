@@ -31,7 +31,7 @@ export default (async (cache: Cache, app: Application) => {
         const foundRequests = requests.filter((ip) => req.ip == ip);
 
         if (foundRequests.length > (route as Required<Route>).ratelimit)
-          return res.json({
+          return res.status(404).json({
             error: "You've been ratelimited.",
           });
 

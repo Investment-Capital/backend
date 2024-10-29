@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import Route from "../../../types/route";
 import Cache from "../../../types/cache";
+import Times from "../../../classes/times";
 
 export default {
   path: "/investors",
   method: "get",
+  ratelimitDuration: Times.second * 5,
+  ratelimit: 30,
   execute: (cache: Cache, req: Request, res: Response) => {
     const search = (
       (req.query.search as string | undefined) ?? ""

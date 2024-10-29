@@ -4,7 +4,6 @@ import Investor from "../../../types/investor";
 import publicInvestor from "../../../functions/publicInvestor";
 import EmitterValues from "../../../classes/emitterValues";
 import Cache from "../../../types/cache";
-import { isEqual } from "lodash";
 
 export default {
   path: "/investor/:id",
@@ -17,14 +16,8 @@ export default {
     if (investor.blacklist.blacklisted)
       return ws.close(1008, "Invalid is blacklisted.");
 
-    const callback = (info: Investor) => {
-      if (
-        investor.user.id == id &&
-        !isEqual(publicInvestor(investor), publicInvestor(info))
-      ) {
-        ws.send(JSON.stringify(publicInvestor(info)));
-      }
-    };
+    const callback = (info: Investor) =>
+      info.user.id == id && ws.send(JSON.stringify(publicInvestor(info)));
 
     cache.events.on(EmitterValues.investorUpdate, callback);
     ws.addEventListener("close", () =>

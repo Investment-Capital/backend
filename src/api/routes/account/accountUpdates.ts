@@ -10,11 +10,8 @@ export default {
   execute: (cache: Cache, investor: Investor, ws: WebSocket) => {
     const authorization = { ...investor }.authorization;
 
-    const callback = (info: Investor) => {
-      if (authorization == info.authorization) {
-        ws.send(JSON.stringify(info));
-      }
-    };
+    const callback = (info: Investor) =>
+      authorization == info.authorization && ws.send(JSON.stringify(info));
 
     cache.events.on(EmitterValues.investorUpdate, callback);
     ws.addEventListener("close", () =>
