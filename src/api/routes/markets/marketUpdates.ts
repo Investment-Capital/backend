@@ -6,7 +6,8 @@ export default {
   path: "/markets",
   method: "ws",
   execute: (cache: Cache, ws: WebSocket) => {
-    const callback = (info: any) => ws.send(JSON.stringify(info));
+    const callback = (data: { market: string; data: any }) =>
+      ws.send(JSON.stringify(data));
 
     cache.events.on(EmitterValues.markets, callback);
     ws.addEventListener("close", () =>

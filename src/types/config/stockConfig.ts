@@ -1,8 +1,12 @@
 import Stocks from "../../enum/stocks";
-import StocksConfigData from "./stockConfigData";
 
 type StockConfig = {
-  [_ in Stocks]: StocksConfigData;
+  [_ in Stocks]: {
+    volatility: number;
+    income: number;
+    basePrice: number;
+    prestigeRequirement: number;
+  };
 };
 
 export default StockConfig;

@@ -23,6 +23,8 @@ export default {
         stockConfig.volatility
       );
 
+      if (newPrice == stockMarket[stock].price) continue;
+
       stockMarket[stock].price = newPrice;
       stockMarket[stock].history.push({
         date: Date.now(),
