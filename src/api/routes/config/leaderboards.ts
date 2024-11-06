@@ -10,7 +10,7 @@ export default {
     res.json(
       Object.entries({ ...LeaderboardConfig }).reduce(
         (prev: any, [key, value]) => {
-          prev[key] = (value as LeaderboardConfigType[]).map(
+          prev[key] = (value as LeaderboardConfigType).leaderboards.map(
             (config) => config.name
           );
 

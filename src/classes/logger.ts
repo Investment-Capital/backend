@@ -30,8 +30,18 @@ const log = (logs: any) => {
 };
 
 class Logger {
-  static success = (text: any) => log(chalk.green(text));
-  static info = (text: any) => log(chalk.blue(text));
+  static success = (text: any) => {
+    webhook.send({
+      content: `Success: ${text}`,
+    });
+    log(chalk.green(text));
+  };
+  static info = (text: any) => {
+    webhook.send({
+      content: `Info: ${text}`,
+    });
+    log(chalk.blue(text));
+  };
   static warn = (text: any) => {
     log(chalk.yellow(text));
     webhook.send({

@@ -9,10 +9,8 @@ export default {
   ratelimitDuration: Times.second * 5,
   ratelimit: 30,
   execute: (cache: Cache, req: Request, res: Response) => {
-    const search = (
-      (req.query.search as string | undefined) ?? ""
-    ).toLowerCase();
-    const page = parseInt((req.query.page as string | undefined) ?? "1");
+    const search = ((req.query.search as any) ?? "").toLowerCase();
+    const page = parseInt((req.query.page as any) ?? "1");
 
     if (page < 1)
       return res.status(404).json({
