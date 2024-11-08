@@ -1,10 +1,10 @@
 import Stocks from "../enum/stocks";
 import Investment from "../types/markets/investment";
 import Markets from "../types/markets/markets";
-import InvestmentConfig from "./investmentConfig";
+import stocksConfig from "./stocksConfig";
 
-const getValues = (stock: Stocks) => {
-  const stockConfig = InvestmentConfig.stocks[stock];
+const getStockValues = (stock: Stocks) => {
+  const stockConfig = stocksConfig[stock];
 
   return {
     price: stockConfig.basePrice,
@@ -20,10 +20,10 @@ const getValues = (stock: Stocks) => {
 class DefaultValues {
   static markets: Markets = {
     stocks: {
-      sop: getValues(Stocks.sop),
-      rbx: getValues(Stocks.rbx),
-      apl: getValues(Stocks.apl),
-      abc: getValues(Stocks.abc),
+      sop: getStockValues(Stocks.sop),
+      rbx: getStockValues(Stocks.rbx),
+      apl: getStockValues(Stocks.apl),
+      abc: getStockValues(Stocks.abc),
     },
   };
 }

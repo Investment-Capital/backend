@@ -1,6 +1,6 @@
 import Stocks from "../../enum/stocks";
 
-type StockConfig = {
+type StocksConfig = {
   [_ in Stocks]: {
     volatility: number;
     income: number;
@@ -9,4 +9,4 @@ type StockConfig = {
   };
 };
 
-export default StockConfig;
+export default StocksConfig;

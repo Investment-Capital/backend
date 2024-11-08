@@ -18,9 +18,10 @@ const startDatabase = async () => {
     dbName: process.env.DATABASE_NAME,
   });
 
-  const investorData = await investors.find();
-
-  let marketData = await markets.findOne();
+  let [investorData, marketData] = await Promise.all([
+    investors.find(),
+    markets.findOne(),
+  ]);
   if (!marketData) marketData = await new markets(DefaultValues.markets).save();
 
   return {

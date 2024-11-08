@@ -5,7 +5,7 @@ import EmitterValues from "../../classes/emitterValues";
 import Stocks from "../../enum/stocks";
 import ScheduledTask from "../../types/scheduledTask";
 import calculatePrice from "../../functions/calculatePrice";
-import InvestmentConfig from "../../config/investmentConfig";
+import stocksConfig from "../../config/stocksConfig";
 import Cache from "../../types/cache";
 
 export default {
@@ -15,7 +15,7 @@ export default {
     const stockMarket = { ...cache.markets.stocks };
 
     for (const stock of Object.values(Stocks)) {
-      const stockConfig = InvestmentConfig.stocks[stock];
+      const stockConfig = stocksConfig[stock];
 
       const newPrice = calculatePrice(
         stockMarket[stock].price,
