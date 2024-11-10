@@ -1,8 +1,8 @@
 import Cache from "../types/cache";
 import EmitterValues from "../classes/emitterValues";
-import Investor from "../types/investor";
-import generateAuthorization from "./generateAuthorization";
 import SavedUser from "../types/savedUser";
+import defaultInvestorData from "../config/defaultInvestorData";
+import generateAuthorization from "./generateAuthorization";
 
 const createAccount = (cache: Cache, user: SavedUser) => {
   const applicationOwner = cache.client.application?.owner;
@@ -12,24 +12,14 @@ const createAccount = (cache: Cache, user: SavedUser) => {
     ? applicationOwner.ownerId
     : applicationOwner.id;
 
-  const data: Investor = {
-    cash: 1000,
-    prestige: 1,
-    created: Date.now(),
-    authorization: generateAuthorization(),
+  const data = defaultInvestorData(
     user,
-    blacklist: {
-      author: null,
-      reason: null,
-      date: null,
-      blacklisted: false,
-      history: [],
-    },
-    permissions: {
+    {
       owner: ownerId == user.id,
       admin: false,
     },
-  };
+    generateAuthorization()
+  );
 
   cache.investors.push(data);
   cache.unsavedCache.investors.push(data.user.id);

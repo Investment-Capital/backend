@@ -17,15 +17,11 @@ const getStockValues = (stock: Stocks) => {
   } satisfies Investment;
 };
 
-class DefaultValues {
-  static markets: Markets = {
-    stocks: {
-      sop: getStockValues(Stocks.sop),
-      rbx: getStockValues(Stocks.rbx),
-      apl: getStockValues(Stocks.apl),
-      abc: getStockValues(Stocks.abc),
-    },
-  };
-}
+const defaultMarketData: Markets = {
+  stocks: Object.values(Stocks).reduce((prev: any, stock) => {
+    prev[stock] = getStockValues(stock);
+    return prev;
+  }, {}),
+};
 
-export default DefaultValues;
+export default defaultMarketData;

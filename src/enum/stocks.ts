@@ -3,6 +3,7 @@ enum Stocks {
   rbx = "rbx",
   apl = "apl",
   abc = "abc",
+  nvda = "nvda",
 }
 
 export default Stocks;

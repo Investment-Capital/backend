@@ -2,9 +2,9 @@ import fs from "fs";
 import { connect, connection } from "mongoose";
 import investors from "./schemas/investors";
 import markets from "./schemas/markets";
-import DefaultValues from "../config/defaultValues";
 import objectifyDocument from "../functions/objectifyDocument";
 import Event from "../types/event";
+import defaultMarketData from "../config/defaultMarketData";
 
 const startDatabase = async () => {
   for (const file of fs.readdirSync("src/database/events")) {
@@ -22,7 +22,7 @@ const startDatabase = async () => {
     investors.find(),
     markets.findOne(),
   ]);
-  if (!marketData) marketData = await new markets(DefaultValues.markets).save();
+  if (!marketData) marketData = await new markets(defaultMarketData).save();
 
   return {
     investorData: investorData.map(objectifyDocument),

@@ -25,6 +25,12 @@ const stocksConfig: StocksConfig = {
     basePrice: 100,
     volatility: 7,
   },
+  nvda: {
+    income: 6,
+    prestigeRequirement: 4,
+    basePrice: 65,
+    volatility: 8,
+  },
 };
 
 export default stocksConfig;

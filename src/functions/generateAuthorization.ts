@@ -1,3 +1,5 @@
-const generateAuthorization = () => Math.random().toString(16).substring(2, 16);
+import { randomUUID } from "crypto";
+
+const generateAuthorization = (): string => randomUUID();
 
 export default generateAuthorization;
