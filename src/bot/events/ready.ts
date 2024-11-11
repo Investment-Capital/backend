@@ -8,6 +8,7 @@ export default {
   once: true,
   execute: async (cache: Cache) => {
     Logger.success(`Logged into ${cache.client.user?.username}`);
-    await cache.client.application?.fetch();
+    cache.client.application?.fetch();
+    cache.client.application?.commands.fetch();
   },
 } satisfies Event;

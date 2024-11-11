@@ -16,7 +16,7 @@ export default {
       (investor) => investor.user.id == interaction.user.id
     );
 
-    if (investor) {
+    if (investor)
       return await deferReply(
         interaction,
         { embeds: [alreadyCreatedAccount(interaction.user)] },
@@ -24,9 +24,6 @@ export default {
           ephemeral: true,
         }
       );
-    }
-
-    await interaction.deferReply();
 
     createAccount(cache, {
       avatar: interaction.user.displayAvatarURL(),
@@ -35,8 +32,13 @@ export default {
       id: interaction.user.id,
     });
 
-    await interaction.editReply({
-      embeds: [accountCreatedEmbed(interaction.user)],
+    await deferReply(interaction, {
+      embeds: [
+        accountCreatedEmbed(
+          interaction.user,
+          cache.client.application?.commands.cache.toJSON()
+        ),
+      ],
     });
   },
 } satisfies Command;
