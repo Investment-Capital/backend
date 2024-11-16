@@ -10,7 +10,8 @@ export default {
   requiresAccount: false,
   data: new SlashCommandBuilder()
     .setName("start")
-    .setDescription("Start your investment capital account!"),
+    .setDescription("Start your investment capital account!")
+    .toJSON(),
   execute: async (cache: Cache, interaction: CommandInteraction) => {
     const investor = cache.investors.find(
       (investor) => investor.user.id == interaction.user.id

@@ -14,7 +14,8 @@ export default {
         .setName("user")
         .setDescription("The user to lookup.")
         .setRequired(false)
-    ),
+    )
+    .toJSON(),
   requiresAccount: true,
   execute: async (cache: Cache, interaction: ChatInputCommandInteraction) => {
     const user = interaction.options.getUser("user") ?? interaction.user;

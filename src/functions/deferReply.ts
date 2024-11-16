@@ -7,7 +7,7 @@ import {
 
 const deferReply = async (
   interaction: Interaction | CommandInteraction,
-  message: InteractionEditReplyOptions,
+  message: InteractionEditReplyOptions | string,
   options?: InteractionDeferReplyOptions
 ) => {
   if (interaction.isAutocomplete()) return;

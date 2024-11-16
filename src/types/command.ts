@@ -1,19 +1,9 @@
-import {
-  ContextMenuCommandBuilder,
-  SlashCommandBuilder,
-  SlashCommandSubcommandBuilder,
-  SlashCommandSubcommandsOnlyBuilder,
-} from "discord.js";
+import { RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
 import Execute from "./execute";
 import Cache from "./cache";
 
 type Command = {
-  data: Partial<
-    | SlashCommandBuilder
-    | SlashCommandSubcommandBuilder
-    | ContextMenuCommandBuilder
-    | SlashCommandSubcommandsOnlyBuilder
-  >;
+  data: RESTPostAPIApplicationCommandsJSONBody;
 
   execute: Execute;
   autocomplete?: Execute;

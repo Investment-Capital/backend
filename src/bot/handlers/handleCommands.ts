@@ -14,6 +14,11 @@ export default (async (cache: Cache) => {
       const command: Command = (await import(`../commands/${folder}/${file}`))
         .default;
 
+      if ((command.owner || command.admin) && "description" in command.data)
+        command.data.description += ` [${
+          command.owner ? "OWNER" : "ADMIN"
+        } ONLY]`;
+
       if (!command.category) command.category = folder;
       if (!command.requiedPrestige) command.requiedPrestige = 1;
       if (command.requiresAccount == undefined) command.requiresAccount = true;
