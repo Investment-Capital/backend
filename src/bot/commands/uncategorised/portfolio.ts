@@ -35,7 +35,7 @@ export default {
       );
 
     await deferReply(interaction, {
-      embeds: [portfolioEmbed(user, userData)],
+      embeds: [portfolioEmbed(user, userData, user !== interaction.user)],
     });
   },
 } satisfies Command;

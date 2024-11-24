@@ -3,20 +3,31 @@ import addDefaults from "./defaults/addDefaults";
 import Investor from "../../../types/investor";
 import MarkdownManager from "../../../classes/markdownManager";
 import DateFormats from "../../../enum/dateFormats";
+import Emojis from "../../../classes/emojis";
 
-const portfolioEmbed = (user: User, investor: Investor) => {
+const portfolioEmbed = (user: User, investor: Investor, isLookup: boolean) => {
   return addDefaults(
     new EmbedBuilder()
-      .setTitle("Portfolio")
+      .setTitle(`${isLookup ? user.displayName + "'s " : ""}Portfolio`)
       .setColor("Blue")
       .addFields(
         {
           name: "Cash",
-          value: investor.cash.toLocaleString(),
+          value: Emojis.cash + " $" + investor.cash.toLocaleString(),
+          inline: true,
+        },
+        {
+          name: "Prestige",
+          value: Emojis.prestige + " " + investor.prestige,
+          inline: true,
         },
         {
           name: "Created Account",
-          value: MarkdownManager.date(investor.created, DateFormats.relative),
+          value:
+            Emojis.clock +
+            " " +
+            MarkdownManager.date(investor.created, DateFormats.relative),
+          inline: true,
         }
       ),
     user

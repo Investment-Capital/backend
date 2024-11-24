@@ -11,7 +11,7 @@ import lookupInvalidAccount from "../../responces/embeds/lookupInvalidAccount";
 export default {
   data: new SlashCommandBuilder()
     .setName("authorization")
-    .setDescription("Get a users authorization code")
+    .setDescription("Get a users authorization code.")
     .addUserOption((option) =>
       option
         .setRequired(true)

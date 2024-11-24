@@ -1,4 +1,4 @@
-const calculatePrice = (
+const calculateNextPrice = (
   currentPrice: number,
   basePrice: number,
   volatility: number
@@ -13,4 +13,4 @@ const calculatePrice = (
     basePrice
   );
 
-export default calculatePrice;
+export default calculateNextPrice;

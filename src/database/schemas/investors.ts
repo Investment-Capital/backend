@@ -67,7 +67,7 @@ const investor = new Schema<Investor>(
   }
 );
 
-investor.post("find", async (investorsData: Investor[], next) => {
+investor.post("find", async (investorsData: Investor[]) => {
   const modifiedIds: string[] = [];
 
   for (const investor of investorsData) {
@@ -94,7 +94,6 @@ investor.post("find", async (investorsData: Investor[], next) => {
   }));
 
   if (bulk.length > 0) await model("investors").bulkWrite(bulk);
-  next();
 });
 
 export default model("investors", investor, "investors");
