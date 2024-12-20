@@ -29,6 +29,12 @@ const stocksConfig: StocksConfig = {
     income: 6,
     prestigeRequirement: 4,
     basePrice: 65,
+    volatility: 7.5,
+  },
+  goog: {
+    income: 10,
+    prestigeRequirement: 8,
+    basePrice: 150,
     volatility: 8,
   },
 };

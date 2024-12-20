@@ -4,6 +4,7 @@ enum Stocks {
   apl = "apl",
   abc = "abc",
   nvda = "nvda",
+  goog = "goog",
 }
 
 export default Stocks;

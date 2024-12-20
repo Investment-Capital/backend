@@ -1,12 +1,10 @@
 import startAPI from "./api";
 import startBot from "./bot";
 import Cache from "./types/cache";
-import dotenv from "dotenv";
 import startDatabase from "./database/startDatabase";
 import EventEmitter from "events";
 import scheduleTasks from "./scheduledTasks/scheduleTasks";
 import { Client } from "discord.js";
-dotenv.config();
 
 (async () => {
   const data = await startDatabase();

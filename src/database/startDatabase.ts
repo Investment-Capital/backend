@@ -1,10 +1,10 @@
 import fs from "fs";
 import { connect, connection } from "mongoose";
-import investors from "./schemas/investors";
 import markets from "./schemas/markets";
-import objectifyDocument from "../functions/objectifyDocument";
 import Event from "../types/event";
 import defaultMarketData from "../config/defaultMarketData";
+import fetchInvestors from "../functions/fetchInvestors";
+import fetchMarkets from "../functions/fetchMarkets";
 
 const startDatabase = async () => {
   for (const file of fs.readdirSync("src/database/events")) {
@@ -19,14 +19,14 @@ const startDatabase = async () => {
   });
 
   let [investorData, marketData] = await Promise.all([
-    investors.find(),
-    markets.findOne(),
+    fetchInvestors(),
+    fetchMarkets(),
   ]);
   if (!marketData) marketData = await new markets(defaultMarketData).save();
 
   return {
-    investorData: investorData.map(objectifyDocument),
-    marketData: objectifyDocument(marketData),
+    investorData,
+    marketData,
   };
 };
 

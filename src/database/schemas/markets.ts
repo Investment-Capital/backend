@@ -4,8 +4,6 @@ import Investment from "../../types/markets/investment";
 import History from "../../types/markets/history";
 import Markets from "../../types/markets/markets";
 import Stocks from "../../enum/stocks";
-import defaultMarketData from "../../config/defaultMarketData";
-import modifyUndefinedValues from "../../functions/modifyUndefinedValues";
 
 const history = new Schema<History>(
   {
@@ -39,11 +37,6 @@ const stockMarket = new Schema<StockMarket>(
 
 const markets = new Schema<Markets>({
   stocks: stockMarket,
-});
-
-markets.post("findOne", async (marketData: Markets) => {
-  modifyUndefinedValues(marketData, defaultMarketData) &&
-    (await model("markets").updateOne({}, marketData));
 });
 
 export default model("markets", markets, "markets");

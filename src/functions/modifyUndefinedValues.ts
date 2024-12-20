@@ -1,16 +1,8 @@
 const modifyUndefinedValues = (
   savedData: { [key: string | number]: any },
-  defaultData: { [key: string | number]: any },
-  visited: Set<any> = new Set()
+  defaultData: { [key: string | number]: any }
 ): boolean => {
   let modified = false;
-
-  if (visited.has(savedData) || visited.has(defaultData)) {
-    return modified;
-  }
-
-  visited.add(savedData);
-  visited.add(defaultData);
 
   for (const [key, defaultValue] of Object.entries(defaultData)) {
     const savedValue = savedData[key];
@@ -23,11 +15,7 @@ const modifyUndefinedValues = (
       defaultValue !== null &&
       !Array.isArray(defaultValue)
     ) {
-      const isModified = modifyUndefinedValues(
-        savedValue,
-        defaultValue,
-        visited
-      );
+      const isModified = modifyUndefinedValues(savedValue, defaultValue);
       modified = modified ? true : isModified;
     }
   }
