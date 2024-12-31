@@ -21,6 +21,7 @@ const defaultInvestorData = (
     blacklisted: false,
     history: [],
   },
+  realEstate: [],
   stocks: Object.entries(stocksConfig).reduce(
     (object: any, [stock, { prestigeRequirement }]) => {
       object[stock] =

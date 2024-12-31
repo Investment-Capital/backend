@@ -4,6 +4,8 @@ import Investment from "../../types/markets/investment";
 import History from "../../types/markets/history";
 import Markets from "../../types/markets/markets";
 import Stocks from "../../enum/stocks";
+import RealEstateMarket from "../../types/markets/realEstateMarket";
+import RealEstate from "../../enum/realEstate";
 
 const history = new Schema<History>(
   {
@@ -35,8 +37,19 @@ const stockMarket = new Schema<StockMarket>(
   }
 );
 
+const realEstateMarket = new Schema<RealEstateMarket>(
+  Object.values(RealEstate).reduce((object: any, realEstate) => {
+    object[realEstate] = investment;
+    return object;
+  }, {}),
+  {
+    _id: false,
+  }
+);
+
 const markets = new Schema<Markets>({
   stocks: stockMarket,
+  realEstate: realEstateMarket,
 });
 
 export default model("markets", markets, "markets");

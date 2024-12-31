@@ -6,6 +6,8 @@ type StocksConfig = {
     income: number;
     basePrice: number;
     prestigeRequirement: number;
+    image: string;
+    emoji: string;
   };
 };
 

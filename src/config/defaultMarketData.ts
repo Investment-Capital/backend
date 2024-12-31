@@ -1,17 +1,22 @@
+import RealEstate from "../enum/realEstate";
 import Stocks from "../enum/stocks";
 import Investment from "../types/markets/investment";
 import Markets from "../types/markets/markets";
+import realEstateConfig from "./realEstateConfig";
 import stocksConfig from "./stocksConfig";
 
-const getStockValues = (stock: Stocks) => {
-  const stockConfig = stocksConfig[stock];
+const getInvestmentValues = (investment: Stocks | RealEstate) => {
+  const config =
+    investment in stocksConfig
+      ? (stocksConfig as any)[investment]
+      : (realEstateConfig as any)[investment];
 
   return {
-    price: stockConfig.basePrice,
+    price: config.basePrice,
     history: [
       {
         date: Date.now(),
-        value: stockConfig.basePrice,
+        value: config.basePrice,
       },
     ],
   } satisfies Investment;
@@ -19,7 +24,11 @@ const getStockValues = (stock: Stocks) => {
 
 const defaultMarketData: Markets = {
   stocks: Object.values(Stocks).reduce((prev: any, stock) => {
-    prev[stock] = getStockValues(stock);
+    prev[stock] = getInvestmentValues(stock);
+    return prev;
+  }, {}),
+  realEstate: Object.values(RealEstate).reduce((prev: any, realEstate) => {
+    prev[realEstate] = getInvestmentValues(realEstate);
     return prev;
   }, {}),
 };
