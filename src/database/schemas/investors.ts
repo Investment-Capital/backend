@@ -49,6 +49,14 @@ const stocks = new Schema<{ [_ in Stocks]: number }>(
   }
 );
 
+const realEstate = new Schema<Investor["realEstate"][number]>({
+  name: String,
+  type: String,
+  upgrades: [String],
+  built: Boolean,
+  created: Number,
+});
+
 const investor = new Schema<Investor>(
   {
     cash: Number,
@@ -59,6 +67,7 @@ const investor = new Schema<Investor>(
     user,
     blacklist: { ...blacklistData.obj, history: [blacklistData] },
     permissions,
+    realEstate: [realEstate],
   },
   {
     versionKey: false,

@@ -1,7 +1,7 @@
 import Investor from "../types/investor";
 import Permissions from "../types/permissions";
 import SavedUser from "../types/savedUser";
-import stocksConfig from "./stocksConfig";
+import stockConfig from "./stockConfig";
 
 const defaultInvestorData = (
   user: SavedUser,
@@ -22,7 +22,7 @@ const defaultInvestorData = (
     history: [],
   },
   realEstate: [],
-  stocks: Object.entries(stocksConfig).reduce(
+  stocks: Object.entries(stockConfig).reduce(
     (object: any, [stock, { prestigeRequirement }]) => {
       object[stock] =
         prestigeRequirement == 1 ? Math.ceil(Math.random() * 8) : 0;

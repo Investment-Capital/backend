@@ -1,9 +1,9 @@
-import RealEstate from "../../enum/realEstate";
+import RealEstateMarket from "./realEstateMarket";
 import StockMarket from "./stockMarket";
 
 type Markets = {
   stocks: StockMarket;
-  realEstate: RealEstate;
+  realEstate: RealEstateMarket;
 };
 
 export default Markets;

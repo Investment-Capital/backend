@@ -1,7 +1,7 @@
 import Emojis from "../classes/emojis";
 import StocksConfig from "../types/config/stocksConfig";
 
-const stocksConfig: StocksConfig = {
+const stockConfig: StocksConfig = {
   sop: {
     income: 0,
     prestigeRequirement: 1,
@@ -60,4 +60,4 @@ const stocksConfig: StocksConfig = {
   },
 };
 
-export default stocksConfig;
+export default stockConfig;

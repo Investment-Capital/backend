@@ -5,22 +5,22 @@ import EmitterValues from "../../classes/emitterValues";
 import Stocks from "../../enum/stocks";
 import ScheduledTask from "../../types/scheduledTask";
 import calculateNextPrice from "../../functions/calculateNextPrice";
-import stocksConfig from "../../config/stocksConfig";
+import stockConfig from "../../config/stockConfig";
 import Cache from "../../types/cache";
 
 export default {
-  date: TimeManager.stockUpdate,
+  date: TimeManager.hourly,
   execute: async (cache: Cache) => {
     Logger.success("Stock Market has been updated");
     const stockMarket = { ...cache.markets.stocks };
 
     for (const stock of Object.values(Stocks)) {
-      const stockConfig = stocksConfig[stock];
+      const config = stockConfig[stock];
 
       const newPrice = calculateNextPrice(
         stockMarket[stock].price,
-        stockConfig.basePrice,
-        stockConfig.volatility
+        config.basePrice,
+        config.volatility
       );
 
       if (newPrice == stockMarket[stock].price) continue;

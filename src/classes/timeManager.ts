@@ -10,7 +10,7 @@ const calculateTime = (calculate: data) => {
 };
 
 class TimeManager {
-  static stockUpdate = () =>
+  static hourly = () =>
     calculateTime((hours, setHours) => setHours(hours + 1, 0, 0, 0));
 }
 
