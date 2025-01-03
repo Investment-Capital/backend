@@ -4,7 +4,7 @@ import LeaderboardsConfig from "../../../config/leaderboardsConfig";
 import LeaderboardsConfigType from "../../../types/config/leaderboardsConfig";
 
 export default {
-  path: "/config/leaderboards",
+  path: "/config/leaderboard",
   method: "get",
   execute: (_, __, res: Response) =>
     res.json(

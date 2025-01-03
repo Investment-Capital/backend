@@ -5,7 +5,10 @@ class LeaderboardsConfig {
   static investors: LeaderboardsConfigType<Investor> = {
     dataSet: (cache) =>
       cache.investors.filter((investor) => !investor.blacklist.blacklisted),
-    mapData: (investor) => investor.user,
+    mapData: (investor) => ({
+      name: investor.user.username,
+      image: investor.user.avatar,
+    }),
 
     leaderboards: {
       cash: (investor) => investor.cash,

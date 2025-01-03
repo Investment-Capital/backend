@@ -2,12 +2,12 @@ import LeaderboardsConfig from "../config/leaderboardsConfig";
 import Cache from "../types/cache";
 import LeaderboardsConfigType from "../types/config/leaderboardsConfig";
 
-const getLeaderboardData = <T = {}>(
+const getLeaderboardData = (
   type: string,
   leaderboard: string,
   page: number,
   cache: Cache
-): ({ position: number; value: number } & T)[] => {
+) => {
   const leaderboardTypeConfig: LeaderboardsConfigType =
     LeaderboardsConfig[type as keyof LeaderboardsConfig];
 

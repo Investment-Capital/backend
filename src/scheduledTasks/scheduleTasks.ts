@@ -10,8 +10,11 @@ const schedualTasks = async (cache: Cache) => {
       while (true) {
         await new Promise((resolve) =>
           setTimeout(
-            () => task.execute(cache).then(resolve),
-            typeof task.date == "function" ? task.date(cache) : task.date
+            async () => {
+              await task.execute(cache);
+              resolve(null);
+            },
+            typeof task.time == "function" ? task.time(cache) : task.time
           )
         );
       }

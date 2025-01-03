@@ -2,7 +2,7 @@ import Cache from "./cache";
 import Execute from "./execute";
 
 type ScheduledTask = {
-  date: number | ((cache: Cache) => number);
+  time: number | ((cache: Cache) => number);
   execute: Execute;
 };
 

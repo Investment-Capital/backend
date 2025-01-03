@@ -9,7 +9,7 @@ import stockConfig from "../../config/stockConfig";
 import Cache from "../../types/cache";
 
 export default {
-  date: TimeManager.hourly,
+  time: TimeManager.hourly,
   execute: async (cache: Cache) => {
     Logger.success("Stock Market has been updated");
     const stockMarket = { ...cache.markets.stocks };

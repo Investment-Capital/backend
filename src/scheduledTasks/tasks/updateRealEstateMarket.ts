@@ -9,7 +9,7 @@ import realEstateConfig from "../../config/realEstateConfig";
 import TimeManager from "../../classes/timeManager";
 
 export default {
-  date: TimeManager.hourly,
+  time: TimeManager.hourly,
   execute: async (cache: Cache) => {
     Logger.success("Real Estate Market has been updated");
     const realEstateMarket = { ...cache.markets.realEstate };
