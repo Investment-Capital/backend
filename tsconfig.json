@@ -4,7 +4,7 @@
     "module": "commonjs",
     "outDir": "./dist",
     "esModuleInterop": true,
-    "declaration": true,
+    "declaration": false,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -12,7 +12,8 @@
     "strictPropertyInitialization": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true
   },
   "include": ["src"]
 }

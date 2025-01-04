@@ -5,10 +5,13 @@ import fs from "fs";
 import Cache from "../../types/cache";
 import Times from "../../classes/times";
 import Logger from "../../classes/logger";
+import path from "path";
 
 export default (async (cache: Cache, app: Application) => {
-  for (const folder of fs.readdirSync("src/api/routes")) {
-    for (const file of fs.readdirSync(`src/api/routes/${folder}`)) {
+  for (const folder of fs.readdirSync(path.join(__dirname, "../routes"))) {
+    for (const file of fs.readdirSync(
+      path.join(__dirname, `../routes/${folder}`)
+    )) {
       const route: Route = (await import(`../routes/${folder}/${file}`))
         .default;
 
@@ -18,7 +21,7 @@ export default (async (cache: Cache, app: Application) => {
 
       cache.routes.push(route);
 
-      let requests: any[] = [];
+      let requests: string[] = [];
 
       setInterval(() => {
         requests = [];
@@ -70,7 +73,7 @@ export default (async (cache: Cache, app: Application) => {
           data.unshift(investor);
         }
 
-        requests.push(req.ip);
+        req.ip && requests.push(req.ip);
 
         try {
           await route.execute(cache, ...data);

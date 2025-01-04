@@ -1,11 +1,14 @@
+import path from "path";
 import Cache from "../../types/cache";
 import Component from "../../types/component";
 import Execute from "../../types/execute";
 import fs from "fs";
 
 export default (async (cache: Cache) => {
-  for (const folder of fs.readdirSync("src/bot/components")) {
-    for (const file of fs.readdirSync(`src/bot/components/${folder}`)) {
+  for (const folder of fs.readdirSync(path.join(__dirname, "../components"))) {
+    for (const file of fs.readdirSync(
+      path.join(__dirname, `../components/${folder}`)
+    )) {
       const component: Component = (
         await import(`../components/${folder}/${file}`)
       ).default;

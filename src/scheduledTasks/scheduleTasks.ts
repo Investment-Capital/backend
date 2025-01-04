@@ -1,9 +1,10 @@
 import Cache from "../types/cache";
 import fs from "fs";
 import ScheduledTask from "../types/scheduledTask";
+import path from "path";
 
 const schedualTasks = async (cache: Cache) => {
-  for (const file of fs.readdirSync("src/scheduledTasks/tasks")) {
+  for (const file of fs.readdirSync(path.join(__dirname, "./tasks"))) {
     const task: ScheduledTask = (await import(`./tasks/${file}`)).default;
 
     (async () => {

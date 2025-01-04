@@ -5,9 +5,10 @@ import Event from "../types/event";
 import defaultMarketData from "../config/defaultMarketData";
 import fetchInvestors from "../functions/fetchInvestors";
 import fetchMarkets from "../functions/fetchMarkets";
+import path from "path";
 
 const startDatabase = async () => {
-  for (const file of fs.readdirSync("src/database/events")) {
+  for (const file of fs.readdirSync(path.join(__dirname, "./events"))) {
     const event: Event = (await import(`./events/${file}`)).default;
     (connection as any).on(event.event, (...data: any[]) =>
       event.execute(...data)

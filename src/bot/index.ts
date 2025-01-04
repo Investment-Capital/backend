@@ -3,12 +3,13 @@ import fs from "fs";
 import Cache from "../types/cache";
 import Logger from "../classes/logger";
 import Execute from "../types/execute";
+import path from "path";
 dotenv.config();
 
 const startBot = async (cache: Cache) => {
   Logger.info("Starting Bot");
 
-  for (const file of fs.readdirSync("src/bot/handlers")) {
+  for (const file of fs.readdirSync(path.join(__dirname, "./handlers"))) {
     const handler: Execute = (await import(`./handlers/${file}`)).default;
     handler(cache);
   }

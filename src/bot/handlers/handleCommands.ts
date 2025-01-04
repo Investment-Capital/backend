@@ -6,11 +6,14 @@ import getIdBytoken from "../../functions/getIdByToken";
 import Logger from "../../classes/logger";
 import Execute from "../../types/execute";
 import Cache from "../../types/cache";
+import path from "path";
 dotenv.config();
 
 export default (async (cache: Cache) => {
-  for (const folder of fs.readdirSync("src/bot/commands")) {
-    for (const file of fs.readdirSync(`src/bot/commands/${folder}`)) {
+  for (const folder of fs.readdirSync(path.join(__dirname, "../commands"))) {
+    for (const file of fs.readdirSync(
+      path.join(__dirname, `../commands/${folder}`)
+    )) {
       const command: Command = (await import(`../commands/${folder}/${file}`))
         .default;
 

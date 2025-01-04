@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/start.ts"
+    "dev": "nodemon src/start.ts",
+    "build": "npm install --force && tsc",
+    "start": "node dist/start.js"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +20,8 @@
     "express-ws": "^5.0.2",
     "https": "^1.0.0",
     "lodash": "^4.17.21",
-    "mongoose": "^8.2.4"
+    "mongoose": "^8.2.4",
+    "typescript": "^5.7.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
