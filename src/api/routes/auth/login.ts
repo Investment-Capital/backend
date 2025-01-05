@@ -5,6 +5,7 @@ import Cache from "../../../types/cache";
 import createAccount from "../../../functions/createAccount";
 import getIdBytoken from "../../../functions/getIdByToken";
 import Times from "../../../classes/times";
+import Logger from "../../../classes/logger";
 dotenv.config();
 
 export default {
@@ -34,10 +35,13 @@ export default {
 
     const tokenJson = await tokenData.json();
 
-    if ("error" in tokenJson)
+    if ("error" in tokenJson) {
+      Logger.error(new Error(tokenJson.error));
+
       return res.status(400).json({
         error: "Authorization error.",
       });
+    }
 
     const userData = await fetch("https://discord.com/api/users/@me", {
       headers: {
@@ -47,10 +51,13 @@ export default {
 
     const userJson = await userData.json();
 
-    if ("message" in userJson)
+    if ("message" in userJson) {
+      Logger.error(new Error(userJson.message));
+
       return res.status(400).json({
         error: "Authorization error.",
       });
+    }
 
     let foundInvestor = cache.investors.find(
       (investor) => investor.user.id == userJson.id
