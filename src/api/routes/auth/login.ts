@@ -23,7 +23,7 @@ export default {
       body: new URLSearchParams({
         client_id: getIdBytoken(process.env.TOKEN as string),
         client_secret: process.env.CLIENT_SECRET as string,
-        redirect_uri: process.env.REDIRECT_URI as string,
+        redirect_uri: (process.env.WEBSITE_URL as string) + "/auth/login",
         code,
         grant_type: "authorization_code",
         scope: "identify",
