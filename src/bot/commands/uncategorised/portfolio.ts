@@ -17,7 +17,11 @@ export default {
     )
     .toJSON(),
   requiresAccount: true,
-  execute: async (cache: Cache, interaction: ChatInputCommandInteraction) => {
+  execute: async (
+    cache: Cache,
+    _,
+    interaction: ChatInputCommandInteraction
+  ) => {
     const user = interaction.options.getUser("user") ?? interaction.user;
     const userData = cache.investors.find(
       (investor) => investor.user.id == user.id

@@ -127,12 +127,20 @@ export default {
         interaction.isAutocomplete() &&
         (executeData as Command).autocomplete
       ) {
-        await ((executeData as Command).autocomplete as Execute)(
-          cache,
-          interaction
-        );
+        executeData.requiresAccount
+          ? await ((executeData as Command).autocomplete as Execute)(
+              cache,
+              foundUser,
+              interaction
+            )
+          : await ((executeData as Command).autocomplete as Execute)(
+              cache,
+              interaction
+            );
       } else if (!interaction.isAutocomplete())
-        await executeData.execute(cache, interaction);
+        executeData.requiresAccount
+          ? await executeData.execute(cache, foundUser, interaction)
+          : await executeData.execute(cache, interaction);
       else throw new Error("Invalid Interaction Type");
     } catch (error: any) {
       await deferReply(
