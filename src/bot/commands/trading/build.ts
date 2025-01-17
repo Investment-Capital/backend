@@ -13,44 +13,35 @@ export default {
   data: new SlashCommandBuilder()
     .setName("build")
     .setDescription("Build something")
-    .addSubcommandGroup((subcommandGroup) =>
-      subcommandGroup
-        .setName("real")
-        .setDescription("Build real estate")
-        .addSubcommand((subcommand) =>
+    .addSubcommandGroup((subcommandGroup) => {
+      subcommandGroup.setName("realestate").setDescription("Build real estate");
+
+      Object.values(RealEstate).forEach((realEstate) => {
+        subcommandGroup.addSubcommand((subcommand) =>
           subcommand
-            .setName("estate")
-            .setDescription("Build real estate")
-            .addStringOption((option) =>
-              option
-                .setName("type")
-                .setDescription("The type of real estate to build")
-                .addChoices(
-                  ...Object.keys(RealEstate).map((realEstate) => ({
-                    name: realEstate,
-                    value: realEstate,
-                  }))
-                )
-                .setRequired(true)
-            )
+            .setName(realEstate)
+            .setDescription(`Build a ${realEstate}`)
             .addStringOption((option) =>
               option
                 .setName("name")
-                .setDescription("Name of real estate")
+                .setDescription(`Name of the ${realEstate}`)
                 .setRequired(true)
             )
-        )
-    )
+        );
+      });
+
+      return subcommandGroup;
+    })
     .toJSON(),
   execute: async (
     cache: Cache,
     investor: Investor,
     interaction: ChatInputCommandInteraction
   ) => {
-    const subcommand = interaction.options.getSubcommand();
+    const subcommandGroup = interaction.options.getSubcommandGroup();
 
-    if (subcommand == "estate") {
-      const type = interaction.options.getString("type", true) as RealEstate;
+    if (subcommandGroup == "realestate") {
+      const type = interaction.options.getSubcommand() as RealEstate;
       const name = interaction.options.getString("name", true);
       const config = realEstateConfig[type];
       const price = cache.markets.realEstate[type].price;

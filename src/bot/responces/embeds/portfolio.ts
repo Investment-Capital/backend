@@ -4,6 +4,7 @@ import Investor from "../../../types/investor";
 import MarkdownManager from "../../../classes/markdownManager";
 import DateFormats from "../../../enum/dateFormats";
 import Emojis from "../../../classes/emojis";
+import formatNumber from "../../../functions/formatNumber";
 
 const portfolioEmbed = (user: User, investor: Investor, isLookup: boolean) => {
   return addDefaults(
@@ -13,7 +14,7 @@ const portfolioEmbed = (user: User, investor: Investor, isLookup: boolean) => {
       .addFields(
         {
           name: "Cash",
-          value: Emojis.cash + " $" + investor.cash.toLocaleString(),
+          value: Emojis.cash + " $" + formatNumber(investor.cash),
           inline: true,
         },
         {
