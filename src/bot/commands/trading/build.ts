@@ -8,6 +8,7 @@ import realEstateConfig from "../../../config/realEstateConfig";
 import deferReply from "../../../functions/deferReply";
 import nameAlreadyUsed from "../../responces/embeds/nameAlreadyUsed";
 import buildingStartedConstruction from "../../responces/embeds/buildingStartedConstruction";
+import notEnoughCash from "../../responces/embeds/notEnoughCash";
 
 export default {
   data: new SlashCommandBuilder()
@@ -46,6 +47,15 @@ export default {
       const config = realEstateConfig[type];
       const price = cache.markets.realEstate[type].price;
 
+      if (price > investor.cash)
+        return await deferReply(
+          interaction,
+          {
+            embeds: [notEnoughCash(interaction.user)],
+          },
+          { ephemeral: true }
+        );
+
       if (investor.realEstate.find((realEstate) => realEstate.name == name))
         return await deferReply(
           interaction,
@@ -55,11 +65,9 @@ export default {
           { ephemeral: true }
         );
 
-      await interaction.deferReply();
-
       const realEstate = createRealEstate(cache, investor, name, type);
 
-      await interaction.editReply({
+      await deferReply(interaction, {
         embeds: [
           buildingStartedConstruction(
             interaction.user,

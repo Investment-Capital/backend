@@ -1,29 +1,27 @@
 import { EmbedBuilder, User } from "discord.js";
 import addDefaults from "./defaults/addDefaults";
-import MarkdownManager from "../../../classes/markdownManager";
-import DateFormats from "../../../enum/dateFormats";
 import formatNumber from "../../../functions/formatNumber";
 
-const buildingStartedConstruction = (
+const investmentBought = (
   user: User,
   image: string,
-  completed: number,
-  price: number
+  amount: number,
+  totalPrice: number
 ) => {
   return addDefaults(
     new EmbedBuilder()
       .setColor("Green")
-      .setTitle("Construction Started")
+      .setTitle("Investment Bought")
       .setThumbnail(image)
       .addFields(
         {
-          name: "Completed",
-          value: MarkdownManager.date(completed, DateFormats.relative),
+          name: "Amount",
+          value: formatNumber(amount),
           inline: true,
         },
         {
           name: "Price",
-          value: "$" + formatNumber(price),
+          value: "$" + formatNumber(totalPrice),
           inline: true,
         }
       ),
@@ -31,4 +29,4 @@ const buildingStartedConstruction = (
   );
 };
 
-export default buildingStartedConstruction;
+export default investmentBought;

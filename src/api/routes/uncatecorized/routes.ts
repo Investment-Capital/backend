@@ -12,7 +12,6 @@ export default {
         authorized: route.authorized ?? false,
         path: route.path,
         category: route.category,
-
         ratelimit: route.ratelimit,
         ratelimitDuration: route.ratelimitDuration,
       }))
