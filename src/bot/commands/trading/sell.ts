@@ -5,26 +5,27 @@ import Cache from "../../../types/cache";
 import Investor from "../../../types/investor";
 import editInvestor from "../../../functions/editInvestor";
 import stockConfig from "../../../config/stockConfig";
-import investmentBought from "../../responces/embeds/investmentBought";
 import deferReply from "../../../functions/deferReply";
-import notEnoughCash from "../../responces/embeds/notEnoughCash";
+import investmentSold from "../../responces/embeds/investmentSold";
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("buy")
-    .setDescription("Buy something.")
+    .setName("sell")
+    .setDescription("Sell something.")
     .addSubcommandGroup((subcommandGroup) => {
-      subcommandGroup.setName("stock").setDescription("Buy a stock.");
+      subcommandGroup.setName("stock").setDescription("Sell a stock.");
 
       Object.values(Stocks).map((stock) =>
         subcommandGroup.addSubcommand((subcommand) =>
           subcommand
             .setName(stock)
-            .setDescription(`Buy ${stock} stock`)
+            .setDescription(`Sell ${stock} stock`)
             .addNumberOption((option) =>
               option
                 .setName("amount")
-                .setDescription(`The amount of ${stock} stock you want to buy.`)
+                .setDescription(
+                  `The amount of ${stock} stock you want to sell.`
+                )
                 .setAutocomplete(false) // adding soon
                 .setRequired(false)
             )
@@ -47,37 +48,21 @@ export default {
       const amount = interaction.options.getNumber("amount") ?? 1;
       const config = stockConfig[stock];
 
-      const totalPrice = amount * cache.markets.stocks[stock].price;
+      if (investor.stocks[stock] < amount)
+        return console.log("Invalid amount of stocks");
 
-      if (totalPrice > investor.cash)
-        return await deferReply(
-          interaction,
-          { embeds: [notEnoughCash(interaction.user)] },
-          { ephemeral: true }
-        );
+      const cashGained = amount * cache.markets.stocks[stock].price;
 
       editInvestor(cache, investor, (investor) => {
-        investor.cash -= totalPrice;
-        investor.stocks[stock] += amount;
+        investor.cash += cashGained;
+        investor.stocks[stock] -= amount;
       });
 
       await deferReply(interaction, {
         embeds: [
-          investmentBought(interaction.user, config.image, amount, totalPrice),
+          investmentSold(interaction.user, config.image, amount, cashGained),
         ],
       });
     }
-  },
-
-  requiedPrestige: {
-    default: 1,
-    commands: Object.values(Stocks).map((stock) => {
-      const config = stockConfig[stock];
-      return {
-        requiredPrestige: config.requiredPrestige,
-        subcommand: stock,
-        subcommandGroup: "stock",
-      };
-    }),
   },
 } satisfies Command;

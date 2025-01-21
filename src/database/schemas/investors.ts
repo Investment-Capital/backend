@@ -49,13 +49,18 @@ const stocks = new Schema<{ [_ in Stocks]: number }>(
   }
 );
 
-const realEstate = new Schema<Investor["realEstate"][number]>({
-  name: String,
-  type: String,
-  upgrades: [String],
-  built: Boolean,
-  created: Number,
-});
+const realEstate = new Schema<Investor["realEstate"][number]>(
+  {
+    name: String,
+    type: String,
+    upgrades: [String],
+    built: Boolean,
+    created: Number,
+  },
+  {
+    _id: false,
+  }
+);
 
 const investor = new Schema<Investor>(
   {
@@ -71,6 +76,7 @@ const investor = new Schema<Investor>(
   },
   {
     versionKey: false,
+    _id: false,
   }
 );
 

@@ -1,4 +1,5 @@
 import {
+  ChatInputCommandInteraction,
   CommandInteraction,
   Events,
   Interaction,
@@ -6,7 +7,6 @@ import {
 } from "discord.js";
 import Event from "../../types/event";
 import Logger from "../../classes/logger";
-import Investor from "../../types/investor";
 import Command from "../../types/command";
 import Component from "../../types/component";
 import Execute from "../../types/execute";
@@ -14,6 +14,8 @@ import deferReply from "../../functions/deferReply";
 import notFoundEmbed from "../responces/embeds/notFound";
 import executionErrorEmbed from "../responces/embeds/executionError";
 import Cache from "../../types/cache";
+import getInteractionRequiredPrestige from "../../functions/getInteractionRequiredPrestige";
+import invalidPrestige from "../responces/embeds/invalidPrestige";
 
 export default {
   event: Events.InteractionCreate,
@@ -113,13 +115,19 @@ export default {
       return;
     }
 
-    if (
-      executeData.requiedPrestige &&
-      executeData.requiresAccount &&
-      executeData.requiedPrestige > (foundUser as Investor).prestige
-    ) {
-      console.log("not right pt");
-      return;
+    const commandRequiredPrestige = getInteractionRequiredPrestige(
+      executeData,
+      interaction as ChatInputCommandInteraction
+    );
+
+    if (commandRequiredPrestige > (foundUser?.prestige ?? 1)) {
+      return await deferReply(
+        interaction,
+        {
+          embeds: [invalidPrestige(interaction.user, commandRequiredPrestige)],
+        },
+        { ephemeral: true }
+      );
     }
 
     try {

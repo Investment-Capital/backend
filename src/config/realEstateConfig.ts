@@ -48,7 +48,7 @@ const skyscraperUpgrades: RealEstateConfig["skyscraper"]["upgrades"] = {
 const realEstateConfig: RealEstateConfig = {
   appartment: {
     basePrice: 50_000,
-    prestigeRequirement: 2,
+    requiredPrestige: 2,
     volatility: 6,
     image:
       "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3da-fe0f.png",
@@ -60,7 +60,7 @@ const realEstateConfig: RealEstateConfig = {
 
   house: {
     basePrice: 125_000,
-    prestigeRequirement: 2,
+    requiredPrestige: 2,
     volatility: 6.5,
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3e0.png",
     emoji: Emojis.house,
@@ -71,7 +71,7 @@ const realEstateConfig: RealEstateConfig = {
 
   warehouse: {
     basePrice: 225_000,
-    prestigeRequirement: 3,
+    requiredPrestige: 3,
     volatility: 6.75,
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3e2.png",
     emoji: Emojis.office,
@@ -82,7 +82,7 @@ const realEstateConfig: RealEstateConfig = {
 
   skyscraper: {
     basePrice: 450_000,
-    prestigeRequirement: 5,
+    requiredPrestige: 5,
     volatility: 7,
     image:
       "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3d9-fe0f.png",

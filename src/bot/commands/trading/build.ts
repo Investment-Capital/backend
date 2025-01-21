@@ -9,6 +9,7 @@ import deferReply from "../../../functions/deferReply";
 import nameAlreadyUsed from "../../responces/embeds/nameAlreadyUsed";
 import buildingStartedConstruction from "../../responces/embeds/buildingStartedConstruction";
 import notEnoughCash from "../../responces/embeds/notEnoughCash";
+import editInvestor from "../../../functions/editInvestor";
 
 export default {
   data: new SlashCommandBuilder()
@@ -65,6 +66,7 @@ export default {
           { ephemeral: true }
         );
 
+      editInvestor(cache, investor, () => (investor.cash -= price));
       const realEstate = createRealEstate(cache, investor, name, type);
 
       await deferReply(interaction, {
@@ -78,6 +80,17 @@ export default {
         ],
       });
     }
+  },
+  requiedPrestige: {
+    default: 1,
+    commands: Object.values(RealEstate).map((realEstate) => {
+      const config = realEstateConfig[realEstate];
+      return {
+        requiredPrestige: config.requiredPrestige,
+        subcommand: realEstate,
+        subcommandGroup: "realestate",
+      };
+    }),
   },
   requiresAccount: true,
 } satisfies Command;

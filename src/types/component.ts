@@ -1,3 +1,4 @@
+import { Interaction } from "discord.js";
 import Execute from "./execute";
 
 type Component = {
@@ -6,7 +7,7 @@ type Component = {
   requiresAccount?: boolean;
   guilds?: string[];
   disabled?: boolean | (() => boolean);
-  requiedPrestige?: number | null;
+  requiedPrestige?: ((interaction: Interaction) => number) | number;
 
   admin?: boolean;
   owner?: boolean;

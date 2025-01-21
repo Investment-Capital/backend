@@ -5,7 +5,7 @@ type StocksConfig = {
     volatility: number;
     income: number;
     basePrice: number;
-    prestigeRequirement: number;
+    requiredPrestige: number;
     image: string;
     emoji: string;
   };

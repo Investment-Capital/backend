@@ -1,6 +1,7 @@
 import { RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
 import Execute from "./execute";
 import Cache from "./cache";
+import RequiredPrestige from "./requiredPrestige";
 
 type Command = {
   data: RESTPostAPIApplicationCommandsJSONBody;
@@ -11,7 +12,7 @@ type Command = {
   guilds?: string[];
   category?: string;
   disabled?: boolean | ((cache: Cache) => boolean);
-  requiedPrestige?: number;
+  requiedPrestige?: RequiredPrestige;
 
   admin?: boolean;
   owner?: boolean;

@@ -23,9 +23,8 @@ const defaultInvestorData = (
   },
   realEstate: [],
   stocks: Object.entries(stockConfig).reduce(
-    (object: any, [stock, { prestigeRequirement }]) => {
-      object[stock] =
-        prestigeRequirement == 1 ? Math.ceil(Math.random() * 8) : 0;
+    (object: any, [stock, { requiredPrestige }]) => {
+      object[stock] = requiredPrestige == 1 ? Math.ceil(Math.random() * 8) : 0;
 
       return object;
     },

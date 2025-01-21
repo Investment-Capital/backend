@@ -3,7 +3,7 @@ import RealEstate from "../../enum/realEstate";
 type RealEstateConfig = {
   [_ in RealEstate]: {
     basePrice: number;
-    prestigeRequirement: number;
+    requiredPrestige: number;
     volatility: number;
     image: string;
     emoji: string;

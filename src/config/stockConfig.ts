@@ -4,7 +4,7 @@ import StocksConfig from "../types/config/stocksConfig";
 const stockConfig: StocksConfig = {
   sop: {
     income: 0,
-    prestigeRequirement: 1,
+    requiredPrestige: 1,
     basePrice: 25,
     volatility: 7.5,
     image: "https://em-content.zobj.net/source/twitter/408/soap_1f9fc.png",
@@ -12,7 +12,7 @@ const stockConfig: StocksConfig = {
   },
   abc: {
     income: 1,
-    prestigeRequirement: 1,
+    requiredPrestige: 1,
     basePrice: 50,
     volatility: 7.25,
     image: "https://em-content.zobj.net/source/twitter/408/abacus_1f9ee.png",
@@ -20,7 +20,7 @@ const stockConfig: StocksConfig = {
   },
   rbx: {
     income: 2,
-    prestigeRequirement: 1,
+    requiredPrestige: 1,
     basePrice: 75,
     volatility: 7,
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f393.png",
@@ -28,7 +28,7 @@ const stockConfig: StocksConfig = {
   },
   apl: {
     income: 4,
-    prestigeRequirement: 2,
+    requiredPrestige: 2,
     basePrice: 100,
     volatility: 7,
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f34e.png",
@@ -36,7 +36,7 @@ const stockConfig: StocksConfig = {
   },
   nvda: {
     income: 6,
-    prestigeRequirement: 3,
+    requiredPrestige: 3,
     basePrice: 65,
     volatility: 7.5,
     image:
@@ -45,7 +45,7 @@ const stockConfig: StocksConfig = {
   },
   goog: {
     income: 10,
-    prestigeRequirement: 8,
+    requiredPrestige: 8,
     basePrice: 150,
     volatility: 8,
     emoji: Emojis.magnifyingGlass,
@@ -53,7 +53,7 @@ const stockConfig: StocksConfig = {
   },
   aal: {
     income: 8,
-    prestigeRequirement: 5,
+    requiredPrestige: 5,
     basePrice: 125,
     volatility: 7.75,
     image:
