@@ -1,4 +1,6 @@
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
   ChatInputCommandInteraction,
   CommandInteraction,
   Events,
@@ -8,7 +10,6 @@ import {
 import Event from "../../types/event";
 import Logger from "../../classes/logger";
 import Command from "../../types/command";
-import Component from "../../types/component";
 import Execute from "../../types/execute";
 import deferReply from "../../functions/deferReply";
 import notFoundEmbed from "../responces/embeds/notFound";
@@ -16,6 +17,8 @@ import executionErrorEmbed from "../responces/embeds/executionError";
 import Cache from "../../types/cache";
 import getInteractionRequiredPrestige from "../../functions/getInteractionRequiredPrestige";
 import invalidPrestige from "../responces/embeds/invalidPrestige";
+import invalidAccount from "../responces/embeds/invalidAccount";
+import start from "../responces/components/buttons/start";
 
 export default {
   event: Events.InteractionCreate,
@@ -24,42 +27,13 @@ export default {
       (e) => interaction.user.id == e.user.id
     );
 
-    let executeData: Command | Component | undefined;
-
-    if (interaction.isChatInputCommand() || interaction.isAutocomplete()) {
-      executeData = cache.commands.find(
-        (e) => e.data.name == interaction.commandName
-      );
-    } else if (
-      interaction.isMessageComponent() ||
-      interaction.isModalSubmit()
-    ) {
-      let componentCache;
-
-      if (interaction.isButton()) componentCache = cache.components.buttons;
-      else if (interaction.isStringSelectMenu())
-        componentCache = cache.components.stringSelectMenus;
-      else if (interaction.isModalSubmit())
-        componentCache = cache.components.modals;
-      else if (interaction.isUserSelectMenu())
-        componentCache = cache.components.userSelectMenus;
-      else {
-        await deferReply(
-          interaction,
-          { embeds: [notFoundEmbed(interaction.user)] },
-          {
-            ephemeral: true,
-          }
-        );
-        return Logger.warn(
-          `Invalid Component Type: ${interaction.component.type}`
-        );
-      }
-
-      executeData = componentCache.find((e) =>
-        interaction.customId.startsWith(e.data)
-      );
-    }
+    const executeData = cache.commands.find((command) =>
+      interaction.isCommand() || interaction.isAutocomplete()
+        ? command.data.name == interaction.commandName
+        : command.validateComponent
+        ? command.validateComponent(interaction)
+        : false
+    );
 
     if (!executeData) {
       await deferReply(
@@ -78,8 +52,23 @@ export default {
     }
 
     if (executeData.requiresAccount && !foundUser) {
-      console.log("user doesnt have an account");
-      return;
+      return await deferReply(
+        interaction,
+        {
+          embeds: [
+            invalidAccount(
+              interaction.user,
+              cache.client.application?.commands.cache.toJSON() ?? []
+            ),
+          ],
+          components: [
+            new ActionRowBuilder<ButtonBuilder>().addComponents(start),
+          ],
+        },
+        {
+          ephemeral: true,
+        }
+      );
     }
 
     if (foundUser?.blacklist.blacklisted) {

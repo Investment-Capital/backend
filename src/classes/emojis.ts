@@ -22,6 +22,7 @@ class Emojis {
   static fire = "🔥";
   static abandonedHouse = "🏚️";
   static hammer = "🔨";
+  static officeWorker = "👨‍💼";
 }
 
 export default Emojis;

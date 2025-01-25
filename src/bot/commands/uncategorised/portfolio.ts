@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { Interaction, SlashCommandBuilder } from "discord.js";
 import Command from "../../../types/command";
 import Cache from "../../../types/cache";
 import deferReply from "../../../functions/deferReply";
@@ -16,13 +16,12 @@ export default {
         .setRequired(false)
     )
     .toJSON(),
-  requiresAccount: true,
-  execute: async (
-    cache: Cache,
-    _,
-    interaction: ChatInputCommandInteraction
-  ) => {
-    const user = interaction.options.getUser("user") ?? interaction.user;
+  validateComponent: (interaction) => interaction.customId == "portfolio",
+  execute: async (cache: Cache, _, interaction: Interaction) => {
+    const user = interaction.isChatInputCommand()
+      ? interaction.options.getUser("user") ?? interaction.user
+      : interaction.user;
+
     const userData = cache.investors.find(
       (investor) => investor.user.id == user.id
     );

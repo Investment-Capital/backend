@@ -1,10 +1,21 @@
-import { RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
+import {
+  AnySelectMenuInteraction,
+  ButtonInteraction,
+  ModalSubmitInteraction,
+  RESTPostAPIApplicationCommandsJSONBody,
+} from "discord.js";
 import Execute from "./execute";
 import Cache from "./cache";
 import RequiredPrestige from "./requiredPrestige";
 
 type Command = {
   data: RESTPostAPIApplicationCommandsJSONBody;
+  validateComponent?: (
+    interaction:
+      | AnySelectMenuInteraction
+      | ButtonInteraction
+      | ModalSubmitInteraction
+  ) => boolean;
 
   execute: Execute;
   autocomplete?: Execute;

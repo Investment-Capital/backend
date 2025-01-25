@@ -12,12 +12,6 @@ import { Client } from "discord.js";
   const cache: Cache = {
     investors: data.investorData,
     commands: [],
-    components: {
-      buttons: [],
-      stringSelectMenus: [],
-      modals: [],
-      userSelectMenus: [],
-    },
     markets: data.marketData,
     events: new EventEmitter(),
     client: new Client({

@@ -1,24 +1,31 @@
-import { ChatInputCommandInteraction } from "discord.js";
+import { Interaction } from "discord.js";
 import Command from "../types/command";
-import Component from "../types/component";
 
 const getInteractionRequiredPrestige = (
-  data: Component | Command,
-  interaction: ChatInputCommandInteraction
+  data: Command,
+  interaction: Interaction
 ): number => {
-  if (typeof data.requiedPrestige == "function")
-    return data.requiedPrestige(interaction);
-  if (typeof data.requiedPrestige == "number") return data.requiedPrestige;
-  if (!data.requiedPrestige) return 1;
+  const defaultRequirement = data.requiedPrestige?.default ?? 1;
+  const isComponent = !interaction.isCommand() && !interaction.isAutocomplete();
 
-  const foundCommand = data.requiedPrestige.commands.find(
-    (command) =>
-      command.subcommand == interaction.options.getSubcommand() &&
-      command.subcommandGroup == interaction.options.getSubcommandGroup()
-  );
+  if (data.requiedPrestige?.components && isComponent)
+    return data.requiedPrestige.components(interaction) ?? defaultRequirement;
 
-  if (foundCommand) return foundCommand.requiredPrestige;
-  return data.requiedPrestige.default;
+  if (
+    data.requiedPrestige?.commands &&
+    !isComponent &&
+    interaction.isChatInputCommand()
+  ) {
+    const foundCommand = data.requiedPrestige.commands.find(
+      (command) =>
+        command.subcommand == interaction.options.getSubcommand() &&
+        command.subcommandGroup == interaction.options.getSubcommandGroup()
+    );
+
+    if (foundCommand) return foundCommand.requiredPrestige;
+  }
+
+  return defaultRequirement;
 };
 
 export default getInteractionRequiredPrestige;
