@@ -2,7 +2,7 @@ import { EmbedBuilder, User } from "discord.js";
 import addDefaults from "./defaults/addDefaults";
 import formatNumber from "../../../functions/formatNumber";
 
-const investmentBought = (
+const investmentBoughtEmbed = (
   user: User,
   image: string,
   amount: number,
@@ -29,4 +29,4 @@ const investmentBought = (
   );
 };
 
-export default investmentBought;
+export default investmentBoughtEmbed;

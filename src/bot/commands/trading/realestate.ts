@@ -11,12 +11,12 @@ import realEstateConfig from "../../../config/realEstateConfig";
 import editInvestor from "../../../functions/editInvestor";
 import Cache from "../../../types/cache";
 import deferReply from "../../../functions/deferReply";
-import buildingSold from "../../responces/embeds/buildingSold";
-import notEnoughCash from "../../responces/embeds/notEnoughCash";
-import nameAlreadyUsed from "../../responces/embeds/nameAlreadyUsed";
+import buildingSoldEmbed from "../../responces/embeds/buildingSold";
+import notEnoughCashEmbed from "../../responces/embeds/notEnoughCash";
+import nameAlreadyUsedEmbed from "../../responces/embeds/nameAlreadyUsed";
 import createRealEstate from "../../../functions/createRealEstate";
-import buildingStartedConstruction from "../../responces/embeds/buildingStartedConstruction";
-import invalidInvestment from "../../responces/embeds/invalidInvestment";
+import buildingStartedConstructionEmbed from "../../responces/embeds/buildingStartedConstruction";
+import invalidInvestmentEmbed from "../../responces/embeds/invalidInvestment";
 
 export default {
   data: new SlashCommandBuilder()
@@ -111,7 +111,7 @@ export default {
         return await deferReply(
           interaction,
           {
-            embeds: [invalidInvestment(interaction.user)],
+            embeds: [invalidInvestmentEmbed(interaction.user)],
           },
           {
             ephemeral: true,
@@ -127,7 +127,7 @@ export default {
 
       await deferReply(interaction, {
         embeds: [
-          buildingSold(
+          buildingSoldEmbed(
             interaction.user,
             config.image,
             name,
@@ -141,7 +141,7 @@ export default {
         return await deferReply(
           interaction,
           {
-            embeds: [notEnoughCash(interaction.user)],
+            embeds: [notEnoughCashEmbed(interaction.user)],
           },
           { ephemeral: true }
         );
@@ -150,7 +150,7 @@ export default {
         return await deferReply(
           interaction,
           {
-            embeds: [nameAlreadyUsed(interaction.user)],
+            embeds: [nameAlreadyUsedEmbed(interaction.user)],
           },
           { ephemeral: true }
         );
@@ -165,7 +165,7 @@ export default {
 
       await deferReply(interaction, {
         embeds: [
-          buildingStartedConstruction(
+          buildingStartedConstructionEmbed(
             interaction.user,
             config.image,
             config.buildTime + realEstate.created,

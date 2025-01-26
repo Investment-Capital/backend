@@ -4,12 +4,12 @@ import Investor from "../../../types/investor";
 import editInvestor from "../../../functions/editInvestor";
 import Cache from "../../../types/cache";
 import deferReply from "../../../functions/deferReply";
-import notEnoughCash from "../../responces/embeds/notEnoughCash";
-import invalidInvestment from "../../responces/embeds/invalidInvestment";
+import notEnoughCashEmbed from "../../responces/embeds/notEnoughCash";
+import invalidInvestmentEmbed from "../../responces/embeds/invalidInvestment";
 import Stocks from "../../../enum/stocks";
 import stockConfig from "../../../config/stockConfig";
-import investmentSold from "../../responces/embeds/investmentSold";
-import investmentBought from "../../responces/embeds/investmentBought";
+import investmentSoldEmbed from "../../responces/embeds/investmentSold";
+import investmentBoughtEmbed from "../../responces/embeds/investmentBought";
 
 export default {
   data: new SlashCommandBuilder()
@@ -70,7 +70,7 @@ export default {
         return await deferReply(
           interaction,
           {
-            embeds: [invalidInvestment(interaction.user)],
+            embeds: [invalidInvestmentEmbed(interaction.user)],
           },
           {
             ephemeral: true,
@@ -84,7 +84,12 @@ export default {
 
       await deferReply(interaction, {
         embeds: [
-          investmentSold(interaction.user, config.image, amount, cashGained),
+          investmentSoldEmbed(
+            interaction.user,
+            config.image,
+            amount,
+            cashGained
+          ),
         ],
       });
     } else if (subcomamndGroup == "buy") {
@@ -93,7 +98,7 @@ export default {
       if (totalPrice > investor.cash)
         return await deferReply(
           interaction,
-          { embeds: [notEnoughCash(interaction.user)] },
+          { embeds: [notEnoughCashEmbed(interaction.user)] },
           { ephemeral: true }
         );
 
@@ -104,7 +109,12 @@ export default {
 
       await deferReply(interaction, {
         embeds: [
-          investmentBought(interaction.user, config.image, amount, totalPrice),
+          investmentBoughtEmbed(
+            interaction.user,
+            config.image,
+            amount,
+            totalPrice
+          ),
         ],
       });
     }

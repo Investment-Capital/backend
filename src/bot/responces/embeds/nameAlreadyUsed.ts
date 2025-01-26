@@ -2,7 +2,7 @@ import { EmbedBuilder, User } from "discord.js";
 import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 
-const nameAlreadyUsed = (user: User) => {
+const nameAlreadyUsedEmbed = (user: User) => {
   return addDefaults(
     new EmbedBuilder()
       .setColor("Red")
@@ -14,4 +14,4 @@ const nameAlreadyUsed = (user: User) => {
   );
 };
 
-export default nameAlreadyUsed;
+export default nameAlreadyUsedEmbed;

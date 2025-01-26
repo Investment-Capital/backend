@@ -5,12 +5,12 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 import Command from "../../../types/command";
-import alreadyCreatedAccount from "../../responces/embeds/alreadyCreatedAccount";
+import alreadyCreatedAccountEmbed from "../../responces/embeds/alreadyCreatedAccount";
 import accountCreatedEmbed from "../../responces/embeds/accountCreated";
 import createAccount from "../../../functions/createAccount";
 import deferReply from "../../../functions/deferReply";
 import Cache from "../../../types/cache";
-import portfolio from "../../responces/components/buttons/portfolio";
+import portfolioButton from "../../responces/components/buttons/portfolio";
 
 export default {
   requiresAccount: false,
@@ -27,7 +27,7 @@ export default {
     if (investor)
       return await deferReply(
         interaction,
-        { embeds: [alreadyCreatedAccount(interaction.user)] },
+        { embeds: [alreadyCreatedAccountEmbed(interaction.user)] },
         {
           ephemeral: true,
         }
@@ -48,7 +48,7 @@ export default {
         ),
       ],
       components: [
-        new ActionRowBuilder<ButtonBuilder>().addComponents(portfolio),
+        new ActionRowBuilder<ButtonBuilder>().addComponents(portfolioButton),
       ],
     });
   },

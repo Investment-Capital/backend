@@ -6,7 +6,7 @@ import {
 import Command from "../../../types/command";
 import Cache from "../../../types/cache";
 import deferReply from "../../../functions/deferReply";
-import lookupInvalidAccount from "../../responces/embeds/lookupInvalidAccount";
+import lookupInvalidAccountEmbed from "../../responces/embeds/lookupInvalidAccount";
 
 export default {
   data: new SlashCommandBuilder()
@@ -33,7 +33,7 @@ export default {
     if (!investorData)
       return await deferReply(
         interaction,
-        { embeds: [lookupInvalidAccount(user)] },
+        { embeds: [lookupInvalidAccountEmbed(user)] },
         { ephemeral: true }
       );
 

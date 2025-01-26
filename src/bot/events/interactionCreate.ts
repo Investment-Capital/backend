@@ -16,9 +16,9 @@ import notFoundEmbed from "../responces/embeds/notFound";
 import executionErrorEmbed from "../responces/embeds/executionError";
 import Cache from "../../types/cache";
 import getInteractionRequiredPrestige from "../../functions/getInteractionRequiredPrestige";
-import invalidPrestige from "../responces/embeds/invalidPrestige";
-import invalidAccount from "../responces/embeds/invalidAccount";
-import start from "../responces/components/buttons/start";
+import invalidPrestigeEmbed from "../responces/embeds/invalidPrestige";
+import invalidAccountEmbed from "../responces/embeds/invalidAccount";
+import startButton from "../responces/components/buttons/start";
 
 export default {
   event: Events.InteractionCreate,
@@ -56,13 +56,13 @@ export default {
         interaction,
         {
           embeds: [
-            invalidAccount(
+            invalidAccountEmbed(
               interaction.user,
               cache.client.application?.commands.cache.toJSON() ?? []
             ),
           ],
           components: [
-            new ActionRowBuilder<ButtonBuilder>().addComponents(start),
+            new ActionRowBuilder<ButtonBuilder>().addComponents(startButton),
           ],
         },
         {
@@ -113,7 +113,9 @@ export default {
       return await deferReply(
         interaction,
         {
-          embeds: [invalidPrestige(interaction.user, commandRequiredPrestige)],
+          embeds: [
+            invalidPrestigeEmbed(interaction.user, commandRequiredPrestige),
+          ],
         },
         { ephemeral: true }
       );

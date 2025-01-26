@@ -2,7 +2,7 @@ import { EmbedBuilder, User } from "discord.js";
 import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 
-const invalidInvestment = (user: User) => {
+const invalidInvestmentEmbed = (user: User) => {
   return addDefaults(
     new EmbedBuilder()
       .setTitle("Invalid Investment")
@@ -14,4 +14,4 @@ const invalidInvestment = (user: User) => {
   );
 };
 
-export default invalidInvestment;
+export default invalidInvestmentEmbed;

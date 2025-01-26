@@ -1,9 +1,16 @@
-import { Interaction, SlashCommandBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  Interaction,
+  SlashCommandBuilder,
+  User,
+  UserSelectMenuBuilder,
+} from "discord.js";
 import Command from "../../../types/command";
 import Cache from "../../../types/cache";
 import deferReply from "../../../functions/deferReply";
-import lookupInvalidAccount from "../../responces/embeds/lookupInvalidAccount";
+import lookupInvalidAccountEmbed from "../../responces/embeds/lookupInvalidAccount";
 import portfolioEmbed from "../../responces/embeds/portfolio";
+import portfolioMenu from "../../responces/components/menus/portfolio";
 
 export default {
   data: new SlashCommandBuilder()
@@ -20,6 +27,8 @@ export default {
   execute: async (cache: Cache, _, interaction: Interaction) => {
     const user = interaction.isChatInputCommand()
       ? interaction.options.getUser("user") ?? interaction.user
+      : interaction.isUserSelectMenu()
+      ? (interaction.users.get(interaction.values[0]) as User)
       : interaction.user;
 
     const userData = cache.investors.find(
@@ -30,7 +39,7 @@ export default {
       return await deferReply(
         interaction,
         {
-          embeds: [lookupInvalidAccount(user)],
+          embeds: [lookupInvalidAccountEmbed(user)],
         },
         {
           ephemeral: true,
@@ -39,6 +48,11 @@ export default {
 
     await deferReply(interaction, {
       embeds: [portfolioEmbed(user, userData, user !== interaction.user)],
+      components: [
+        new ActionRowBuilder<UserSelectMenuBuilder>().addComponents(
+          portfolioMenu(user.id)
+        ),
+      ],
     });
   },
 } satisfies Command;

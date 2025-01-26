@@ -3,7 +3,7 @@ import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 import MarkdownManager from "../../../classes/markdownManager";
 
-const invalidAccount = (user: User, commands: ApplicationCommand[]) => {
+const invalidAccountEmbed = (user: User, commands: ApplicationCommand[]) => {
   return addDefaults(
     new EmbedBuilder()
       .setTitle("Invalid Account")
@@ -20,4 +20,4 @@ const invalidAccount = (user: User, commands: ApplicationCommand[]) => {
   );
 };
 
-export default invalidAccount;
+export default invalidAccountEmbed;

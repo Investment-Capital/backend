@@ -2,7 +2,7 @@ import { EmbedBuilder, User } from "discord.js";
 import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 
-const invalidPrestige = (user: User, requiredPrestige: number) => {
+const invalidPrestigeEmbed = (user: User, requiredPrestige: number) => {
   return addDefaults(
     new EmbedBuilder()
       .setTitle("Invalid Prestige")
@@ -14,4 +14,4 @@ const invalidPrestige = (user: User, requiredPrestige: number) => {
   );
 };
 
-export default invalidPrestige;
+export default invalidPrestigeEmbed;

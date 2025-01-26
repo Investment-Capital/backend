@@ -4,7 +4,7 @@ import MarkdownManager from "../../../classes/markdownManager";
 import DateFormats from "../../../enum/dateFormats";
 import formatNumber from "../../../functions/formatNumber";
 
-const buildingStartedConstruction = (
+const buildingStartedConstructionEmbed = (
   user: User,
   image: string,
   completed: number,
@@ -31,4 +31,4 @@ const buildingStartedConstruction = (
   );
 };
 
-export default buildingStartedConstruction;
+export default buildingStartedConstructionEmbed;

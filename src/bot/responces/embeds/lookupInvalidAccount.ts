@@ -2,7 +2,7 @@ import { EmbedBuilder, User } from "discord.js";
 import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 
-const lookupInvalidAccount = (user: User) => {
+const lookupInvalidAccountEmbed = (user: User) => {
   return addDefaults(
     new EmbedBuilder()
       .setColor("Red")
@@ -12,4 +12,4 @@ const lookupInvalidAccount = (user: User) => {
   );
 };
 
-export default lookupInvalidAccount;
+export default lookupInvalidAccountEmbed;

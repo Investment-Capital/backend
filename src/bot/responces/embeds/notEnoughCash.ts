@@ -2,7 +2,7 @@ import { EmbedBuilder, User } from "discord.js";
 import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 
-const notEnoughCash = (user: User) => {
+const notEnoughCashEmbed = (user: User) => {
   return addDefaults(
     new EmbedBuilder()
       .setColor("Red")
@@ -12,4 +12,4 @@ const notEnoughCash = (user: User) => {
   );
 };
 
-export default notEnoughCash;
+export default notEnoughCashEmbed;
