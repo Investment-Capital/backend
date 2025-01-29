@@ -5,6 +5,7 @@ import startDatabase from "./database/startDatabase";
 import EventEmitter from "events";
 import scheduleTasks from "./scheduledTasks/scheduleTasks";
 import { Client } from "discord.js";
+import generateMarketGraphs from "./functions/generateMarketGraphs";
 
 (async () => {
   const data = await startDatabase();
@@ -22,6 +23,11 @@ import { Client } from "discord.js";
     unsavedCache: {
       investors: [],
     },
+    marketGraphs: await Promise.all(
+      Object.entries(data.marketData).map(async ([name, marketData]) => ({
+        [name]: await generateMarketGraphs(marketData),
+      }))
+    ).then((entries) => Object.assign({}, ...entries)),
   };
 
   startBot(cache);

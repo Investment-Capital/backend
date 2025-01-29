@@ -7,6 +7,7 @@ import ScheduledTask from "../../types/scheduledTask";
 import calculateNextPrice from "../../functions/calculateNextPrice";
 import stockConfig from "../../config/stockConfig";
 import Cache from "../../types/cache";
+import generateMarketGraphs from "../../functions/generateMarketGraphs";
 
 export default {
   time: TimeManager.hourly,
@@ -38,6 +39,7 @@ export default {
     });
 
     cache.markets.stocks = stockMarket;
+    cache.marketGraphs.stocks = await generateMarketGraphs(stockMarket);
 
     await markets.updateOne({
       stocks: stockMarket,

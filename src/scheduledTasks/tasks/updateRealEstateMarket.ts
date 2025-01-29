@@ -7,6 +7,7 @@ import Cache from "../../types/cache";
 import RealEstate from "../../enum/realEstate";
 import realEstateConfig from "../../config/realEstateConfig";
 import TimeManager from "../../classes/timeManager";
+import generateMarketGraphs from "../../functions/generateMarketGraphs";
 
 export default {
   time: TimeManager.hourly,
@@ -38,6 +39,9 @@ export default {
     });
 
     cache.markets.realEstate = realEstateMarket;
+    cache.marketGraphs.realEstate = await generateMarketGraphs(
+      realEstateMarket
+    );
 
     await markets.updateOne({
       realEstate: realEstateMarket,

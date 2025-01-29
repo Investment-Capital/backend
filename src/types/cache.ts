@@ -5,6 +5,7 @@ import Markets from "./markets/markets";
 import EventEmitter from "events";
 import Route from "./route";
 import UnsavedCache from "./unsavedCache";
+import MarketGraphTimes from "../enum/marketGraphTimes";
 
 type Cache = {
   investors: Investor[];
@@ -15,6 +16,9 @@ type Cache = {
   client: Client;
 
   unsavedCache: UnsavedCache;
+  marketGraphs: {
+    [_ in keyof Markets]: { [time in MarketGraphTimes]: string };
+  };
 };
 
 export default Cache;
