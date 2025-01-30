@@ -6,22 +6,56 @@ import Cache from "../types/cache";
 const generateMarketGraphs = async (marketData: Markets[keyof Markets]) => {
   return (await Promise.all(
     Object.entries(marketGraphTimes).map(async ([timeName, timeValue]) => {
-      const chart = new QuickChart().setConfig({
-        type: "line",
-        data: {
-          labels: [],
-          datasets: Object.entries(marketData).map(([name, data]) => ({
-            label: name,
-            data: data.history
-              .filter(
-                (historyData) => historyData.date > Date.now() - timeValue
-              )
-              .map((history) => history.value),
-            fill: false,
+      const datasets = Object.entries(marketData).map(([name, data]) => {
+        const filteredData = data.history.filter(
+          (historyData) => historyData.date > Date.now() - timeValue
+        );
+
+        return {
+          label: name,
+          fill: false,
+          data: filteredData.map((history) => ({
+            x: new Date(history.date).toISOString(),
+            y: history.value,
           })),
-        },
+        };
       });
 
+      const chart = new QuickChart().setBackgroundColor("black").setConfig({
+        type: "line",
+        data: {
+          datasets,
+        },
+        options: {
+          scales: {
+            xAxes: [
+              {
+                type: "time",
+                time: {
+                  parser: "YYYY-MM-DDTHH:mm:ss.SSSZ",
+                  unit: "hour",
+                  displayFormats: {
+                    hour: "Do hA",
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                },
+              },
+            ],
+          },
+          plugins: {
+            tickFormat: {
+              prefix: "$",
+              notation: "compact",
+            },
+          },
+        },
+      });
       return { [timeName]: await chart.getShortUrl() };
     })
   ).then((entries) =>

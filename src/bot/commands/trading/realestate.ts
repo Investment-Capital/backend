@@ -17,6 +17,7 @@ import nameAlreadyUsedEmbed from "../../responces/embeds/nameAlreadyUsed";
 import createRealEstate from "../../../functions/createRealEstate";
 import buildingStartedConstructionEmbed from "../../responces/embeds/buildingStartedConstruction";
 import invalidInvestmentEmbed from "../../responces/embeds/invalidInvestment";
+import MarketGraphTimes from "../../../enum/marketGraphTimes";
 
 export default {
   data: new SlashCommandBuilder()
@@ -65,6 +66,22 @@ export default {
 
       return subcommandGroup;
     })
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("market")
+        .setDescription("View the real estate market.")
+        .addStringOption((option) =>
+          option
+            .setName("graph-length")
+            .setDescription("Change the graph duration")
+            .addChoices(
+              ...Object.values(MarketGraphTimes).map((name) => ({
+                name,
+                value: name,
+              }))
+            )
+        )
+    )
     .toJSON(),
 
   autocomplete: (
@@ -96,83 +113,94 @@ export default {
     interaction: ChatInputCommandInteraction
   ) => {
     const subcomamndGroup = interaction.options.getSubcommandGroup();
-    const realEstateType = interaction.options.getSubcommand() as RealEstate;
-    const name = interaction.options.getString("name", true);
-    const config = realEstateConfig[realEstateType];
-    const price = cache.markets.realEstate[realEstateType].price;
+    const subcommand = interaction.options.getSubcommand();
 
-    if (subcomamndGroup == "sell") {
-      const realEstate = investor.realEstate.filter(
-        (realEstate) =>
-          realEstate.type == realEstateType && realEstate.name == name
-      );
-
-      if (!realEstate)
-        return await deferReply(
-          interaction,
-          {
-            embeds: [invalidInvestmentEmbed(interaction.user)],
-          },
-          {
-            ephemeral: true,
-          }
-        );
-
-      editInvestor(cache, investor, (investor) => {
-        investor.cash += price;
-        investor.realEstate = investor.realEstate.filter(
-          (realEstate) => realEstate.name != name
-        );
-      });
+    if (subcommand == "market") {
+      const timePeriod = (interaction.options.getString("graph-length") ??
+        Object.keys(MarketGraphTimes)[0]) as MarketGraphTimes;
 
       await deferReply(interaction, {
-        embeds: [
-          buildingSoldEmbed(
-            interaction.user,
-            config.image,
-            name,
-            realEstateType,
-            price
-          ),
-        ],
+        content: cache.marketGraphs.realEstate[timePeriod],
       });
-    } else if (subcomamndGroup == "build") {
-      if (price > investor.cash)
-        return await deferReply(
-          interaction,
-          {
-            embeds: [notEnoughCashEmbed(interaction.user)],
-          },
-          { ephemeral: true }
+    } else {
+      const realEstateType = subcommand as RealEstate;
+      const name = interaction.options.getString("name", true);
+      const config = realEstateConfig[realEstateType];
+      const price = cache.markets.realEstate[realEstateType].price;
+
+      if (subcomamndGroup == "sell") {
+        const realEstate = investor.realEstate.filter(
+          (realEstate) =>
+            realEstate.type == realEstateType && realEstate.name == name
         );
 
-      if (investor.realEstate.find((realEstate) => realEstate.name == name))
-        return await deferReply(
-          interaction,
-          {
-            embeds: [nameAlreadyUsedEmbed(interaction.user)],
-          },
-          { ephemeral: true }
+        if (!realEstate)
+          return await deferReply(
+            interaction,
+            {
+              embeds: [invalidInvestmentEmbed(interaction.user)],
+            },
+            {
+              ephemeral: true,
+            }
+          );
+
+        editInvestor(cache, investor, (investor) => {
+          investor.cash += price;
+          investor.realEstate = investor.realEstate.filter(
+            (realEstate) => realEstate.name != name
+          );
+        });
+
+        await deferReply(interaction, {
+          embeds: [
+            buildingSoldEmbed(
+              interaction.user,
+              config.image,
+              name,
+              realEstateType,
+              price
+            ),
+          ],
+        });
+      } else if (subcomamndGroup == "build") {
+        if (price > investor.cash)
+          return await deferReply(
+            interaction,
+            {
+              embeds: [notEnoughCashEmbed(interaction.user)],
+            },
+            { ephemeral: true }
+          );
+
+        if (investor.realEstate.find((realEstate) => realEstate.name == name))
+          return await deferReply(
+            interaction,
+            {
+              embeds: [nameAlreadyUsedEmbed(interaction.user)],
+            },
+            { ephemeral: true }
+          );
+
+        editInvestor(cache, investor, () => (investor.cash -= price));
+        const realEstate = createRealEstate(
+          cache,
+          investor,
+          name,
+          realEstateType
         );
 
-      editInvestor(cache, investor, () => (investor.cash -= price));
-      const realEstate = createRealEstate(
-        cache,
-        investor,
-        name,
-        realEstateType
-      );
-
-      await deferReply(interaction, {
-        embeds: [
-          buildingStartedConstructionEmbed(
-            interaction.user,
-            config.image,
-            config.buildTime + realEstate.created,
-            price
-          ),
-        ],
-      });
+        await deferReply(interaction, {
+          embeds: [
+            buildingStartedConstructionEmbed(
+              interaction.user,
+              config.image,
+              config.buildTime + realEstate.created,
+              price
+            ),
+          ],
+        });
+      }
     }
   },
 

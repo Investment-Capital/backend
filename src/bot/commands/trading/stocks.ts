@@ -10,6 +10,7 @@ import Stocks from "../../../enum/stocks";
 import stockConfig from "../../../config/stockConfig";
 import investmentSoldEmbed from "../../responces/embeds/investmentSold";
 import investmentBoughtEmbed from "../../responces/embeds/investmentBought";
+import MarketGraphTimes from "../../../enum/marketGraphTimes";
 
 export default {
   data: new SlashCommandBuilder()
@@ -51,6 +52,22 @@ export default {
 
       return subcommandGroup;
     })
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("market")
+        .setDescription("View the stocks market.")
+        .addStringOption((option) =>
+          option
+            .setName("graph-length")
+            .setDescription("Change the graph duration")
+            .addChoices(
+              ...Object.values(MarketGraphTimes).map((name) => ({
+                name,
+                value: name,
+              }))
+            )
+        )
+    )
     .toJSON(),
 
   execute: async (
@@ -59,64 +76,75 @@ export default {
     interaction: ChatInputCommandInteraction
   ) => {
     const subcomamndGroup = interaction.options.getSubcommandGroup();
-    const stock = interaction.options.getSubcommand() as Stocks;
-    const amount = interaction.options.getNumber("amount") ?? 1;
-    const config = stockConfig[stock];
+    const subcommand = interaction.options.getSubcommand();
 
-    if (subcomamndGroup == "sell") {
-      const cashGained = amount * cache.markets.stocks[stock].price;
-
-      if (investor.stocks[stock] < amount)
-        return await deferReply(
-          interaction,
-          {
-            embeds: [invalidInvestmentEmbed(interaction.user)],
-          },
-          {
-            ephemeral: true,
-          }
-        );
-
-      editInvestor(cache, investor, (investor) => {
-        investor.cash += cashGained;
-        investor.stocks[stock] -= amount;
-      });
+    if (subcommand == "market") {
+      const timePeriod = (interaction.options.getString("graph-length") ??
+        Object.keys(MarketGraphTimes)[0]) as MarketGraphTimes;
 
       await deferReply(interaction, {
-        embeds: [
-          investmentSoldEmbed(
-            interaction.user,
-            config.image,
-            amount,
-            cashGained
-          ),
-        ],
+        content: cache.marketGraphs.stocks[timePeriod],
       });
-    } else if (subcomamndGroup == "buy") {
-      const totalPrice = amount * cache.markets.stocks[stock].price;
+    } else {
+      const stock = subcommand as Stocks;
+      const amount = interaction.options.getNumber("amount") ?? 1;
+      const config = stockConfig[stock];
 
-      if (totalPrice > investor.cash)
-        return await deferReply(
-          interaction,
-          { embeds: [notEnoughCashEmbed(interaction.user)] },
-          { ephemeral: true }
-        );
+      if (subcomamndGroup == "sell") {
+        const cashGained = amount * cache.markets.stocks[stock].price;
 
-      editInvestor(cache, investor, (investor) => {
-        investor.cash -= totalPrice;
-        investor.stocks[stock] += amount;
-      });
+        if (investor.stocks[stock] < amount)
+          return await deferReply(
+            interaction,
+            {
+              embeds: [invalidInvestmentEmbed(interaction.user)],
+            },
+            {
+              ephemeral: true,
+            }
+          );
 
-      await deferReply(interaction, {
-        embeds: [
-          investmentBoughtEmbed(
-            interaction.user,
-            config.image,
-            amount,
-            totalPrice
-          ),
-        ],
-      });
+        editInvestor(cache, investor, (investor) => {
+          investor.cash += cashGained;
+          investor.stocks[stock] -= amount;
+        });
+
+        await deferReply(interaction, {
+          embeds: [
+            investmentSoldEmbed(
+              interaction.user,
+              config.image,
+              amount,
+              cashGained
+            ),
+          ],
+        });
+      } else if (subcomamndGroup == "buy") {
+        const totalPrice = amount * cache.markets.stocks[stock].price;
+
+        if (totalPrice > investor.cash)
+          return await deferReply(
+            interaction,
+            { embeds: [notEnoughCashEmbed(interaction.user)] },
+            { ephemeral: true }
+          );
+
+        editInvestor(cache, investor, (investor) => {
+          investor.cash -= totalPrice;
+          investor.stocks[stock] += amount;
+        });
+
+        await deferReply(interaction, {
+          embeds: [
+            investmentBoughtEmbed(
+              interaction.user,
+              config.image,
+              amount,
+              totalPrice
+            ),
+          ],
+        });
+      }
     }
   },
 
