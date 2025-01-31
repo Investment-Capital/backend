@@ -47,7 +47,7 @@ const skyscraperUpgrades: RealEstateConfig["skyscraper"]["upgrades"] = {
 
 const realEstateConfig: RealEstateConfig = {
   appartment: {
-    basePrice: 50_000,
+    basePrice: 75_000,
     requiredPrestige: 2,
     volatility: 6,
     image:
@@ -81,7 +81,7 @@ const realEstateConfig: RealEstateConfig = {
   },
 
   skyscraper: {
-    basePrice: 450_000,
+    basePrice: 350_000,
     requiredPrestige: 5,
     volatility: 7,
     image:

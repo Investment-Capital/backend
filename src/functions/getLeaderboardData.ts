@@ -1,15 +1,13 @@
 import LeaderboardsConfig from "../config/leaderboardsConfig";
 import Cache from "../types/cache";
-import LeaderboardsConfigType from "../types/config/leaderboardsConfig";
 
 const getLeaderboardData = (
+  cache: Cache,
   type: string,
   leaderboard: string,
-  page: number,
-  cache: Cache
+  page: number
 ) => {
-  const leaderboardTypeConfig: LeaderboardsConfigType =
-    LeaderboardsConfig[type as keyof LeaderboardsConfig];
+  const leaderboardTypeConfig = LeaderboardsConfig[type];
 
   const leaderboardConfig = leaderboardTypeConfig.leaderboards[leaderboard];
   const dataSet = leaderboardTypeConfig.dataSet(cache);

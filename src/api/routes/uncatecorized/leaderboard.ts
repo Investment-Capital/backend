@@ -16,13 +16,7 @@ export default {
         error: "Invalid leaderboard type",
       });
 
-    if (
-      !(
-        leaderboard in
-        (LeaderboardsConfig[type as keyof LeaderboardsConfig] as any)
-          .leaderboards
-      )
-    )
+    if (!(leaderboard in LeaderboardsConfig[type].leaderboards))
       return res.status(404).json({
         error: "Invalid Leaderboard for that type",
       });
@@ -32,7 +26,7 @@ export default {
         error: "Invalid Page",
       });
 
-    const leaderboardData = getLeaderboardData(type, leaderboard, page, cache);
+    const leaderboardData = getLeaderboardData(cache, type, leaderboard, page);
 
     if (!leaderboardData.length)
       return res.status(404).json({
