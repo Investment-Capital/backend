@@ -9,6 +9,7 @@ const appartmentUpgrades: RealEstateConfig["appartment"]["upgrades"] = {
     price: 2_500,
     upgradeTime: Times.hour * 6,
     priceMultiplier: 1.1,
+    requiredPrestige: 2,
   },
 };
 
@@ -20,6 +21,7 @@ const houseUpgrades: RealEstateConfig["house"]["upgrades"] = {
     price: 15_000,
     upgradeTime: Times.hour * 12,
     priceMultiplier: 1.125,
+    requiredPrestige: 3,
   },
 };
 
@@ -31,6 +33,7 @@ const warehouseUpgrades: RealEstateConfig["warehouse"]["upgrades"] = {
     price: 35_000,
     upgradeTime: Times.day,
     priceMultiplier: 1.15,
+    requiredPrestige: 5,
   },
 };
 
@@ -42,6 +45,7 @@ const skyscraperUpgrades: RealEstateConfig["skyscraper"]["upgrades"] = {
     price: 60_000,
     upgradeTime: Times.day * 3,
     priceMultiplier: 1.2,
+    requiredPrestige: 7,
   },
 };
 

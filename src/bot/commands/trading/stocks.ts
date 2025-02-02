@@ -7,7 +7,7 @@ import deferReply from "../../../functions/deferReply";
 import notEnoughCashEmbed from "../../responces/embeds/notEnoughCash";
 import invalidInvestmentEmbed from "../../responces/embeds/invalidInvestment";
 import Stocks from "../../../enum/stocks";
-import stockConfig from "../../../config/stockConfig";
+import stocksConfig from "../../../config/stocksConfig";
 import investmentSoldEmbed from "../../responces/embeds/investmentSold";
 import investmentBoughtEmbed from "../../responces/embeds/investmentBought";
 import MarketGraphTimes from "../../../enum/marketGraphTimes";
@@ -88,7 +88,7 @@ export default {
     } else {
       const stock = subcommand as Stocks;
       const amount = interaction.options.getNumber("amount") ?? 1;
-      const config = stockConfig[stock];
+      const config = stocksConfig[stock];
 
       if (subcomamndGroup == "sell") {
         const cashGained = amount * cache.markets.stocks[stock].price;
@@ -150,7 +150,7 @@ export default {
 
   requiedPrestige: {
     commands: Object.values(Stocks).map((stock) => {
-      const config = stockConfig[stock];
+      const config = stocksConfig[stock];
 
       return {
         requiredPrestige: config.requiredPrestige,

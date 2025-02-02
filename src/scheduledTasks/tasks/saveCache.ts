@@ -5,7 +5,7 @@ import Cache from "../../types/cache";
 import ScheduledTask from "../../types/scheduledTask";
 
 export default {
-  time: Times.ms * 400,
+  time: Times.second,
   execute: async (cache: Cache) => {
     const updatingInvestors = [...cache.unsavedCache.investors];
     cache.unsavedCache.investors = [];

@@ -4,7 +4,7 @@ import dateFormatValues from "../config/dateFormatValues";
 
 class MarkdownManager {
   static slashCommand = (
-    commandName: `/${string}`,
+    commandName: string,
     commandData?: ApplicationCommand
   ) => (commandData ? `<${commandName}:${commandData.id}>` : commandName);
 

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Route from "../../../types/route";
 import Cache from "../../../types/cache";
 import Times from "../../../classes/times";
+import pageSize from "../../../config/pageSize";
 
 export default {
   path: "/investors",
@@ -25,7 +26,7 @@ export default {
             investor.user.username.toLowerCase().includes(search) ||
             investor.user.id.toLowerCase().includes(search))
       )
-      .slice((page - 1) * 10, page * 10);
+      .slice((page - 1) * pageSize, page * pageSize);
 
     if (!investors.length)
       return res.status(404).json({

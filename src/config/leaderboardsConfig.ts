@@ -1,3 +1,4 @@
+import Emojis from "../classes/emojis";
 import LeaderboardsConfigType from "../types/config/leaderboardsConfig";
 import Investor from "../types/investor";
 
@@ -11,8 +12,14 @@ const leaderboardsConfig: LeaderboardsConfigType = {
     }),
 
     leaderboards: {
-      cash: (investor: Investor) => investor.cash,
-      prestige: (investor: Investor) => investor.prestige,
+      cash: {
+        getValue: (investor: Investor) => investor.cash,
+        emoji: Emojis.cash,
+      },
+      prestige: {
+        getValue: (investor: Investor) => investor.prestige,
+        emoji: Emojis.prestige,
+      },
     },
   },
 };

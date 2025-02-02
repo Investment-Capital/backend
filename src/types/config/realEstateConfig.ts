@@ -16,6 +16,7 @@ type RealEstateConfig = {
         price: number;
         priceMultiplier: number;
         upgradeTime: number;
+        requiredPrestige: number;
       };
     };
   };

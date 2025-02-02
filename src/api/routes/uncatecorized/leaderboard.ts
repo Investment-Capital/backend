@@ -3,6 +3,7 @@ import Cache from "../../../types/cache";
 import Route from "../../../types/route";
 import LeaderboardsConfig from "../../../config/leaderboardsConfig";
 import getLeaderboardData from "../../../functions/getLeaderboardData";
+import LeaderboardTypes from "../../../enum/leaderboardTypes";
 
 export default {
   path: "/leaderboard/:type/:leaderboard",
@@ -16,17 +17,26 @@ export default {
         error: "Invalid leaderboard type",
       });
 
-    if (!(leaderboard in LeaderboardsConfig[type].leaderboards))
+    const configType = LeaderboardsConfig[type as LeaderboardTypes];
+
+    if (!(leaderboard in configType.leaderboards))
       return res.status(404).json({
         error: "Invalid Leaderboard for that type",
       });
+
+    const configLeaderboard = configType.leaderboards[leaderboard];
 
     if (page < 1)
       return res.status(404).json({
         error: "Invalid Page",
       });
 
-    const leaderboardData = getLeaderboardData(cache, type, leaderboard, page);
+    const leaderboardData = getLeaderboardData(
+      configType.dataSet(cache),
+      configLeaderboard.getValue,
+      configType.mapData,
+      page
+    );
 
     if (!leaderboardData.length)
       return res.status(404).json({

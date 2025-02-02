@@ -3,12 +3,12 @@ import Stocks from "../enum/stocks";
 import Investment from "../types/markets/investment";
 import Markets from "../types/markets/markets";
 import realEstateConfig from "./realEstateConfig";
-import stockConfig from "./stockConfig";
+import stocksConfig from "./stocksConfig";
 
 const getInvestmentValues = (investment: Stocks | RealEstate) => {
   const config =
-    investment in stockConfig
-      ? (stockConfig as any)[investment]
+    investment in stocksConfig
+      ? (stocksConfig as any)[investment]
       : (realEstateConfig as any)[investment];
 
   return {

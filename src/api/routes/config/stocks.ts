@@ -1,9 +1,9 @@
 import { Response } from "express";
 import Route from "../../../types/route";
-import stockConfig from "../../../config/stockConfig";
+import stocksConfig from "../../../config/stocksConfig";
 
 export default {
   path: "/config/stock",
-  execute: (__, _, res: Response) => res.json(stockConfig),
+  execute: (__, _, res: Response) => res.json(stocksConfig),
   method: "get",
 } satisfies Route;

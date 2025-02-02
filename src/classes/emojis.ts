@@ -5,6 +5,12 @@ class Emojis {
   static cash = "💸";
   static clock = "🕐";
   static prestige = "🔄";
+  static page = "📃";
+
+  static arrowForward = "▶️";
+  static doubleArrowForward = "⏭️";
+  static arrowBackward = "◀️";
+  static doubleArrowBackward = "⏮️";
 
   static soap = "🧼";
   static abacus = "🧮";

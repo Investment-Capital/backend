@@ -1,25 +1,20 @@
-import LeaderboardsConfig from "../config/leaderboardsConfig";
-import Cache from "../types/cache";
+import pageSize from "../config/pageSize";
+import LeaderboardTypes from "../enum/leaderboardTypes";
+import LeaderboardsConfig from "../types/config/leaderboardsConfig";
 
 const getLeaderboardData = (
-  cache: Cache,
-  type: string,
-  leaderboard: string,
+  dataSet: any[],
+  getValue: LeaderboardsConfig[LeaderboardTypes]["leaderboards"][string]["getValue"],
+  mapData: LeaderboardsConfig[LeaderboardTypes]["mapData"],
   page: number
-) => {
-  const leaderboardTypeConfig = LeaderboardsConfig[type];
-
-  const leaderboardConfig = leaderboardTypeConfig.leaderboards[leaderboard];
-  const dataSet = leaderboardTypeConfig.dataSet(cache);
-
-  return dataSet
-    .sort((a, b) => leaderboardConfig(b) - leaderboardConfig(a))
-    .slice((page - 1) * 10, page * 10)
+) =>
+  dataSet
+    .sort((a, b) => getValue(b) - getValue(a))
+    .slice((page - 1) * pageSize, page * pageSize)
     .map((data, index) => ({
-      ...leaderboardTypeConfig.mapData(data),
-      position: page * 10 - 9 + index,
-      value: leaderboardConfig(data),
+      ...mapData(data),
+      position: page * pageSize - (pageSize - 1) + index,
+      value: getValue(data),
     }));
-};
 
 export default getLeaderboardData;

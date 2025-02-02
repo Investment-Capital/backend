@@ -1,14 +1,20 @@
+import LeaderboardTypes from "../../enum/leaderboardTypes";
 import Cache from "../cache";
 
 type LeaderboardsConfig = {
-  [key: string]: {
+  [_ in LeaderboardTypes]: {
     dataSet: (cache: Cache) => any[];
     mapData: (data: any) => {
       image: string;
       name: string;
     };
 
-    leaderboards: { [key: string]: (value: any) => number };
+    leaderboards: {
+      [key: string]: {
+        getValue: (data: any) => number;
+        emoji: string;
+      };
+    };
   };
 };
 

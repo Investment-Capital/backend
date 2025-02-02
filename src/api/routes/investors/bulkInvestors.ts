@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Route from "../../../types/route";
 import Cache from "../../../types/cache";
 import publicInvestor from "../../../functions/publicInvestor";
+import pageSize from "../../../config/pageSize";
 
 export default {
   path: "/investors",
@@ -24,9 +25,9 @@ export default {
         error: "No investors provided.",
       });
 
-    if (investors.length > 5)
+    if (investors.length > pageSize)
       return res.json({
-        error: "You can only lookup 5 investors per request.",
+        error: `You can only lookup ${pageSize} investors per request.`,
       });
 
     const invalidIds: string[] = [];

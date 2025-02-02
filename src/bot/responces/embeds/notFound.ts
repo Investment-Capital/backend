@@ -6,7 +6,9 @@ const notFoundEmbed = (user: User) => {
     new EmbedBuilder()
       .setTitle("Not Found")
       .setColor("Yellow")
-      .setDescription("This component or commands is invalid"),
+      .setDescription(
+        "This component or command is invalid, the developer has been notified."
+      ),
     user
   );
 };

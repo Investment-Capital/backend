@@ -4,6 +4,7 @@ import SavedUser from "../../types/savedUser";
 import Blacklist from "../../types/blacklist";
 import Permissions from "../../types/permissions";
 import Stocks from "../../enum/stocks";
+import RealEstate from "../../types/realEstate";
 
 const user = new Schema<SavedUser>(
   {
@@ -49,11 +50,17 @@ const stocks = new Schema<{ [_ in Stocks]: number }>(
   }
 );
 
-const realEstate = new Schema<Investor["realEstate"][number]>(
+const realEstateUpgrades = new Schema<RealEstate["upgrades"][number]>({
+  completed: Boolean,
+  created: Number,
+  type: String,
+});
+
+const realEstate = new Schema<RealEstate>(
   {
     name: String,
     type: String,
-    upgrades: [String],
+    upgrades: [realEstateUpgrades],
     built: Boolean,
     created: Number,
   },
