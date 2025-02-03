@@ -87,7 +87,7 @@ export default {
       });
     } else {
       const stock = subcommand as Stocks;
-      const amount = interaction.options.getNumber("amount") ?? 1;
+      const amount = interaction.options.getInteger("amount") ?? 1;
       const config = stocksConfig[stock];
 
       if (subcomamndGroup == "sell") {
