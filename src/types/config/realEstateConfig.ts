@@ -9,16 +9,6 @@ type RealEstateConfig = {
     emoji: string;
     hourlyRent: number;
     buildTime: number;
-    upgrades: {
-      [name: string]: {
-        image: string;
-        emoji: string;
-        price: number;
-        priceMultiplier: number;
-        upgradeTime: number;
-        requiredPrestige: number;
-      };
-    };
   };
 };
 

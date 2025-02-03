@@ -149,14 +149,17 @@ export default {
   },
 
   requiedPrestige: {
-    commands: Object.values(Stocks).map((stock) => {
+    commands: Object.values(Stocks).flatMap((stock) => {
       const config = stocksConfig[stock];
 
-      return {
+      return ["buy", "sell"].map((subcommandGroup) => ({
         requiredPrestige: config.requiredPrestige,
         subcommand: stock,
-        subcommandGroup: "buy",
-      };
+        subcommandGroup: subcommandGroup,
+      }));
     }),
+    default: Math.min(
+      ...Object.values(stocksConfig).map((config) => config.requiredPrestige)
+    ),
   },
 } satisfies Command;

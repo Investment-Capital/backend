@@ -2,53 +2,6 @@ import Emojis from "../classes/emojis";
 import Times from "../classes/times";
 import RealEstateConfig from "../types/config/realEstateConfig";
 
-const appartmentUpgrades: RealEstateConfig["appartment"]["upgrades"] = {
-  paint: {
-    image: "",
-    emoji: Emojis.paint,
-    price: 2_500,
-    upgradeTime: Times.hour * 6,
-    priceMultiplier: 1.1,
-    requiredPrestige: 2,
-  },
-};
-
-const houseUpgrades: RealEstateConfig["house"]["upgrades"] = {
-  ...appartmentUpgrades,
-  decor: {
-    image: "",
-    emoji: Emojis.couch,
-    price: 15_000,
-    upgradeTime: Times.hour * 12,
-    priceMultiplier: 1.125,
-    requiredPrestige: 3,
-  },
-};
-
-const warehouseUpgrades: RealEstateConfig["warehouse"]["upgrades"] = {
-  ...houseUpgrades,
-  heating: {
-    image: "",
-    emoji: Emojis.fire,
-    price: 35_000,
-    upgradeTime: Times.day,
-    priceMultiplier: 1.15,
-    requiredPrestige: 5,
-  },
-};
-
-const skyscraperUpgrades: RealEstateConfig["skyscraper"]["upgrades"] = {
-  ...warehouseUpgrades,
-  expansion: {
-    image: "",
-    emoji: Emojis.hammer,
-    price: 60_000,
-    upgradeTime: Times.day * 3,
-    priceMultiplier: 1.2,
-    requiredPrestige: 7,
-  },
-};
-
 const realEstateConfig: RealEstateConfig = {
   appartment: {
     basePrice: 75_000,
@@ -58,7 +11,6 @@ const realEstateConfig: RealEstateConfig = {
       "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3da-fe0f.png",
     emoji: Emojis.abandonedHouse,
     hourlyRent: 250,
-    upgrades: appartmentUpgrades,
     buildTime: Times.hour * 12,
   },
 
@@ -69,7 +21,6 @@ const realEstateConfig: RealEstateConfig = {
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3e0.png",
     emoji: Emojis.house,
     hourlyRent: 1_000,
-    upgrades: houseUpgrades,
     buildTime: Times.day,
   },
 
@@ -80,7 +31,6 @@ const realEstateConfig: RealEstateConfig = {
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3e2.png",
     emoji: Emojis.office,
     hourlyRent: 2_250,
-    upgrades: warehouseUpgrades,
     buildTime: Times.day * 1.5,
   },
 
@@ -92,7 +42,6 @@ const realEstateConfig: RealEstateConfig = {
       "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3d9-fe0f.png",
     emoji: Emojis.cityScape,
     hourlyRent: 5_000,
-    upgrades: skyscraperUpgrades,
     buildTime: Times.day * 3,
   },
 };

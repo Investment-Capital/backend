@@ -18,6 +18,8 @@ import createRealEstate from "../../../functions/createRealEstate";
 import buildingStartedConstructionEmbed from "../../responces/embeds/buildingStartedConstruction";
 import invalidInvestmentEmbed from "../../responces/embeds/invalidInvestment";
 import MarketGraphTimes from "../../../enum/marketGraphTimes";
+import RealEstateUpgrades from "../../../enum/realEstateUpgrades";
+import realEstateUpgradesConfig from "../../../config/realEstateUpgradesConfig";
 
 export default {
   data: new SlashCommandBuilder()
@@ -58,6 +60,27 @@ export default {
                 .setName("name")
                 .setDescription(
                   `The name of the ${realEstate} you want to build.`
+                )
+                .setRequired(true)
+            )
+        )
+      );
+
+      return subcommandGroup;
+    })
+    .addSubcommandGroup((subcommandGroup) => {
+      subcommandGroup.setName("upgrade").setDescription("Upgrade real estate.");
+
+      Object.values(RealEstateUpgrades).map((realEstateUpgrade) =>
+        subcommandGroup.addSubcommand((subcommand) =>
+          subcommand
+            .setName(realEstateUpgrade)
+            .setDescription(`Upgrade real estate with ${realEstateUpgrade}.`)
+            .addStringOption((option) =>
+              option
+                .setName("name")
+                .setDescription(
+                  `The name of the real estate you want to upgrade with ${realEstateUpgrade}.`
                 )
                 .setRequired(true)
             )
@@ -114,6 +137,11 @@ export default {
   ) => {
     const subcomamndGroup = interaction.options.getSubcommandGroup();
     const subcommand = interaction.options.getSubcommand();
+
+    if (subcomamndGroup == "upgrade")
+      return await deferReply(interaction, {
+        content: "Coming soon!",
+      });
 
     if (subcommand == "market") {
       const timePeriod = (interaction.options.getString("graph-length") ??
@@ -205,14 +233,31 @@ export default {
   },
 
   requiedPrestige: {
-    commands: Object.values(RealEstate).map((realEstate) => {
-      const config = realEstateConfig[realEstate];
+    commands: [
+      ...Object.values(RealEstate).flatMap((realEstate) => {
+        const config = realEstateConfig[realEstate];
 
-      return {
-        requiredPrestige: config.requiredPrestige,
-        subcommand: realEstate,
-        subcommandGroup: "build",
-      };
-    }),
+        return ["build", "sell"].map((subcommandGroup) => ({
+          requiredPrestige: config.requiredPrestige,
+          subcommand: realEstate,
+          subcommandGroup: subcommandGroup,
+        }));
+      }),
+      ...Object.values(RealEstateUpgrades).map((realEstateUpgrade) => {
+        const config = realEstateUpgradesConfig[realEstateUpgrade];
+
+        return {
+          requiredPrestige: config.requiredPrestige,
+          subcommand: realEstateUpgrade,
+          subcommandGroup: "upgrade",
+        };
+      }),
+    ],
+
+    default: Math.min(
+      ...Object.values(realEstateConfig).map(
+        (config) => config.requiredPrestige
+      )
+    ),
   },
 } satisfies Command;
