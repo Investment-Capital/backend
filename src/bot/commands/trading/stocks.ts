@@ -4,13 +4,14 @@ import Investor from "../../../types/investor";
 import editInvestor from "../../../functions/editInvestor";
 import Cache from "../../../types/cache";
 import deferReply from "../../../functions/deferReply";
-import notEnoughCashEmbed from "../../responces/embeds/notEnoughCash";
-import invalidInvestmentEmbed from "../../responces/embeds/invalidInvestment";
 import Stocks from "../../../enum/stocks";
 import stocksConfig from "../../../config/stocksConfig";
 import investmentSoldEmbed from "../../responces/embeds/investmentSold";
 import investmentBoughtEmbed from "../../responces/embeds/investmentBought";
 import MarketGraphTimes from "../../../enum/marketGraphTimes";
+import errorEmbed from "../../responces/embeds/error";
+import marketEmbed from "../../responces/embeds/market";
+import stocksViewEmbed from "../../responces/embeds/stocksView";
 
 export default {
   data: new SlashCommandBuilder()
@@ -68,6 +69,9 @@ export default {
             )
         )
     )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("view").setDescription("View the stocks you own.")
+    )
     .toJSON(),
 
   execute: async (
@@ -78,12 +82,22 @@ export default {
     const subcomamndGroup = interaction.options.getSubcommandGroup();
     const subcommand = interaction.options.getSubcommand();
 
-    if (subcommand == "market") {
+    if (subcommand == "market" && !subcomamndGroup) {
       const timePeriod = (interaction.options.getString("graph-length") ??
         Object.keys(MarketGraphTimes)[0]) as MarketGraphTimes;
 
       await deferReply(interaction, {
-        content: cache.marketGraphs.stocks[timePeriod],
+        embeds: [
+          marketEmbed(
+            interaction.user,
+            cache.markets.stocks,
+            cache.marketGraphs.stocks[timePeriod]
+          ),
+        ],
+      });
+    } else if (subcommand == "view" && !subcomamndGroup) {
+      return await deferReply(interaction, {
+        embeds: [stocksViewEmbed(interaction.user, investor)],
       });
     } else {
       const stock = subcommand as Stocks;
@@ -97,7 +111,13 @@ export default {
           return await deferReply(
             interaction,
             {
-              embeds: [invalidInvestmentEmbed(interaction.user)],
+              embeds: [
+                errorEmbed(
+                  interaction.user,
+                  "You don't have enough of these stocks.",
+                  "Invalid Investment"
+                ),
+              ],
             },
             {
               ephemeral: true,
@@ -125,7 +145,15 @@ export default {
         if (totalPrice > investor.cash)
           return await deferReply(
             interaction,
-            { embeds: [notEnoughCashEmbed(interaction.user)] },
+            {
+              embeds: [
+                errorEmbed(
+                  interaction.user,
+                  "You don't have enough cash for this.",
+                  "Not Enough Cash"
+                ),
+              ],
+            },
             { ephemeral: true }
           );
 

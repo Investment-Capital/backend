@@ -26,7 +26,6 @@ export default (async (cache: Cache) => {
       if (!command.requiedPrestige)
         command.requiedPrestige = {
           default: 1,
-          commands: [],
         };
       if (command.requiresAccount == undefined) command.requiresAccount = true;
       if (!command.owner) command.owner = false;

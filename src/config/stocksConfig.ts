@@ -43,14 +43,6 @@ const stocksConfig: StocksConfig = {
       "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f5c2-fe0f.png",
     emoji: Emojis.dividers,
   },
-  goog: {
-    income: 10,
-    requiredPrestige: 8,
-    basePrice: 115,
-    volatility: 8,
-    emoji: Emojis.magnifyingGlass,
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f50d.png",
-  },
   aal: {
     income: 8,
     requiredPrestige: 5,
@@ -59,6 +51,14 @@ const stocksConfig: StocksConfig = {
     image:
       "https://emoji.aranja.com/static/emoji-data/img-apple-160/2708-fe0f.png",
     emoji: Emojis.plane,
+  },
+  goog: {
+    income: 10,
+    requiredPrestige: 8,
+    basePrice: 115,
+    volatility: 8,
+    emoji: Emojis.magnifyingGlass,
+    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f50d.png",
   },
 };
 

@@ -12,14 +12,13 @@ import editInvestor from "../../../functions/editInvestor";
 import Cache from "../../../types/cache";
 import deferReply from "../../../functions/deferReply";
 import buildingSoldEmbed from "../../responces/embeds/buildingSold";
-import notEnoughCashEmbed from "../../responces/embeds/notEnoughCash";
-import nameAlreadyUsedEmbed from "../../responces/embeds/nameAlreadyUsed";
 import createRealEstate from "../../../functions/createRealEstate";
 import buildingStartedConstructionEmbed from "../../responces/embeds/buildingStartedConstruction";
-import invalidInvestmentEmbed from "../../responces/embeds/invalidInvestment";
 import MarketGraphTimes from "../../../enum/marketGraphTimes";
 import RealEstateUpgrades from "../../../enum/realEstateUpgrades";
 import realEstateUpgradesConfig from "../../../config/realEstateUpgradesConfig";
+import errorEmbed from "../../responces/embeds/error";
+import marketEmbed from "../../responces/embeds/market";
 
 export default {
   data: new SlashCommandBuilder()
@@ -148,7 +147,13 @@ export default {
         Object.keys(MarketGraphTimes)[0]) as MarketGraphTimes;
 
       await deferReply(interaction, {
-        content: cache.marketGraphs.realEstate[timePeriod],
+        embeds: [
+          marketEmbed(
+            interaction.user,
+            cache.markets.realEstate,
+            cache.marketGraphs.realEstate[timePeriod]
+          ),
+        ],
       });
     } else {
       const realEstateType = subcommand as RealEstate;
@@ -166,7 +171,13 @@ export default {
           return await deferReply(
             interaction,
             {
-              embeds: [invalidInvestmentEmbed(interaction.user)],
+              embeds: [
+                errorEmbed(
+                  interaction.user,
+                  "You don't have this real estate.",
+                  "Invalid Investment"
+                ),
+              ],
             },
             {
               ephemeral: true,
@@ -196,7 +207,13 @@ export default {
           return await deferReply(
             interaction,
             {
-              embeds: [notEnoughCashEmbed(interaction.user)],
+              embeds: [
+                errorEmbed(
+                  interaction.user,
+                  "You don't have enough cash for this.",
+                  "Not Enough Cash"
+                ),
+              ],
             },
             { ephemeral: true }
           );
@@ -205,7 +222,13 @@ export default {
           return await deferReply(
             interaction,
             {
-              embeds: [nameAlreadyUsedEmbed(interaction.user)],
+              embeds: [
+                errorEmbed(
+                  interaction.user,
+                  "You already have real estate with this name.",
+                  "Invalid Name"
+                ),
+              ],
             },
             { ephemeral: true }
           );

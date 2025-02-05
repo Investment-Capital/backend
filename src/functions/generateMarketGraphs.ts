@@ -2,6 +2,7 @@ import QuickChart from "quickchart-js";
 import Markets from "../types/markets/markets";
 import marketGraphTimes from "../config/marketGraphTimes";
 import Cache from "../types/cache";
+import capitalizeWords from "./capitalizeWords";
 
 const generateMarketGraphs = async (marketData: Markets[keyof Markets]) => {
   return (await Promise.all(
@@ -12,7 +13,7 @@ const generateMarketGraphs = async (marketData: Markets[keyof Markets]) => {
         );
 
         return {
-          label: name,
+          label: capitalizeWords(name),
           fill: false,
           data: filteredData.map((history) => ({
             x: new Date(history.date).toISOString(),

@@ -6,6 +6,8 @@ class Emojis {
   static clock = "🕐";
   static prestige = "🔄";
   static page = "📃";
+  static warning = "⚠️";
+  static lock = "🔒";
 
   static arrowForward = "▶️";
   static doubleArrowForward = "⏭️";

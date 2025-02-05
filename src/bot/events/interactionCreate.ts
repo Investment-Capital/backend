@@ -12,13 +12,12 @@ import Logger from "../../classes/logger";
 import Command from "../../types/command";
 import Execute from "../../types/execute";
 import deferReply from "../../functions/deferReply";
-import notFoundEmbed from "../responces/embeds/notFound";
-import executionErrorEmbed from "../responces/embeds/executionError";
 import Cache from "../../types/cache";
 import getInteractionRequiredPrestige from "../../functions/getInteractionRequiredPrestige";
-import invalidPrestigeEmbed from "../responces/embeds/invalidPrestige";
-import invalidAccountEmbed from "../responces/embeds/invalidAccount";
 import startButton from "../responces/components/buttons/start";
+import errorEmbed from "../responces/embeds/error";
+import MarkdownManager from "../../classes/markdownManager";
+import warnEmbed from "../responces/embeds/warning";
 
 export default {
   event: Events.InteractionCreate,
@@ -38,7 +37,15 @@ export default {
     if (!executeData) {
       await deferReply(
         interaction,
-        { embeds: [notFoundEmbed(interaction.user)] },
+        {
+          embeds: [
+            warnEmbed(
+              interaction.user,
+              "This command or component can't be found. The developer has been notified.",
+              "Invalid Command"
+            ),
+          ],
+        },
         {
           ephemeral: true,
         }
@@ -56,9 +63,15 @@ export default {
         interaction,
         {
           embeds: [
-            invalidAccountEmbed(
+            errorEmbed(
               interaction.user,
-              cache.client.application?.commands.cache.toJSON() ?? []
+              `Please create an account with ${MarkdownManager.slashCommand(
+                "/start",
+                cache.client.application?.commands.cache
+                  .toJSON()
+                  .find((command) => command.name == "start")
+              )} to use this command.`,
+              "Invalid Account"
             ),
           ],
           components: [
@@ -71,38 +84,84 @@ export default {
       );
     }
 
-    if (foundUser?.blacklist.blacklisted) {
-      console.log("user blacklisted");
-      return;
-    }
+    if (foundUser?.blacklist.blacklisted)
+      return await deferReply(
+        interaction,
+        {
+          embeds: [
+            errorEmbed(
+              interaction.user,
+              `You have been blacklisted. Reason: ${foundUser.blacklist.reason}.`,
+              "Blacklisted"
+            ),
+          ],
+        },
+        {
+          ephemeral: true,
+        }
+      );
 
     if (
       executeData.guilds &&
       (!interaction.inGuild() ||
         !executeData.guilds.includes(interaction.guildId))
-    ) {
-      console.log("this command isnt in this guild");
-      return;
-    }
+    )
+      return await deferReply(
+        interaction,
+        {
+          embeds: [
+            warnEmbed(
+              interaction.user,
+              `This command isn't available in this guild.`,
+              "Invalid Guild"
+            ),
+          ],
+        },
+        {
+          ephemeral: true,
+        }
+      );
 
     if (
       typeof executeData.disabled == "function"
         ? executeData.disabled(cache)
         : executeData.disabled
-    ) {
-      console.log("disabled");
-      return;
-    }
+    )
+      return await deferReply(
+        interaction,
+        {
+          embeds: [
+            warnEmbed(
+              interaction.user,
+              `This command has been disabled.`,
+              "Command Disabled"
+            ),
+          ],
+        },
+        {
+          ephemeral: true,
+        }
+      );
 
     if (
       (executeData.admin &&
         !foundUser?.permissions.admin &&
         !foundUser?.permissions.owner) ||
       (executeData.owner && !foundUser?.permissions.owner)
-    ) {
-      console.log("they dont have correct perms");
-      return;
-    }
+    )
+      return await deferReply(
+        interaction,
+        {
+          embeds: [
+            errorEmbed(
+              interaction.user,
+              "You don't have permission to use this command.",
+              "Invalid Permissions"
+            ),
+          ],
+        },
+        { ephemeral: true }
+      );
 
     const commandRequiredPrestige = getInteractionRequiredPrestige(
       executeData,
@@ -114,7 +173,11 @@ export default {
         interaction,
         {
           embeds: [
-            invalidPrestigeEmbed(interaction.user, commandRequiredPrestige),
+            errorEmbed(
+              interaction.user,
+              `You need to be prestige ${commandRequiredPrestige} to use this command.`,
+              "Invalid Prestige"
+            ),
           ],
         },
         { ephemeral: true }
@@ -144,7 +207,15 @@ export default {
     } catch (error: any) {
       await deferReply(
         interaction,
-        { embeds: [executionErrorEmbed(interaction.user)] },
+        {
+          embeds: [
+            warnEmbed(
+              interaction.user,
+              "An error has occured while executing this interaction, the developer has automatically been notified.",
+              "An Error Has Occured"
+            ),
+          ],
+        },
         {
           ephemeral: true,
         }

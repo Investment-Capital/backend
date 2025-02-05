@@ -2,14 +2,14 @@ import { EmbedBuilder, User } from "discord.js";
 import emojis from "../../../classes/emojis";
 import addDefaults from "./defaults/addDefaults";
 
-const notEnoughCashEmbed = (user: User) => {
+const errorEmbed = (user: User, error: string, errorTitle: string) => {
   return addDefaults(
     new EmbedBuilder()
       .setColor("Red")
-      .setTitle("More Cash Required")
-      .setDescription(`${emojis.cross} You don't have enough cash for this.`),
+      .setTitle(errorTitle)
+      .setDescription(`${emojis.cross} ${error}`),
     user
   );
 };
 
-export default notEnoughCashEmbed;
+export default errorEmbed;

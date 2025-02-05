@@ -19,7 +19,7 @@ import leaderboardEmbed from "../../responces/embeds/leaderboard";
 import leaderboardMenu from "../../responces/components/menus/leaderboard";
 import leaderboardButtons from "../../responces/components/buttons/leaderboard";
 import leaderboardModal from "../../responces/modals/leaderboard";
-import invalidPageEmbed from "../../responces/embeds/invalidPage";
+import errorEmbed from "../../responces/embeds/error";
 
 export default {
   data: (() => {
@@ -102,7 +102,13 @@ export default {
       return await deferReply(
         interaction,
         {
-          embeds: [invalidPageEmbed(interaction.user)],
+          embeds: [
+            errorEmbed(
+              interaction.user,
+              "This page doesn't exist.",
+              "Invalid Page"
+            ),
+          ],
         },
         {
           ephemeral: true,

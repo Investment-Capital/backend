@@ -1,15 +1,11 @@
 import RealEstate from "../enum/realEstate";
 import Stocks from "../enum/stocks";
+import getInvestmentConfig from "../functions/getInvestmentConfig";
 import Investment from "../types/markets/investment";
 import Markets from "../types/markets/markets";
-import realEstateConfig from "./realEstateConfig";
-import stocksConfig from "./stocksConfig";
 
 const getInvestmentValues = (investment: Stocks | RealEstate) => {
-  const config =
-    investment in stocksConfig
-      ? (stocksConfig as any)[investment]
-      : (realEstateConfig as any)[investment];
+  const config = getInvestmentConfig(investment);
 
   return {
     price: config.basePrice,

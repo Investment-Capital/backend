@@ -5,12 +5,12 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 import Command from "../../../types/command";
-import alreadyCreatedAccountEmbed from "../../responces/embeds/alreadyCreatedAccount";
 import accountCreatedEmbed from "../../responces/embeds/accountCreated";
 import createAccount from "../../../functions/createAccount";
 import deferReply from "../../../functions/deferReply";
 import Cache from "../../../types/cache";
 import portfolioButton from "../../responces/components/buttons/portfolio";
+import errorEmbed from "../../responces/embeds/error";
 
 export default {
   requiresAccount: false,
@@ -27,7 +27,15 @@ export default {
     if (investor)
       return await deferReply(
         interaction,
-        { embeds: [alreadyCreatedAccountEmbed(interaction.user)] },
+        {
+          embeds: [
+            errorEmbed(
+              interaction.user,
+              "You've already made an investment capital account.",
+              "Account Already Created"
+            ),
+          ],
+        },
         {
           ephemeral: true,
         }
