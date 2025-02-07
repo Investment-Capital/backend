@@ -97,7 +97,9 @@ export default {
       });
     } else if (subcommand == "view" && !subcomamndGroup) {
       return await deferReply(interaction, {
-        embeds: [stocksViewEmbed(interaction.user, investor)],
+        embeds: [
+          stocksViewEmbed(interaction.user, investor, cache.markets.stocks),
+        ],
       });
     } else {
       const stock = subcommand as Stocks;

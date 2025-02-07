@@ -8,6 +8,7 @@ class Emojis {
   static page = "📃";
   static warning = "⚠️";
   static lock = "🔒";
+  static chart = "📈";
 
   static arrowForward = "▶️";
   static doubleArrowForward = "⏭️";

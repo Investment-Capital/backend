@@ -1,8 +1,8 @@
 enum Stocks {
   sop = "sop",
+  abc = "abc",
   rbx = "rbx",
   apl = "apl",
-  abc = "abc",
   nvda = "nvda",
   aal = "aal",
   goog = "goog",

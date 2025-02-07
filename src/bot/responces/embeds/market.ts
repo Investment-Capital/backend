@@ -1,14 +1,14 @@
 import { EmbedBuilder, User } from "discord.js";
 import addDefaults from "./defaults/addDefaults";
-import StockMarket from "../../../types/markets/stockMarket";
-import RealEstateMarket from "../../../types/markets/realEstateMarket";
 import formatNumber from "../../../functions/formatNumber";
 import capitalizeWords from "../../../functions/capitalizeWords";
 import getInvestmentConfig from "../../../functions/getInvestmentConfig";
+import MarketsType from "../../../types/markets/markets";
+import Markets from "../../../enum/markets";
 
 const marketEmbed = (
   user: User,
-  market: StockMarket | RealEstateMarket,
+  market: MarketsType[Markets],
   graph: string
 ) => {
   return addDefaults(

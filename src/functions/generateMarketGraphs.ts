@@ -1,10 +1,11 @@
 import QuickChart from "quickchart-js";
-import Markets from "../types/markets/markets";
+import MarketsType from "../types/markets/markets";
 import marketGraphTimes from "../config/marketGraphTimes";
 import Cache from "../types/cache";
 import capitalizeWords from "./capitalizeWords";
+import Markets from "../enum/markets";
 
-const generateMarketGraphs = async (marketData: Markets[keyof Markets]) => {
+const generateMarketGraphs = async (marketData: MarketsType[Markets]) => {
   return (await Promise.all(
     Object.entries(marketGraphTimes).map(async ([timeName, timeValue]) => {
       const datasets = Object.entries(marketData).map(([name, data]) => {

@@ -6,8 +6,13 @@ import capitalizeWords from "../../../functions/capitalizeWords";
 import Emojis from "../../../classes/emojis";
 import Stocks from "../../../enum/stocks";
 import formatNumber from "../../../functions/formatNumber";
+import Markets from "../../../types/markets/markets";
 
-const stocksViewEmbed = (user: User, investor: Investor) => {
+const stocksViewEmbed = (
+  user: User,
+  investor: Investor,
+  stockMarket: Markets["stocks"]
+) => {
   return addDefaults(
     new EmbedBuilder()
       .setColor("Blue")
@@ -22,7 +27,11 @@ const stocksViewEmbed = (user: User, investor: Investor) => {
             value:
               config.requiredPrestige > investor.prestige
                 ? `${Emojis.lock} Unlocked at prestige ${config.requiredPrestige}.`
-                : `Owned: ${formatNumber(investor.stocks[name])}`,
+                : `Owned: ${formatNumber(
+                    investor.stocks[name]
+                  )}\nTotal Value: $${formatNumber(
+                    investor.stocks[name] * stockMarket[name].price
+                  )}`,
           };
         })
       ),
