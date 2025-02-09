@@ -15,7 +15,7 @@ const getUnlockedCommands = (
     const commandData = applicationCommands.find(
       (data) => data.name == command.data.name
     );
-    const defaultRequired = command.requiedPrestige?.default ?? 1;
+    const defaultRequired = command.config.requiedPrestige?.default ?? 1;
     const commandOptions =
       command.data.options?.filter(
         (option) =>
@@ -29,7 +29,8 @@ const getUnlockedCommands = (
         command: `/${command.data.name}`,
       });
 
-    for (const specificRequirement of command.requiedPrestige?.commands ?? []) {
+    for (const specificRequirement of command.config.requiedPrestige
+      ?.commands ?? []) {
       if (specificRequirement.requiredPrestige == prestige)
         unlockedCommands.push({
           data: commandData,
@@ -46,7 +47,7 @@ const getUnlockedCommands = (
 
       if (option.type == ApplicationCommandOptionType.Subcommand) {
         if (
-          command.requiedPrestige?.commands?.find(
+          command.config.requiedPrestige?.commands?.find(
             (requiredPrestige) => requiredPrestige.subcommand == option.name
           )
         )
@@ -64,7 +65,7 @@ const getUnlockedCommands = (
 
         for (const subcommand of subcommands) {
           if (
-            command.requiedPrestige?.commands?.find(
+            command.config.requiedPrestige?.commands?.find(
               (requiredPrestige) =>
                 requiredPrestige.subcommand == subcommand.name &&
                 requiredPrestige.subcommandGroup == option.name

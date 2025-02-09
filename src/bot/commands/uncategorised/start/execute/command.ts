@@ -1,25 +1,17 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  CommandInteraction,
-  SlashCommandBuilder,
-} from "discord.js";
-import Command from "../../../types/command";
-import accountCreatedEmbed from "../../responces/embeds/accountCreated";
-import createAccount from "../../../functions/createAccount";
-import deferReply from "../../../functions/deferReply";
-import Cache from "../../../types/cache";
-import portfolioButton from "../../responces/components/buttons/portfolio";
-import errorEmbed from "../../responces/embeds/error";
+import { ActionRowBuilder, ButtonBuilder, Interaction } from "discord.js";
+import Command from "../../../../../types/command";
+import Cache from "../../../../../types/cache";
+import deferReply from "../../../../../functions/deferReply";
+import errorEmbed from "../../../../responces/embeds/error";
+import createAccount from "../../../../../functions/createAccount";
+import accountCreatedEmbed from "../../../../responces/embeds/accountCreated";
+import portfolioButton from "../../../../responces/components/buttons/portfolio";
 
 export default {
-  requiresAccount: false,
-  data: new SlashCommandBuilder()
-    .setName("start")
-    .setDescription("Start your investment capital account!")
-    .toJSON(),
-  validateComponent: (interaction) => interaction.customId == "start",
-  execute: async (cache: Cache, interaction: CommandInteraction) => {
+  validateCommand: (interaction: Interaction) =>
+    interaction.isChatInputCommand() ||
+    (interaction.isButton() && interaction.customId == "start"),
+  execute: async (cache: Cache, interaction: Interaction) => {
     const investor = cache.investors.find(
       (investor) => investor.user.id == interaction.user.id
     );
@@ -60,4 +52,4 @@ export default {
       ],
     });
   },
-} satisfies Command;
+} satisfies Command["execute"][number];

@@ -6,6 +6,7 @@ import EventEmitter from "events";
 import scheduleTasks from "./scheduledTasks/scheduleTasks";
 import { Client } from "discord.js";
 import generateMarketGraphs from "./functions/generateMarketGraphs";
+import Markets from "./enum/markets";
 
 (async () => {
   const data = await startDatabase();
@@ -24,9 +25,10 @@ import generateMarketGraphs from "./functions/generateMarketGraphs";
       investors: [],
     },
     marketGraphs: await Promise.all(
-      Object.entries(data.marketData).map(async ([name, marketData]) => ({
-        [name]: await generateMarketGraphs(marketData),
-      }))
+      Object.values(Markets).map(async (name) => {
+        const marketData = data.marketData[name];
+        return { [name]: await generateMarketGraphs(marketData) };
+      })
     ).then((entries) => Object.assign({}, ...entries)),
   };
 

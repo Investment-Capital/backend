@@ -29,12 +29,17 @@ export default {
     const executeData = cache.commands.find((command) =>
       interaction.isCommand() || interaction.isAutocomplete()
         ? command.data.name == interaction.commandName
-        : command.validateComponent
-        ? command.validateComponent(interaction)
-        : false
+        : command.execute.some((data) => data.validateCommand(interaction))
     );
 
-    if (!executeData) {
+    const commandExecute = executeData?.execute.find((data) =>
+      data.validateCommand(interaction)
+    );
+
+    if (
+      !executeData ||
+      (interaction.isAutocomplete() ? false : !commandExecute)
+    ) {
       await deferReply(
         interaction,
         {
@@ -58,7 +63,7 @@ export default {
       );
     }
 
-    if (executeData.requiresAccount && !foundUser) {
+    if (executeData.config.requiresAccount && !foundUser) {
       return await deferReply(
         interaction,
         {
@@ -102,9 +107,9 @@ export default {
       );
 
     if (
-      executeData.guilds &&
+      executeData.config.guilds &&
       (!interaction.inGuild() ||
-        !executeData.guilds.includes(interaction.guildId))
+        !executeData.config.guilds.includes(interaction.guildId))
     )
       return await deferReply(
         interaction,
@@ -123,9 +128,9 @@ export default {
       );
 
     if (
-      typeof executeData.disabled == "function"
-        ? executeData.disabled(cache)
-        : executeData.disabled
+      typeof executeData.config.disabled == "function"
+        ? executeData.config.disabled(cache)
+        : executeData.config.disabled
     )
       return await deferReply(
         interaction,
@@ -144,10 +149,10 @@ export default {
       );
 
     if (
-      (executeData.admin &&
+      (executeData.config.admin &&
         !foundUser?.permissions.admin &&
         !foundUser?.permissions.owner) ||
-      (executeData.owner && !foundUser?.permissions.owner)
+      (executeData.config.owner && !foundUser?.permissions.owner)
     )
       return await deferReply(
         interaction,
@@ -185,11 +190,8 @@ export default {
     }
 
     try {
-      if (
-        interaction.isAutocomplete() &&
-        (executeData as Command).autocomplete
-      ) {
-        executeData.requiresAccount
+      if (interaction.isAutocomplete() && executeData.autocomplete) {
+        executeData.config.requiresAccount
           ? await ((executeData as Command).autocomplete as Execute)(
               cache,
               foundUser,
@@ -200,9 +202,9 @@ export default {
               interaction
             );
       } else if (!interaction.isAutocomplete())
-        executeData.requiresAccount
-          ? await executeData.execute(cache, foundUser, interaction)
-          : await executeData.execute(cache, interaction);
+        executeData.config.requiresAccount
+          ? await commandExecute?.execute(cache, foundUser, interaction)
+          : await commandExecute?.execute(cache, interaction);
       else throw new Error("Invalid Interaction Type");
     } catch (error: any) {
       await deferReply(

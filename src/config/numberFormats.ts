@@ -3,6 +3,8 @@ const numberFormats: { [key: string]: number } = {
   k: 1_000,
   m: 1_000_000,
   b: 1_000_000_000,
+  t: 1_000_000_000_000,
+  qd: 1_000_000_000_000_000,
 };
 
 export default numberFormats;

@@ -9,17 +9,17 @@ export default {
     res.json(
       cache.commands.map((command) => ({
         data: command.data,
-        category: command.category,
+        category: command.config.category,
         disabled:
-          typeof command.disabled == "function"
-            ? command.disabled(cache)
-            : command.disabled ?? false,
-        requiedPrestige: command.requiedPrestige,
-        global: command.guilds ? false : true,
-        requiresAccount: command.requiresAccount,
+          typeof command.config.disabled == "function"
+            ? command.config.disabled(cache)
+            : command.config.disabled ?? false,
+        requiedPrestige: command.config.requiedPrestige,
+        global: command.config.guilds ? false : true,
+        requiresAccount: command.config.requiresAccount,
 
-        owner: command.owner,
-        admin: command.admin,
+        owner: command.config.owner,
+        admin: command.config.admin,
       }))
     ),
 } satisfies Route;

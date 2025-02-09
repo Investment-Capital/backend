@@ -1,29 +1,23 @@
 import {
   ActionRowBuilder,
   Interaction,
-  SlashCommandBuilder,
   User,
   UserSelectMenuBuilder,
 } from "discord.js";
-import Command from "../../../types/command";
-import Cache from "../../../types/cache";
-import deferReply from "../../../functions/deferReply";
-import portfolioEmbed from "../../responces/embeds/portfolio";
-import portfolioMenu from "../../responces/components/menus/portfolio";
-import errorEmbed from "../../responces/embeds/error";
+import Command from "../../../../../types/command";
+import Cache from "../../../../../types/cache";
+import deferReply from "../../../../../functions/deferReply";
+import errorEmbed from "../../../../responces/embeds/error";
+import portfolioEmbed from "../../../../responces/embeds/portfolio";
+import portfolioMenu from "../../../../responces/components/menus/portfolio";
 
 export default {
-  data: new SlashCommandBuilder()
-    .setName("portfolio")
-    .setDescription("View your or another players portfolio.")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("The user to lookup.")
-        .setRequired(false)
-    )
-    .toJSON(),
-  validateComponent: (interaction) => interaction.customId == "portfolio",
+  validateCommand: (interaction: Interaction) =>
+    interaction.isChatInputCommand() ||
+    interaction.isContextMenuCommand() ||
+    interaction.isAutocomplete()
+      ? true
+      : interaction.customId.startsWith("portfolio"),
   execute: async (cache: Cache, _, interaction: Interaction) => {
     const user = interaction.isChatInputCommand()
       ? interaction.options.getUser("user") ?? interaction.user
@@ -57,4 +51,4 @@ export default {
       ],
     });
   },
-} satisfies Command;
+} satisfies Command["execute"][number];

@@ -3,61 +3,31 @@ import {
   ButtonBuilder,
   ButtonInteraction,
   ChatInputCommandInteraction,
+  Interaction,
   ModalSubmitInteraction,
-  SlashCommandBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
 } from "discord.js";
-import Command from "../../../types/command";
-import leaderboardsConfig from "../../../config/leaderboardsConfig";
-import Cache from "../../../types/cache";
-import getLeaderboardData from "../../../functions/getLeaderboardData";
-import deferReply from "../../../functions/deferReply";
-import LeaderboardTypes from "../../../enum/leaderboardTypes";
-import pageSize from "../../../config/pageSize";
-import leaderboardEmbed from "../../responces/embeds/leaderboard";
-import leaderboardMenu from "../../responces/components/menus/leaderboard";
-import leaderboardButtons from "../../responces/components/buttons/leaderboard";
-import leaderboardModal from "../../responces/modals/leaderboard";
-import errorEmbed from "../../responces/embeds/error";
+import Command from "../../../../../types/command";
+import Cache from "../../../../../types/cache";
+import LeaderboardTypes from "../../../../../enum/leaderboardTypes";
+import leaderboardModal from "../../../../responces/modals/leaderboard";
+import leaderboardsConfig from "../../../../../config/leaderboardsConfig";
+import deferReply from "../../../../../functions/deferReply";
+import errorEmbed from "../../../../responces/embeds/error";
+import getLeaderboardData from "../../../../../functions/getLeaderboardData";
+import leaderboardEmbed from "../../../../responces/embeds/leaderboard";
+import leaderboardButtons from "../../../../responces/components/buttons/leaderboard";
+import leaderboardMenu from "../../../../responces/components/menus/leaderboard";
+import pageSize from "../../../../../config/pageSize";
 
 export default {
-  data: (() => {
-    const command = new SlashCommandBuilder()
-      .setName("leaderboard")
-      .setDescription("View the leaderboards.");
-
-    for (const [type, data] of Object.entries(leaderboardsConfig)) {
-      command.addSubcommandGroup((subcommandGroup) => {
-        subcommandGroup
-          .setName(type)
-          .setDescription(`View the ${type} leaderboards.`);
-
-        for (const leaderboard of Object.keys(data.leaderboards)) {
-          subcommandGroup.addSubcommand((subcommand) =>
-            subcommand
-              .setName(leaderboard)
-              .setDescription(`View the ${type} ${leaderboard} leaderboard.`)
-              .addIntegerOption((option) =>
-                option
-                  .setName("page")
-                  .setDescription(
-                    `What page of the ${type} ${leaderboard} leaderboard to view.`
-                  )
-                  .setMinValue(1)
-              )
-          );
-        }
-
-        return subcommandGroup;
-      });
-    }
-
-    return command.toJSON();
-  })(),
-
-  validateComponent: (interaction) =>
-    interaction.customId.startsWith("leaderboard"),
+  validateCommand: (interaction: Interaction) =>
+    interaction.isChatInputCommand() ||
+    interaction.isContextMenuCommand() ||
+    interaction.isAutocomplete()
+      ? true
+      : interaction.customId.startsWith("leaderboard"),
 
   execute: async (
     cache: Cache,
@@ -143,5 +113,4 @@ export default {
       ],
     });
   },
-  requiresAccount: false,
-} satisfies Command;
+} satisfies Command["execute"][number];

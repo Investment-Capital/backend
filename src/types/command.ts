@@ -1,32 +1,24 @@
-import {
-  AnySelectMenuInteraction,
-  ButtonInteraction,
-  ModalSubmitInteraction,
-  RESTPostAPIApplicationCommandsJSONBody,
-} from "discord.js";
+import { RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
 import Execute from "./execute";
 import Cache from "./cache";
 import RequiredPrestige from "./requiredPrestige";
 
 type Command = {
   data: RESTPostAPIApplicationCommandsJSONBody;
-  validateComponent?: (
-    interaction:
-      | AnySelectMenuInteraction
-      | ButtonInteraction
-      | ModalSubmitInteraction
-  ) => boolean;
-
-  execute: Execute;
+  config: {
+    guilds?: string[];
+    category?: string;
+    disabled?: boolean | ((cache: Cache) => boolean);
+    requiedPrestige?: RequiredPrestige;
+    admin?: boolean;
+    owner?: boolean;
+    requiresAccount?: boolean;
+  };
   autocomplete?: Execute;
-  requiresAccount?: boolean;
-  guilds?: string[];
-  category?: string;
-  disabled?: boolean | ((cache: Cache) => boolean);
-  requiedPrestige?: RequiredPrestige;
-
-  admin?: boolean;
-  owner?: boolean;
+  execute: {
+    validateCommand: Execute;
+    execute: Execute;
+  }[];
 };
 
 export default Command;
