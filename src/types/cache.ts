@@ -5,7 +5,7 @@ import Markets from "./markets/markets";
 import EventEmitter from "events";
 import Route from "./route";
 import UnsavedCache from "./unsavedCache";
-import MarketGraphTimes from "../enum/marketGraphTimes";
+import MarketGraphLengths from "../enum/marketGraphLengths";
 
 type Cache = {
   investors: Investor[];
@@ -17,7 +17,7 @@ type Cache = {
 
   unsavedCache: UnsavedCache;
   marketGraphs: {
-    [_ in keyof Markets]: { [time in MarketGraphTimes]: string };
+    [_ in keyof Markets]: { [time in MarketGraphLengths]: string };
   };
 };
 
