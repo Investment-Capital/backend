@@ -1,4 +1,9 @@
-import { ChatInputCommandInteraction, Interaction } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ChatInputCommandInteraction,
+  Interaction,
+} from "discord.js";
 import Command from "../../../../../types/command";
 import Stocks from "../../../../../enum/stocks";
 import stocksConfig from "../../../../../config/stocksConfig";
@@ -8,6 +13,9 @@ import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
 import editInvestor from "../../../../../functions/editInvestor";
 import investmentBoughtEmbed from "../../../../responces/embeds/investmentBought";
+import stocksViewButton from "../../../../responces/components/buttons/stocksView";
+import marketButton from "../../../../responces/components/buttons/market";
+import Markets from "../../../../../enum/markets";
 
 export default {
   validateCommand: (interaction: Interaction) =>
@@ -52,6 +60,12 @@ export default {
           config.image,
           amount,
           totalPrice
+        ),
+      ],
+      components: [
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          stocksViewButton(),
+          marketButton(Markets.stocks)
         ),
       ],
     });

@@ -7,14 +7,14 @@ import Command from "../../../../types/command";
 export default {
   requiedPrestige: {
     commands: [
-      ...Object.values(RealEstate).flatMap((realEstate) => {
+      ...Object.values(RealEstate).map((realEstate) => {
         const config = realEstateConfig[realEstate];
 
-        return ["build", "sell"].map((subcommandGroup) => ({
+        return {
           requiredPrestige: config.requiredPrestige,
           subcommand: realEstate,
-          subcommandGroup: subcommandGroup,
-        }));
+          subcommandGroup: "build",
+        };
       }),
       ...Object.values(RealEstateUpgrades).map((realEstateUpgrade) => {
         const config = realEstateUpgradesConfig[realEstateUpgrade];

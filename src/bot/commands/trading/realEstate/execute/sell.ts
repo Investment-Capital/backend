@@ -1,8 +1,12 @@
-import { ChatInputCommandInteraction, Interaction } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ChatInputCommandInteraction,
+  Interaction,
+} from "discord.js";
 import Command from "../../../../../types/command";
 import Cache from "../../../../../types/cache";
 import Investor from "../../../../../types/investor";
-import RealEstate from "../../../../../enum/realEstate";
 import realEstateConfig from "../../../../../config/realEstateConfig";
 import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
@@ -10,25 +14,23 @@ import DateFormats from "../../../../../enum/dateFormats";
 import MarkdownManager from "../../../../../classes/markdownManager";
 import editInvestor from "../../../../../functions/editInvestor";
 import buildingSoldEmbed from "../../../../responces/embeds/buildingSold";
+import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
+import marketButton from "../../../../responces/components/buttons/market";
+import Markets from "../../../../../enum/markets";
 
 export default {
   validateCommand: (interaction: Interaction) =>
     interaction.isChatInputCommand()
-      ? interaction.options.getSubcommandGroup() == "sell"
+      ? interaction.options.getSubcommand() == "sell"
       : false,
   execute: async (
     cache: Cache,
     investor: Investor,
     interaction: ChatInputCommandInteraction
   ) => {
-    const realEstateType = interaction.options.getSubcommand() as RealEstate;
     const name = interaction.options.getString("name", true);
-    const config = realEstateConfig[realEstateType];
-    const price = cache.markets.realEstate[realEstateType].price;
-
     const realEstate = investor.realEstate.find(
-      (realEstate) =>
-        realEstate.type == realEstateType && realEstate.name == name
+      (realEstate) => realEstate.name == name
     );
 
     if (!realEstate)
@@ -47,6 +49,9 @@ export default {
           ephemeral: true,
         }
       );
+
+    const config = realEstateConfig[realEstate.type];
+    const price = cache.markets.realEstate[realEstate.type].price;
 
     if (!realEstate.built)
       return await deferReply(
@@ -81,8 +86,14 @@ export default {
           interaction.user,
           config.image,
           name,
-          realEstateType,
+          realEstate.type,
           price
+        ),
+      ],
+      components: [
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          realEstateViewButton(),
+          marketButton(Markets.realEstate)
         ),
       ],
     });

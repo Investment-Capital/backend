@@ -4,7 +4,6 @@ import Investor from "../../../../types/investor";
 import realEstateUpgradesConfig from "../../../../config/realEstateUpgradesConfig";
 import searchItems from "../../../../functions/searchItems";
 import RealEstateUpgrades from "../../../../enum/realEstateUpgrades";
-import RealEstate from "../../../../enum/realEstate";
 
 export default (async (
   _,
@@ -15,21 +14,19 @@ export default (async (
   const subcommand = interaction.options.getSubcommand();
   const search = interaction.options.getFocused();
 
-  if (subcommandGroup == "sell" || subcommandGroup == "upgrade") {
-    const userRealEstate = investor.realEstate.filter(
-      (realEstate) =>
-        (subcommandGroup == "sell"
-          ? realEstate.type == (subcommand as RealEstate)
-          : realEstateUpgradesConfig[
-              subcommand as RealEstateUpgrades
-            ].allowedRealEstate.includes(realEstate.type)) && realEstate.built
-    );
+  const filteredRealEstate = investor.realEstate.filter(
+    (realEstate) =>
+      (subcommandGroup == "upgrade"
+        ? realEstateUpgradesConfig[
+            subcommand as RealEstateUpgrades
+          ].allowedRealEstate.includes(realEstate.type)
+        : true) && (subcommand == "view" ? true : realEstate.built)
+  );
 
-    await interaction.respond(
-      searchItems(
-        search,
-        userRealEstate.map((realEstate) => realEstate.name)
-      ).map((search) => ({ name: search, value: search }))
-    );
-  }
+  await interaction.respond(
+    searchItems(
+      search,
+      filteredRealEstate.map((realEstate) => realEstate.name)
+    ).map((search) => ({ name: search, value: search }))
+  );
 }) satisfies Command["autocomplete"];

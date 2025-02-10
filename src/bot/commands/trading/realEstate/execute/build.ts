@@ -1,4 +1,9 @@
-import { ChatInputCommandInteraction, Interaction } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ChatInputCommandInteraction,
+  Interaction,
+} from "discord.js";
 import Command from "../../../../../types/command";
 import Cache from "../../../../../types/cache";
 import Investor from "../../../../../types/investor";
@@ -9,6 +14,9 @@ import errorEmbed from "../../../../responces/embeds/error";
 import editInvestor from "../../../../../functions/editInvestor";
 import createRealEstate from "../../../../../functions/createRealEstate";
 import buildingStartedConstructionEmbed from "../../../../responces/embeds/buildingStartedConstruction";
+import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
+import marketButton from "../../../../responces/components/buttons/market";
+import Markets from "../../../../../enum/markets";
 
 export default {
   validateCommand: (interaction: Interaction) =>
@@ -40,7 +48,11 @@ export default {
         { ephemeral: true }
       );
 
-    if (investor.realEstate.find((realEstate) => realEstate.name == name))
+    if (
+      investor.realEstate.find(
+        (realEstate) => realEstate.name.toLowerCase() == name.toLowerCase()
+      )
+    )
       return await deferReply(
         interaction,
         {
@@ -65,6 +77,12 @@ export default {
           config.image,
           config.buildTime + realEstate.created,
           price
+        ),
+      ],
+      components: [
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          realEstateViewButton(),
+          marketButton(Markets.realEstate)
         ),
       ],
     });

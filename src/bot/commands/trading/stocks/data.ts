@@ -18,6 +18,7 @@ export default new SlashCommandBuilder()
             option
               .setName("amount")
               .setDescription(`The amount of ${stock} you want to sell.`)
+              .setMinValue(1)
           )
       )
     );
@@ -36,6 +37,7 @@ export default new SlashCommandBuilder()
             option
               .setName("amount")
               .setDescription(`The amount of ${stock} you want to buy.`)
+              .setMinValue(1)
           )
       )
     );

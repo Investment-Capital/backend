@@ -1,6 +1,7 @@
 import { EmbedBuilder, User } from "discord.js";
 import addDefaults from "./defaults/addDefaults";
 import formatNumber from "../../../functions/formatNumber";
+import capitalizeWords from "../../../functions/capitalizeWords";
 
 const buildingSoldEmbed = (
   user: User,
@@ -20,7 +21,7 @@ const buildingSoldEmbed = (
           value: name,
           inline: true,
         },
-        { name: "Building Type", value: type, inline: true },
+        { name: "Building Type", value: capitalizeWords(type), inline: true },
         {
           name: "Cash Gained",
           value: "$" + formatNumber(cashGained),

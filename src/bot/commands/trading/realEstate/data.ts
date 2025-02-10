@@ -7,26 +7,18 @@ import MarketGraphLengths from "../../../../enum/marketGraphLengths";
 export default new SlashCommandBuilder()
   .setName("realestate")
   .setDescription("Manage Real Estate.")
-  .addSubcommandGroup((subcommandGroup) => {
-    subcommandGroup.setName("sell").setDescription("Sell real estate.");
-
-    Object.values(RealEstate).map((realEstate) =>
-      subcommandGroup.addSubcommand((subcommand) =>
-        subcommand
-          .setName(realEstate)
-          .setDescription(`Sell a ${realEstate}.`)
-          .addStringOption((option) =>
-            option
-              .setName("name")
-              .setDescription(`The name of the ${realEstate} you want to sell.`)
-              .setRequired(true)
-              .setAutocomplete(true)
-          )
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName("sell")
+      .setDescription("Sell real estate.")
+      .addStringOption((option) =>
+        option
+          .setName("name")
+          .setDescription(`The name of the real estate you want to sell.`)
+          .setRequired(true)
+          .setAutocomplete(true)
       )
-    );
-
-    return subcommandGroup;
-  })
+  )
   .addSubcommandGroup((subcommandGroup) => {
     subcommandGroup.setName("build").setDescription("Build real estate.");
 
@@ -42,6 +34,8 @@ export default new SlashCommandBuilder()
                 `The name of the ${realEstate} you want to build.`
               )
               .setRequired(true)
+              .setMinLength(5)
+              .setMaxLength(50)
           )
       )
     );
@@ -84,6 +78,18 @@ export default new SlashCommandBuilder()
               value: length,
             }))
           )
+      )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName("view")
+      .setDescription("View your real estate.")
+      .addStringOption((option) =>
+        option
+          .setName("name")
+          .setDescription(`The name of the real estate.`)
+          .setRequired(true)
+          .setAutocomplete(true)
       )
   )
   .toJSON() satisfies Command["data"];

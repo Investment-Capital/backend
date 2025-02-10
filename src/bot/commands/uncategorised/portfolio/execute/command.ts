@@ -1,5 +1,6 @@
 import {
   ActionRowBuilder,
+  ButtonBuilder,
   Interaction,
   User,
   UserSelectMenuBuilder,
@@ -10,6 +11,8 @@ import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
 import portfolioEmbed from "../../../../responces/embeds/portfolio";
 import portfolioMenu from "../../../../responces/components/menus/portfolio";
+import stocksViewButton from "../../../../responces/components/buttons/stocksView";
+import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
 
 export default {
   validateCommand: (interaction: Interaction) =>
@@ -47,6 +50,10 @@ export default {
       components: [
         new ActionRowBuilder<UserSelectMenuBuilder>().addComponents(
           portfolioMenu(user.id)
+        ),
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          stocksViewButton(),
+          realEstateViewButton()
         ),
       ],
     });
