@@ -3,6 +3,7 @@ enum RealEstate {
   house = "house",
   warehouse = "warehouse",
   skyscraper = "skyscraper",
+  castle = "castle",
 }
 
 export default RealEstate;

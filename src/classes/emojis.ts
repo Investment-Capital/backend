@@ -9,6 +9,10 @@ class Emojis {
   static warning = "⚠️";
   static lock = "🔒";
   static chart = "📈";
+  static guard = "💂";
+  static moneyBag = "💰";
+  static car = "🚙";
+  static castle = "🏰";
 
   static arrowForward = "▶️";
   static doubleArrowForward = "⏭️";

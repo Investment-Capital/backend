@@ -35,7 +35,7 @@ export default new SlashCommandBuilder()
               )
               .setRequired(true)
               .setMinLength(5)
-              .setMaxLength(50)
+              .setMaxLength(35)
           )
       )
     );

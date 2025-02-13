@@ -1,4 +1,6 @@
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
   ButtonInteraction,
   ChatInputCommandInteraction,
   Interaction,
@@ -9,6 +11,10 @@ import Investor from "../../../../../types/investor";
 import realEstateModal from "../../../../responces/modals/realEstate";
 import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
+import realEstateViewEmbed from "../../../../responces/embeds/realEstateView";
+import Cache from "../../../../../types/cache";
+import realEstateUpgradesButtons from "../../../../responces/components/buttons/realEstateUpgrades";
+import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
 
 export default {
   validateCommand: (interaction: Interaction) =>
@@ -19,7 +25,7 @@ export default {
       : false,
 
   execute: async (
-    _,
+    cache: Cache,
     investor: Investor,
     interaction:
       | ButtonInteraction
@@ -53,7 +59,17 @@ export default {
       );
 
     return await deferReply(interaction, {
-      content: JSON.stringify(realEstate),
+      embeds: [
+        realEstateViewEmbed(interaction.user, realEstate, cache.markets),
+      ],
+      components: [
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          realEstateUpgradesButtons(interaction.user, realEstate)
+        ),
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          realEstateViewButton()
+        ),
+      ],
     });
   },
 } satisfies Command["execute"][number];

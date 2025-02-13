@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Route from "../../../types/route";
 import Cache from "../../../types/cache";
 import Times from "../../../classes/times";
-import pageSize from "../../../config/pageSize";
+import searchItems from "../../../functions/searchItems";
 
 export default {
   path: "/investors",
@@ -18,15 +18,11 @@ export default {
         error: "Invalid Page",
       });
 
-    const investors = cache.investors
-      .filter(
-        (investor) =>
-          !investor.blacklist.blacklisted &&
-          (investor.user.displayName.toLowerCase().includes(search) ||
-            investor.user.username.toLowerCase().includes(search) ||
-            investor.user.id.toLowerCase().includes(search))
-      )
-      .slice((page - 1) * pageSize, page * pageSize);
+    const investors = searchItems(
+      search,
+      cache.investors.filter((investor) => !investor.blacklist.blacklisted),
+      (investor) => investor.user.username
+    );
 
     if (!investors.length)
       return res.status(404).json({
