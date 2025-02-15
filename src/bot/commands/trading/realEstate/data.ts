@@ -34,8 +34,8 @@ export default new SlashCommandBuilder()
                 `The name of the ${realEstate} you want to build.`
               )
               .setRequired(true)
-              .setMinLength(5)
-              .setMaxLength(35)
+              .setMinLength(2)
+              .setMaxLength(50)
           )
       )
     );

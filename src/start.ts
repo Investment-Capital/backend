@@ -30,6 +30,7 @@ import Markets from "./enum/markets";
         return { [name]: await generateMarketGraphs(marketData) };
       })
     ).then((entries) => Object.assign({}, ...entries)),
+    customIds: {},
   };
 
   startBot(cache);

@@ -6,11 +6,14 @@ import errorEmbed from "../../../../responces/embeds/error";
 import createAccount from "../../../../../functions/createAccount";
 import accountCreatedEmbed from "../../../../responces/embeds/accountCreated";
 import portfolioButton from "../../../../responces/components/buttons/portfolio";
+import CustomIdManager from "../../../../../classes/customIdManager";
 
 export default {
-  validateCommand: (interaction: Interaction) =>
-    interaction.isChatInputCommand() ||
-    (interaction.isButton() && interaction.customId == "start"),
+  validateCommand: (cache: Cache, interaction: Interaction) =>
+    interaction.isChatInputCommand()
+      ? true
+      : interaction.isButton() &&
+        CustomIdManager.parse(cache, interaction.customId).id == "start",
   execute: async (cache: Cache, interaction: Interaction) => {
     const investor = cache.investors.find(
       (investor) => investor.user.id == interaction.user.id
@@ -48,7 +51,9 @@ export default {
         ),
       ],
       components: [
-        new ActionRowBuilder<ButtonBuilder>().addComponents(portfolioButton),
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          portfolioButton(cache)
+        ),
       ],
     });
   },

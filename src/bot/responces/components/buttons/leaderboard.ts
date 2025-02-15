@@ -2,8 +2,11 @@ import { ButtonBuilder } from "@discordjs/builders";
 import LeaderboardTypes from "../../../../enum/leaderboardTypes";
 import { ButtonStyle } from "discord.js";
 import Emojis from "../../../../classes/emojis";
+import CustomIdManager from "../../../../classes/customIdManager";
+import Cache from "../../../../types/cache";
 
 const leaderboardButtons = (
+  cache: Cache,
   page: number,
   maxPage: number,
   leaderboardType: LeaderboardTypes,
@@ -13,7 +16,14 @@ const leaderboardButtons = (
     ...[page - 5, page - 1, page + 1, page + 5].map((page, index) =>
       new ButtonBuilder()
         .setStyle(ButtonStyle.Primary)
-        .setCustomId(`leaderboard-${leaderboardType}-${leaderboard}-${page}`)
+        .setCustomId(
+          CustomIdManager.create(cache, {
+            id: "leaderboard",
+            type: leaderboardType,
+            leaderboard,
+            page,
+          })
+        )
         .setEmoji({
           name: [
             Emojis.doubleArrowBackward,
@@ -26,7 +36,14 @@ const leaderboardButtons = (
     ),
     new ButtonBuilder()
       .setStyle(ButtonStyle.Secondary)
-      .setCustomId(`leaderboard-${leaderboardType}-${leaderboard}-modal`)
+      .setCustomId(
+        CustomIdManager.create(cache, {
+          id: "leaderboard",
+          type: leaderboardType,
+          leaderboard,
+          pageModal: true,
+        })
+      )
       .setEmoji({ name: Emojis.page })
       .setLabel("Input Page"),
   ];

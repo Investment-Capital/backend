@@ -2,7 +2,7 @@ import Cache from "../types/cache";
 import EmitterValues from "../classes/emitterValues";
 import SavedUser from "../types/savedUser";
 import defaultInvestorData from "../config/defaultInvestorData";
-import generateAuthorization from "./generateAuthorization";
+import generateCode from "./generateCode";
 
 const createAccount = (cache: Cache, user: SavedUser) => {
   const applicationOwner = cache.client.application?.owner;
@@ -18,7 +18,7 @@ const createAccount = (cache: Cache, user: SavedUser) => {
       owner: ownerId == user.id,
       admin: false,
     },
-    generateAuthorization()
+    generateCode()
   );
 
   cache.investors.push(data);

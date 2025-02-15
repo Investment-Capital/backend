@@ -1,7 +1,6 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
-  ChatInputCommandInteraction,
   CommandInteraction,
   Events,
   Interaction,
@@ -18,22 +17,50 @@ import startButton from "../responces/components/buttons/start";
 import errorEmbed from "../responces/embeds/error";
 import MarkdownManager from "../../classes/markdownManager";
 import warnEmbed from "../responces/embeds/warning";
+import CustomIdManager from "../../classes/customIdManager";
 
 export default {
   event: Events.InteractionCreate,
   execute: async (cache: Cache, interaction: Interaction) => {
+    const parsedCustomId =
+      "customId" in interaction
+        ? CustomIdManager.parse(cache, interaction.customId)
+        : null;
+
+    if (!parsedCustomId && "customId" in interaction) {
+      return await deferReply(
+        interaction,
+        {
+          embeds: [
+            warnEmbed(
+              interaction.user,
+              "This component is now invalid due to a bot restart, please use a command.",
+              "Invalid Component"
+            ),
+          ],
+        },
+        {
+          ephemeral: true,
+        }
+      );
+    }
+
     const foundUser = cache.investors.find(
-      (e) => interaction.user.id == e.user.id
+      (investor) => interaction.user.id == investor.user.id
     );
 
     const executeData = cache.commands.find((command) =>
-      interaction.isCommand() || interaction.isAutocomplete()
+      interaction.isCommand() ||
+      interaction.isAutocomplete() ||
+      interaction.isChatInputCommand()
         ? command.data.name == interaction.commandName
-        : command.execute.some((data) => data.validateCommand(interaction))
+        : command.execute.some((data) =>
+            data.validateCommand(cache, interaction)
+          )
     );
 
     const commandExecute = executeData?.execute.find((data) =>
-      data.validateCommand(interaction)
+      data.validateCommand(cache, interaction)
     );
 
     if (
@@ -80,7 +107,9 @@ export default {
             ),
           ],
           components: [
-            new ActionRowBuilder<ButtonBuilder>().addComponents(startButton),
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+              startButton(cache)
+            ),
           ],
         },
         {
@@ -149,6 +178,29 @@ export default {
       );
 
     if (
+      parsedCustomId &&
+      parsedCustomId.user &&
+      parsedCustomId.user !== interaction.user.id
+    )
+      return await deferReply(
+        interaction,
+        {
+          embeds: [
+            errorEmbed(
+              interaction.user,
+              `Only ${MarkdownManager.user(
+                parsedCustomId.lockedUserId
+              )} has access to this interaction.`,
+              "Invalid Interaction"
+            ),
+          ],
+        },
+        {
+          ephemeral: true,
+        }
+      );
+
+    if (
       (executeData.config.admin &&
         !foundUser?.permissions.admin &&
         !foundUser?.permissions.owner) ||
@@ -170,7 +222,8 @@ export default {
 
     const commandRequiredPrestige = getInteractionRequiredPrestige(
       executeData,
-      interaction as ChatInputCommandInteraction
+      interaction,
+      cache
     );
 
     if (commandRequiredPrestige > (foundUser?.prestige ?? 1)) {

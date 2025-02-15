@@ -1,8 +1,11 @@
 import { ButtonBuilder, ButtonStyle } from "discord.js";
 import MarketGraphLengths from "../../../../enum/marketGraphLengths";
 import Markets from "../../../../enum/markets";
+import CustomIdManager from "../../../../classes/customIdManager";
+import Cache from "../../../../types/cache";
 
 const marketGraphLengthsButtons = (
+  cache: Cache,
   market: Markets,
   currentSelected: MarketGraphLengths
 ) => {
@@ -11,7 +14,13 @@ const marketGraphLengthsButtons = (
       .setStyle(ButtonStyle.Primary)
       .setLabel(length)
       .setDisabled(currentSelected == length)
-      .setCustomId(market + "-" + "market" + "-" + length)
+      .setCustomId(
+        CustomIdManager.create(cache, {
+          id: "market",
+          market,
+          graphLength: length,
+        })
+      )
   );
 };
 

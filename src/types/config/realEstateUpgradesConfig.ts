@@ -6,7 +6,7 @@ type RealEstateUpgradesConfig = {
     image: string;
     emoji: string;
     price: number;
-    priceMultiplier: number;
+    valueMultiplier: number;
     upgradeTime: number;
     requiredPrestige: number;
 

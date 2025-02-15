@@ -7,7 +7,7 @@ type RealEstateConfig = {
     volatility: number;
     image: string;
     emoji: string;
-    baseRent: number;
+    rent: number;
     buildTime: number;
   };
 };

@@ -2,10 +2,16 @@ import { ButtonBuilder, ButtonStyle } from "discord.js";
 import getRandomIndex from "../../../../functions/getRandomIndex";
 import realEstateConfig from "../../../../config/realEstateConfig";
 import realEstateUpgradesConfig from "../../../../config/realEstateUpgradesConfig";
+import CustomIdManager from "../../../../classes/customIdManager";
+import Cache from "../../../../types/cache";
 
-const realEstateViewButton = () =>
+const realEstateViewButton = (cache: Cache) =>
   new ButtonBuilder()
-    .setCustomId("realEstateView")
+    .setCustomId(
+      CustomIdManager.create(cache, {
+        id: "realEstateView",
+      })
+    )
     .setLabel("Real Estate")
     .setStyle(ButtonStyle.Primary)
     .setEmoji(

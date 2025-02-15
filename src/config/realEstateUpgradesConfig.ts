@@ -10,7 +10,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
     emoji: Emojis.paint,
     price: 10_000,
     upgradeTime: Times.hour * 6,
-    priceMultiplier: 1.1,
+    valueMultiplier: 1.1,
     requiredPrestige: 2,
     allowedRealEstate: [RealEstate.appartment, RealEstate.house],
   },
@@ -21,7 +21,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
     emoji: Emojis.couch,
     price: 25_000,
     upgradeTime: Times.hour * 12,
-    priceMultiplier: 1.125,
+    valueMultiplier: 1.125,
     requiredPrestige: 3,
     allowedRealEstate: [
       RealEstate.house,
@@ -36,7 +36,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f699.png",
     emoji: Emojis.car,
     price: 35_000,
-    priceMultiplier: 1.15,
+    valueMultiplier: 1.15,
     requiredPrestige: 4,
     allowedRealEstate: [
       RealEstate.house,
@@ -51,7 +51,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
     emoji: Emojis.fire,
     price: 50_000,
     upgradeTime: Times.day,
-    priceMultiplier: 1.15,
+    valueMultiplier: 1.15,
     requiredPrestige: 5,
     allowedRealEstate: [
       RealEstate.house,
@@ -66,7 +66,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
     emoji: Emojis.hammer,
     price: 70_000,
     upgradeTime: Times.day * 3,
-    priceMultiplier: 1.2,
+    valueMultiplier: 1.2,
     requiredPrestige: 7,
     allowedRealEstate: [
       RealEstate.warehouse,
@@ -81,7 +81,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
     emoji: Emojis.guard,
     requiredPrestige: 9,
     price: 140_000,
-    priceMultiplier: 1.2,
+    valueMultiplier: 1.2,
     upgradeTime: Times.day * 4,
     allowedRealEstate: [
       RealEstate.skyscraper,

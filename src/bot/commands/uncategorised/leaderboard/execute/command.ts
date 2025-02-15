@@ -20,14 +20,15 @@ import leaderboardEmbed from "../../../../responces/embeds/leaderboard";
 import leaderboardButtons from "../../../../responces/components/buttons/leaderboard";
 import leaderboardMenu from "../../../../responces/components/menus/leaderboard";
 import pageSize from "../../../../../config/pageSize";
+import CustomIdManager from "../../../../../classes/customIdManager";
 
 export default {
-  validateCommand: (interaction: Interaction) =>
-    interaction.isChatInputCommand() ||
-    interaction.isContextMenuCommand() ||
-    interaction.isAutocomplete()
+  validateCommand: (cache: Cache, interaction: Interaction) =>
+    interaction.isChatInputCommand()
       ? true
-      : interaction.customId.startsWith("leaderboard"),
+      : "customId" in interaction
+      ? CustomIdManager.parse(cache, interaction.customId).id == "leaderboard"
+      : false,
 
   execute: async (
     cache: Cache,
@@ -37,29 +38,31 @@ export default {
       | StringSelectMenuInteraction
       | ModalSubmitInteraction
   ) => {
-    const type = (
+    const type: LeaderboardTypes = (
       interaction.isChatInputCommand()
         ? interaction.options.getSubcommandGroup(true)
-        : interaction.customId.split("-")[1]
+        : CustomIdManager.parse(cache, interaction.customId).type
     ) as LeaderboardTypes;
 
     const leaderboard = interaction.isChatInputCommand()
       ? interaction.options.getSubcommand()
       : interaction.isStringSelectMenu()
       ? interaction.values[0]
-      : interaction.customId.split("-")[2];
+      : CustomIdManager.parse(cache, interaction.customId).leaderboard;
 
     if (
       interaction.isButton() &&
-      interaction.customId.split("-")[3] == "modal"
+      CustomIdManager.parse(cache, interaction.customId)?.pageModal
     ) {
-      return await interaction.showModal(leaderboardModal(type, leaderboard));
+      return await interaction.showModal(
+        leaderboardModal(cache, type, leaderboard)
+      );
     }
 
     const page = interaction.isChatInputCommand()
       ? interaction.options.getInteger("page") ?? 1
       : interaction.isButton()
-      ? parseInt(interaction.customId.split("-")[3])
+      ? CustomIdManager.parse(cache, interaction.customId).page
       : interaction.isModalSubmit()
       ? parseInt(interaction.fields.getTextInputValue("page"))
       : 1;
@@ -105,10 +108,10 @@ export default {
       ],
       components: [
         new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-          leaderboardMenu(type, leaderboard)
+          leaderboardMenu(cache, type, leaderboard)
         ),
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          leaderboardButtons(page, maxPage, type, leaderboard)
+          leaderboardButtons(cache, page, maxPage, type, leaderboard)
         ),
       ],
     });

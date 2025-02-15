@@ -7,6 +7,7 @@ import formatNumber from "../../../functions/formatNumber";
 const buildingStartedConstructionEmbed = (
   user: User,
   image: string,
+  name: string,
   completed: number,
   price: number
 ) => {
@@ -16,6 +17,11 @@ const buildingStartedConstructionEmbed = (
       .setTitle("Construction Started")
       .setThumbnail(image)
       .addFields(
+        {
+          name: "Name",
+          value: name,
+          inline: true,
+        },
         {
           name: "Completed",
           value: MarkdownManager.date(completed, DateFormats.relative),

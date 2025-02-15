@@ -1,6 +1,7 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
+  ButtonInteraction,
   ChatInputCommandInteraction,
   Interaction,
 } from "discord.js";
@@ -11,18 +12,19 @@ import Cache from "../../../../../types/cache";
 import Investor from "../../../../../types/investor";
 import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
+import CustomIdManager from "../../../../../classes/customIdManager";
 
 export default {
-  validateCommand: (interaction: Interaction) =>
+  validateCommand: (cache: Cache, interaction: Interaction) =>
     interaction.isChatInputCommand()
       ? interaction.options.getSubcommand() == "view"
       : interaction.isButton()
-      ? interaction.customId == "stocksView"
+      ? CustomIdManager.parse(cache, interaction.customId).id == "stocksView"
       : false,
   execute: async (
     cache: Cache,
     investor: Investor,
-    interaction: ChatInputCommandInteraction
+    interaction: ChatInputCommandInteraction | ButtonInteraction
   ) =>
     await deferReply(interaction, {
       embeds: [
@@ -30,7 +32,7 @@ export default {
       ],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          marketButton(Markets.stocks)
+          marketButton(cache, Markets.stocks)
         ),
       ],
     }),

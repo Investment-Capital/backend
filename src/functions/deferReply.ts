@@ -1,12 +1,11 @@
 import {
-  CommandInteraction,
   Interaction,
   InteractionDeferReplyOptions,
   InteractionEditReplyOptions,
 } from "discord.js";
 
 const deferReply = async (
-  interaction: Interaction | CommandInteraction,
+  interaction: Interaction,
   message: InteractionEditReplyOptions | string,
   options?: InteractionDeferReplyOptions
 ) => {

@@ -6,6 +6,7 @@ import EventEmitter from "events";
 import Route from "./route";
 import UnsavedCache from "./unsavedCache";
 import MarketGraphLengths from "../enum/marketGraphLengths";
+import CustomId from "./customId";
 
 type Cache = {
   investors: Investor[];
@@ -14,6 +15,7 @@ type Cache = {
   events: EventEmitter;
   routes: Route[];
   client: Client;
+  customIds: { [key: string]: CustomId };
 
   unsavedCache: UnsavedCache;
   marketGraphs: {

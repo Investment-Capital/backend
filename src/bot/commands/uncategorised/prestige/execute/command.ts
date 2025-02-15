@@ -6,7 +6,7 @@ import prestigeViewEmbed from "../../../../responces/embeds/prestigeView";
 import Cache from "../../../../../types/cache";
 
 export default {
-  validateCommand: (interaction: Interaction) =>
+  validateCommand: (_, interaction: Interaction) =>
     interaction.isChatInputCommand(),
   execute: async (
     cache: Cache,

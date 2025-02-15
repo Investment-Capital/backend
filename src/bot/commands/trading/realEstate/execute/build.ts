@@ -12,7 +12,6 @@ import RealEstate from "../../../../../enum/realEstate";
 import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
 import editInvestor from "../../../../../functions/editInvestor";
-import createRealEstate from "../../../../../functions/createRealEstate";
 import buildingStartedConstructionEmbed from "../../../../responces/embeds/buildingStartedConstruction";
 import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
 import marketButton from "../../../../responces/components/buttons/market";
@@ -20,7 +19,7 @@ import Markets from "../../../../../enum/markets";
 import validName from "../../../../../functions/validName";
 
 export default {
-  validateCommand: (interaction: Interaction) =>
+  validateCommand: (_, interaction: Interaction) =>
     interaction.isChatInputCommand()
       ? interaction.options.getSubcommandGroup() == "build"
       : false,
@@ -83,22 +82,32 @@ export default {
         { ephemeral: true }
       );
 
-    editInvestor(cache, investor, () => (investor.cash -= price));
-    const realEstate = createRealEstate(cache, investor, name, realEstateType);
+    editInvestor(cache, investor, () => {
+      investor.realEstate.push({
+        name,
+        type: realEstateType,
+        upgrades: [],
+        created: Date.now(),
+        built: false,
+      });
+
+      investor.cash -= price;
+    });
 
     await deferReply(interaction, {
       embeds: [
         buildingStartedConstructionEmbed(
           interaction.user,
           config.image,
-          config.buildTime + realEstate.created,
+          name,
+          config.buildTime + Date.now(),
           price
         ),
       ],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          realEstateViewButton(),
-          marketButton(Markets.realEstate)
+          realEstateViewButton(cache),
+          marketButton(cache, Markets.realEstate)
         ),
       ],
     });

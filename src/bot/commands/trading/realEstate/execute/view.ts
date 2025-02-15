@@ -15,13 +15,15 @@ import realEstateViewEmbed from "../../../../responces/embeds/realEstateView";
 import Cache from "../../../../../types/cache";
 import realEstateUpgradesButtons from "../../../../responces/components/buttons/realEstateUpgrades";
 import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
+import CustomIdManager from "../../../../../classes/customIdManager";
 
 export default {
-  validateCommand: (interaction: Interaction) =>
+  validateCommand: (cache: Cache, interaction: Interaction) =>
     interaction.isChatInputCommand()
       ? interaction.options.getSubcommand() == "view"
       : interaction.isButton() || interaction.isModalSubmit()
-      ? interaction.customId == "realEstateView"
+      ? CustomIdManager.parse(cache, interaction.customId).id ==
+        "realEstateView"
       : false,
 
   execute: async (
@@ -33,7 +35,9 @@ export default {
       | ChatInputCommandInteraction
   ) => {
     if (interaction.isButton())
-      return await interaction.showModal(realEstateModal("realEstateView"));
+      return await interaction.showModal(
+        realEstateModal(cache, { id: "realEstateView" })
+      );
 
     const name = interaction.isChatInputCommand()
       ? interaction.options.getString("name", true)
@@ -60,14 +64,19 @@ export default {
 
     return await deferReply(interaction, {
       embeds: [
-        realEstateViewEmbed(interaction.user, realEstate, cache.markets),
+        realEstateViewEmbed(
+          interaction.user,
+          investor.prestige,
+          realEstate,
+          cache.markets
+        ),
       ],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          realEstateUpgradesButtons(interaction.user, realEstate)
+          realEstateUpgradesButtons(cache, investor, realEstate)
         ),
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          realEstateViewButton()
+          realEstateViewButton(cache)
         ),
       ],
     });

@@ -10,7 +10,7 @@ const realEstateConfig: RealEstateConfig = {
     image:
       "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3da-fe0f.png",
     emoji: Emojis.abandonedHouse,
-    baseRent: 750,
+    rent: 750,
     buildTime: Times.hour * 12,
   },
 
@@ -20,7 +20,7 @@ const realEstateConfig: RealEstateConfig = {
     volatility: 6.5,
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3e0.png",
     emoji: Emojis.house,
-    baseRent: 2_000,
+    rent: 2_000,
     buildTime: Times.day,
   },
 
@@ -30,7 +30,7 @@ const realEstateConfig: RealEstateConfig = {
     volatility: 6.75,
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3e2.png",
     emoji: Emojis.office,
-    baseRent: 5_000,
+    rent: 5_000,
     buildTime: Times.day * 1.5,
   },
 
@@ -41,7 +41,7 @@ const realEstateConfig: RealEstateConfig = {
     image:
       "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3d9-fe0f.png",
     emoji: Emojis.cityScape,
-    baseRent: 7_500,
+    rent: 7_500,
     buildTime: Times.day * 3,
   },
 
@@ -51,7 +51,7 @@ const realEstateConfig: RealEstateConfig = {
     volatility: 7.25,
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3f0.png",
     emoji: Emojis.castle,
-    baseRent: 10_000,
+    rent: 10_000,
     buildTime: Times.day * 2.5,
   },
 };

@@ -13,14 +13,15 @@ import portfolioEmbed from "../../../../responces/embeds/portfolio";
 import portfolioMenu from "../../../../responces/components/menus/portfolio";
 import stocksViewButton from "../../../../responces/components/buttons/stocksView";
 import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
+import CustomIdManager from "../../../../../classes/customIdManager";
 
 export default {
-  validateCommand: (interaction: Interaction) =>
-    interaction.isChatInputCommand() ||
-    interaction.isContextMenuCommand() ||
-    interaction.isAutocomplete()
+  validateCommand: (cache: Cache, interaction: Interaction) =>
+    interaction.isChatInputCommand()
       ? true
-      : interaction.customId.startsWith("portfolio"),
+      : "customId" in interaction
+      ? CustomIdManager.parse(cache, interaction.customId).id == "portfolio"
+      : false,
   execute: async (cache: Cache, _, interaction: Interaction) => {
     const user = interaction.isChatInputCommand()
       ? interaction.options.getUser("user") ?? interaction.user
@@ -49,11 +50,11 @@ export default {
       embeds: [portfolioEmbed(user, userData, user !== interaction.user)],
       components: [
         new ActionRowBuilder<UserSelectMenuBuilder>().addComponents(
-          portfolioMenu(user.id)
+          portfolioMenu(cache, user.id)
         ),
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          stocksViewButton(),
-          realEstateViewButton()
+          stocksViewButton(cache),
+          realEstateViewButton(cache)
         ),
       ],
     });

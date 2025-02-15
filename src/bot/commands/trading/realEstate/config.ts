@@ -1,3 +1,4 @@
+import CustomIdManager from "../../../../classes/customIdManager";
 import realEstateConfig from "../../../../config/realEstateConfig";
 import realEstateUpgradesConfig from "../../../../config/realEstateUpgradesConfig";
 import RealEstate from "../../../../enum/realEstate";
@@ -32,5 +33,14 @@ export default {
         (config) => config.requiredPrestige
       )
     ),
+
+    components: (cache, interaction) => {
+      const customId = CustomIdManager.parse(cache, interaction.customId);
+
+      return customId.id == "realEstateUpgrade"
+        ? realEstateUpgradesConfig[customId.upgrade as RealEstateUpgrades]
+            .requiredPrestige
+        : undefined;
+    },
   },
 } satisfies Command["config"];

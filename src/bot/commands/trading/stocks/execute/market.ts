@@ -1,8 +1,11 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
+  ButtonInteraction,
+  ChatInputCommandInteraction,
   Interaction,
   StringSelectMenuBuilder,
+  StringSelectMenuInteraction,
 } from "discord.js";
 import Command from "../../../../../types/command";
 import Cache from "../../../../../types/cache";
@@ -12,23 +15,36 @@ import marketEmbed from "../../../../responces/embeds/market";
 import marketsMenu from "../../../../responces/components/menus/markets";
 import marketGraphLengthsButtons from "../../../../responces/components/buttons/marketGraphLengths";
 import Markets from "../../../../../enum/markets";
+import CustomIdManager from "../../../../../classes/customIdManager";
 
 export default {
-  validateCommand: (interaction: Interaction) =>
-    interaction.isChatInputCommand()
+  validateCommand: (cache: Cache, interaction: Interaction) =>
+    interaction.isStringSelectMenu() || interaction.isButton()
+      ? (() => {
+          const customId = CustomIdManager.parse(cache, interaction.customId);
+
+          return (
+            customId.id == "market" &&
+            (interaction.isButton()
+              ? customId.market
+              : interaction.values[0]) == Markets.stocks
+          );
+        })()
+      : interaction.isChatInputCommand()
       ? interaction.options.getSubcommand() == "market"
-      : interaction.isStringSelectMenu()
-      ? interaction.customId == "markets" &&
-        interaction.values[0] == Markets.stocks
-      : interaction.isButton()
-      ? interaction.customId.startsWith(`${Markets.stocks}-market`)
       : false,
-  execute: async (cache: Cache, _, interaction: Interaction) => {
-    const graphLength = ((interaction.isChatInputCommand()
+
+  execute: async (
+    cache: Cache,
+    _,
+    interaction:
+      | ButtonInteraction
+      | ChatInputCommandInteraction
+      | StringSelectMenuInteraction
+  ) => {
+    const graphLength: MarketGraphLengths = interaction.isChatInputCommand()
       ? interaction.options.getString("graph-length")
-      : interaction.isButton()
-      ? interaction.customId.split("-")[2]
-      : undefined) ?? Object.keys(MarketGraphLengths)[0]) as MarketGraphLengths;
+      : CustomIdManager.parse(cache, interaction.customId).graphLength;
 
     await deferReply(interaction, {
       embeds: [
@@ -40,10 +56,10 @@ export default {
       ],
       components: [
         new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-          marketsMenu(Markets.stocks)
+          marketsMenu(cache, Markets.stocks, graphLength)
         ),
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          marketGraphLengthsButtons(Markets.stocks, graphLength)
+          marketGraphLengthsButtons(cache, Markets.stocks, graphLength)
         ),
       ],
     });

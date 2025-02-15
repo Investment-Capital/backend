@@ -1,10 +1,13 @@
 import { ActionRowBuilder, TextInputBuilder } from "@discordjs/builders";
 import { ModalBuilder, TextInputStyle } from "discord.js";
+import CustomId from "../../../types/customId";
+import CustomIdManager from "../../../classes/customIdManager";
+import Cache from "../../../types/cache";
 
-const realEstateModal = (customId: string) =>
+const realEstateModal = (cache: Cache, customId: CustomId) =>
   new ModalBuilder()
     .setTitle(`Enter Real Estate`)
-    .setCustomId(customId)
+    .setCustomId(CustomIdManager.create(cache, customId))
     .addComponents(
       new ActionRowBuilder<TextInputBuilder>().addComponents(
         new TextInputBuilder()

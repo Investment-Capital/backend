@@ -9,9 +9,11 @@ import MarkdownManager from "../../../classes/markdownManager";
 import DateFormats from "../../../enum/dateFormats";
 import realEstateUpgradesConfig from "../../../config/realEstateUpgradesConfig";
 import Emojis from "../../../classes/emojis";
+import calculateRealEstateValue from "../../../functions/calculateRealEstateValue";
 
 const realEstateViewEmbed = (
   user: User,
+  prestige: number,
   realEstate: RealEstate,
   markets: Markets
 ) => {
@@ -35,7 +37,7 @@ const realEstateViewEmbed = (
           name: "Value",
           value:
             `${Emojis.cash} $` +
-            formatNumber(markets.realEstate[realEstate.type].price),
+            formatNumber(calculateRealEstateValue(realEstate, markets)),
           inline: true,
         },
         {
@@ -52,9 +54,7 @@ const realEstateViewEmbed = (
               {
                 name: "Rent",
                 value:
-                  `${Emojis.moneyBag} $` +
-                  formatNumber(config.baseRent) +
-                  "/hour",
+                  `${Emojis.moneyBag} $` + formatNumber(config.rent) + "/hour",
                 inline: false,
               },
 
@@ -65,19 +65,24 @@ const realEstateViewEmbed = (
 
                 return {
                   name: config.emoji + " " + capitalizeWords(name),
-                  value: !upgradeData
-                    ? `Price: $${formatNumber(config.price)}`
-                    : upgradeData.completed
-                    ? "Created " +
-                      MarkdownManager.date(
-                        upgradeData.created,
-                        DateFormats.relative
-                      )
-                    : "Completed " +
-                      MarkdownManager.date(
-                        upgradeData.created + config.upgradeTime,
-                        DateFormats.relative
-                      ),
+                  value:
+                    config.requiredPrestige > prestige
+                      ? `${Emojis.lock} Unlocked at prestige ${config.requiredPrestige}.`
+                      : !upgradeData
+                      ? `Price: $${formatNumber(
+                          config.price
+                        )}\nValue Multiplier: ${config.valueMultiplier}x`
+                      : upgradeData.completed
+                      ? "Created " +
+                        MarkdownManager.date(
+                          upgradeData.created,
+                          DateFormats.relative
+                        )
+                      : "Completed " +
+                        MarkdownManager.date(
+                          upgradeData.created + config.upgradeTime,
+                          DateFormats.relative
+                        ),
                   inline: true,
                 };
               }),

@@ -18,7 +18,7 @@ import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
 
 export default {
-  validateCommand: (interaction: Interaction) =>
+  validateCommand: (_, interaction: Interaction) =>
     interaction.isChatInputCommand()
       ? interaction.options.getSubcommandGroup() == "sell"
       : false,
@@ -60,8 +60,8 @@ export default {
       ],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          stocksViewButton(),
-          marketButton(Markets.stocks)
+          stocksViewButton(cache),
+          marketButton(cache, Markets.stocks)
         ),
       ],
     });

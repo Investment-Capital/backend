@@ -10,6 +10,8 @@ class MarkdownManager {
 
   static date = (date: number, format: DateFormats) =>
     `<t:${Math.floor(date / 1000).toString() + dateFormatValues[format]}>`;
+
+  static user = (id: string) => `<@${id}>`;
 }
 
 export default MarkdownManager;
