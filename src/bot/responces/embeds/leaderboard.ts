@@ -3,7 +3,6 @@ import { EmbedBuilder, User } from "discord.js";
 import LeaderboardData from "../../../types/leaderboardData";
 import addDefaults from "./defaults/addDefaults";
 import ordinal from "ordinal";
-import formatNumber from "../../../functions/formatNumber";
 import LeaderboardTypes from "../../../enum/leaderboardTypes";
 import Emojis from "../../../classes/emojis";
 import capitalizeWords from "../../../functions/capitalizeWords";
@@ -26,9 +25,9 @@ const leaderboardEmbed = (
         data
           .map(
             (data) =>
-              `${ordinal(data.position)}. • ${data.name} • ${formatNumber(
-                data.value
-              )}`
+              `**${ordinal(data.position)}:** ${data.name} • ${
+                data.formattedValue
+              }`
           )
           .join("\n")
       ),

@@ -1,14 +1,6 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ChatInputCommandInteraction,
-  Interaction,
-} from "discord.js";
-import Command from "../../../../../types/command";
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import Stocks from "../../../../../enum/stocks";
 import stocksConfig from "../../../../../config/stocksConfig";
-import Cache from "../../../../../types/cache";
-import Investor from "../../../../../types/investor";
 import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
 import editInvestor from "../../../../../functions/editInvestor";
@@ -16,17 +8,22 @@ import investmentBoughtEmbed from "../../../../responces/embeds/investmentBought
 import stocksViewButton from "../../../../responces/components/buttons/stocksView";
 import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (_, interaction: Interaction) =>
+  validateCommand: (_, interaction) =>
     interaction.isChatInputCommand()
       ? interaction.options.getSubcommandGroup() == "buy"
       : false,
-  execute: async (
-    cache: Cache,
-    investor: Investor,
-    interaction: ChatInputCommandInteraction
-  ) => {
+
+  requiredPresige: (_, interaction) =>
+    interaction.isChatInputCommand()
+      ? stocksConfig[interaction.options.getSubcommand() as Stocks]
+          .requiredPrestige
+      : 1,
+  execute: async (cache, investor, interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+
     const stock = interaction.options.getSubcommand() as Stocks;
     const amount = interaction.options.getInteger("amount") ?? 1;
     const config = stocksConfig[stock];
@@ -59,7 +56,8 @@ export default {
           interaction.user,
           config.image,
           amount,
-          totalPrice
+          totalPrice,
+          config.income * amount
         ),
       ],
       components: [
@@ -70,4 +68,4 @@ export default {
       ],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

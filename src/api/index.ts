@@ -5,7 +5,6 @@ import http from "http";
 import fs from "fs";
 import enableWs from "express-ws";
 import Logger from "../classes/logger";
-import Execute from "../types/execute";
 import cors from "cors";
 import path from "path";
 
@@ -35,7 +34,7 @@ const startAPI = async (cache: Cache) => {
   enableWs(app, server);
 
   for (const file of fs.readdirSync(path.join(__dirname, "./handlers"))) {
-    const handler: Execute = (await import(`./handlers/${file}`)).default;
+    const handler = (await import(`./handlers/${file}`)).default;
     handler(cache, app);
   }
 

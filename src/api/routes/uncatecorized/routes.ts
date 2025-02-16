@@ -1,11 +1,9 @@
-import { Response } from "express";
-import Cache from "../../../types/cache";
 import Route from "../../../types/route";
 
 export default {
   method: "get",
   path: "/routes",
-  execute: (cache: Cache, _, res: Response) =>
+  execute: (cache, _, res) =>
     res.json(
       cache.routes.map((route) => ({
         method: route.method,

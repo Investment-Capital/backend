@@ -1,24 +1,10 @@
 import { RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
-import Execute from "./execute";
-import Cache from "./cache";
-import RequiredPrestige from "./requiredPrestige";
+import CommandExecute from "./commandExecute";
 
 type Command = {
   data: RESTPostAPIApplicationCommandsJSONBody;
-  config: {
-    guilds?: string[];
-    category?: string;
-    disabled?: boolean | ((cache: Cache) => boolean);
-    requiedPrestige?: RequiredPrestige;
-    admin?: boolean;
-    owner?: boolean;
-    requiresAccount?: boolean;
-  };
-  autocomplete?: Execute;
-  execute: {
-    validateCommand: Execute;
-    execute: Execute;
-  }[];
+  category: string;
+  execute: CommandExecute[];
 };
 
 export default Command;

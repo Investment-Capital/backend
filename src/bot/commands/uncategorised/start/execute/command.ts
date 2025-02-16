@@ -1,20 +1,21 @@
-import { ActionRowBuilder, ButtonBuilder, Interaction } from "discord.js";
-import Command from "../../../../../types/command";
-import Cache from "../../../../../types/cache";
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
 import createAccount from "../../../../../functions/createAccount";
 import accountCreatedEmbed from "../../../../responces/embeds/accountCreated";
 import portfolioButton from "../../../../responces/components/buttons/portfolio";
 import CustomIdManager from "../../../../../classes/customIdManager";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (cache: Cache, interaction: Interaction) =>
+  validateCommand: (cache, interaction) =>
     interaction.isChatInputCommand()
       ? true
       : interaction.isButton() &&
         CustomIdManager.parse(cache, interaction.customId).id == "start",
-  execute: async (cache: Cache, interaction: Interaction) => {
+  requiresAccount: false,
+
+  execute: async (cache, interaction) => {
     const investor = cache.investors.find(
       (investor) => investor.user.id == interaction.user.id
     );
@@ -57,4 +58,4 @@ export default {
       ],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

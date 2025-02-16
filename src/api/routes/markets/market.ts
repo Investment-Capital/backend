@@ -1,10 +1,8 @@
-import { Request, Response } from "express";
 import Route from "../../../types/route";
-import Cache from "../../../types/cache";
 
 export default {
   path: "/market/:market",
-  execute: (cache: Cache, req: Request, res: Response) => {
+  execute: (cache, req, res) => {
     const { market } = req.params;
 
     if (!(market in cache.markets))

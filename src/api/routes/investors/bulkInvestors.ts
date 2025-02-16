@@ -1,13 +1,11 @@
-import { Request, Response } from "express";
 import Route from "../../../types/route";
-import Cache from "../../../types/cache";
 import publicInvestor from "../../../functions/publicInvestor";
 import pageSize from "../../../config/pageSize";
 
 export default {
   path: "/investors",
   method: "post",
-  execute: (cache: Cache, req: Request, res: Response) => {
+  execute: (cache, req, res) => {
     const { investors } = req.body;
 
     if (!investors)

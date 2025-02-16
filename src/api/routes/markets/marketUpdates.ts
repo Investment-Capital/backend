@@ -1,11 +1,10 @@
 import EmitterValues from "../../../classes/emitterValues";
-import Cache from "../../../types/cache";
 import Route from "../../../types/route";
 
 export default {
   path: "/markets",
   method: "ws",
-  execute: (cache: Cache, ws: WebSocket) => {
+  execute: (cache, ws) => {
     const callback = (data: { market: string; data: any }) =>
       ws.send(JSON.stringify(data));
 

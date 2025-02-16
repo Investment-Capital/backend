@@ -12,6 +12,7 @@ type LeaderboardsConfig = {
     leaderboards: {
       [key: string]: {
         getValue: (data: any) => number;
+        formatValue: (value: number) => string;
         emoji: string;
       };
     };

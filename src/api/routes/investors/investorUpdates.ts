@@ -1,14 +1,12 @@
-import { Request } from "express";
 import Route from "../../../types/route";
 import Investor from "../../../types/investor";
 import publicInvestor from "../../../functions/publicInvestor";
 import EmitterValues from "../../../classes/emitterValues";
-import Cache from "../../../types/cache";
 
 export default {
   path: "/investor/:id",
   method: "ws",
-  execute: (cache: Cache, ws: WebSocket, req: Request) => {
+  execute: (cache, ws, req) => {
     const { id } = req.params;
     const investor = cache.investors.find((investor) => investor.user.id == id);
 

@@ -1,15 +1,8 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonInteraction,
-  ChatInputCommandInteraction,
-  Interaction,
-  ModalSubmitInteraction,
   StringSelectMenuBuilder,
-  StringSelectMenuInteraction,
 } from "discord.js";
-import Command from "../../../../../types/command";
-import Cache from "../../../../../types/cache";
 import LeaderboardTypes from "../../../../../enum/leaderboardTypes";
 import leaderboardModal from "../../../../responces/modals/leaderboard";
 import leaderboardsConfig from "../../../../../config/leaderboardsConfig";
@@ -21,23 +14,27 @@ import leaderboardButtons from "../../../../responces/components/buttons/leaderb
 import leaderboardMenu from "../../../../responces/components/menus/leaderboard";
 import pageSize from "../../../../../config/pageSize";
 import CustomIdManager from "../../../../../classes/customIdManager";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (cache: Cache, interaction: Interaction) =>
+  validateCommand: (cache, interaction) =>
     interaction.isChatInputCommand()
       ? true
       : "customId" in interaction
       ? CustomIdManager.parse(cache, interaction.customId).id == "leaderboard"
       : false,
 
-  execute: async (
-    cache: Cache,
-    interaction:
-      | ButtonInteraction
-      | ChatInputCommandInteraction
-      | StringSelectMenuInteraction
-      | ModalSubmitInteraction
-  ) => {
+  requiresAccount: false,
+
+  execute: async (cache, interaction) => {
+    if (
+      !interaction.isButton() &&
+      !interaction.isModalSubmit() &&
+      !interaction.isChatInputCommand() &&
+      !interaction.isStringSelectMenu()
+    )
+      return;
+
     const type: LeaderboardTypes = (
       interaction.isChatInputCommand()
         ? interaction.options.getSubcommandGroup(true)
@@ -92,6 +89,7 @@ export default {
       dataSet,
       configType.leaderboards[leaderboard].getValue,
       configType.mapData,
+      configType.leaderboards[leaderboard].formatValue,
       page
     );
 
@@ -116,4 +114,4 @@ export default {
       ],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

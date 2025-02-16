@@ -3,6 +3,7 @@ import EmitterValues from "../classes/emitterValues";
 import SavedUser from "../types/savedUser";
 import defaultInvestorData from "../config/defaultInvestorData";
 import generateCode from "./generateCode";
+import Roles from "../enum/roles";
 
 const createAccount = (cache: Cache, user: SavedUser) => {
   const applicationOwner = cache.client.application?.owner;
@@ -14,10 +15,7 @@ const createAccount = (cache: Cache, user: SavedUser) => {
 
   const data = defaultInvestorData(
     user,
-    {
-      owner: ownerId == user.id,
-      admin: false,
-    },
+    ownerId == user.id ? Roles.owner : Roles.player,
     generateCode()
   );
 

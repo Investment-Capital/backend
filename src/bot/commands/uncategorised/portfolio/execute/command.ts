@@ -1,12 +1,9 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
-  Interaction,
   User,
   UserSelectMenuBuilder,
 } from "discord.js";
-import Command from "../../../../../types/command";
-import Cache from "../../../../../types/cache";
 import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
 import portfolioEmbed from "../../../../responces/embeds/portfolio";
@@ -14,15 +11,17 @@ import portfolioMenu from "../../../../responces/components/menus/portfolio";
 import stocksViewButton from "../../../../responces/components/buttons/stocksView";
 import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
 import CustomIdManager from "../../../../../classes/customIdManager";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (cache: Cache, interaction: Interaction) =>
+  validateCommand: (cache, interaction) =>
     interaction.isChatInputCommand()
       ? true
       : "customId" in interaction
       ? CustomIdManager.parse(cache, interaction.customId).id == "portfolio"
       : false,
-  execute: async (cache: Cache, _, interaction: Interaction) => {
+
+  execute: async (cache, _, interaction) => {
     const user = interaction.isChatInputCommand()
       ? interaction.options.getUser("user") ?? interaction.user
       : interaction.isUserSelectMenu()
@@ -59,4 +58,4 @@ export default {
       ],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

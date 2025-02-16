@@ -1,27 +1,12 @@
-import { ChatInputCommandInteraction, Interaction } from "discord.js";
-import Command from "../../../../../types/command";
-import Investor from "../../../../../types/investor";
 import deferReply from "../../../../../functions/deferReply";
 import prestigeViewEmbed from "../../../../responces/embeds/prestigeView";
-import Cache from "../../../../../types/cache";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (_, interaction: Interaction) =>
-    interaction.isChatInputCommand(),
-  execute: async (
-    cache: Cache,
-    investor: Investor,
-    interaction: ChatInputCommandInteraction
-  ) => {
+  validateCommand: (_, interaction) => interaction.isChatInputCommand(),
+  execute: async (_, investor, interaction) => {
     await deferReply(interaction, {
-      embeds: [
-        prestigeViewEmbed(
-          interaction.user,
-          investor.prestige,
-          cache.commands,
-          cache.client.application?.commands.cache.toJSON() ?? []
-        ),
-      ],
+      embeds: [prestigeViewEmbed(interaction.user, investor.prestige)],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

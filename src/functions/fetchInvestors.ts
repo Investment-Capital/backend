@@ -14,7 +14,7 @@ const fetchInvestors = async (): Promise<Investor[]> => {
   for (const investor of investorsData) {
     const defaultInvestor = defaultInvestorData(
       investor.user,
-      investor.permissions,
+      investor.role,
       investor.authorization
     );
 

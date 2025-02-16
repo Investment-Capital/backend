@@ -8,16 +8,14 @@ import {
 } from "discord.js";
 import Event from "../../types/event";
 import Logger from "../../classes/logger";
-import Command from "../../types/command";
-import Execute from "../../types/execute";
 import deferReply from "../../functions/deferReply";
 import Cache from "../../types/cache";
-import getInteractionRequiredPrestige from "../../functions/getInteractionRequiredPrestige";
 import startButton from "../responces/components/buttons/start";
 import errorEmbed from "../responces/embeds/error";
 import MarkdownManager from "../../classes/markdownManager";
 import warnEmbed from "../responces/embeds/warning";
 import CustomIdManager from "../../classes/customIdManager";
+import Investor from "../../types/investor";
 
 export default {
   event: Events.InteractionCreate,
@@ -50,9 +48,7 @@ export default {
     );
 
     const executeData = cache.commands.find((command) =>
-      interaction.isCommand() ||
-      interaction.isAutocomplete() ||
-      interaction.isChatInputCommand()
+      interaction.isCommand() || interaction.isAutocomplete()
         ? command.data.name == interaction.commandName
         : command.execute.some((data) =>
             data.validateCommand(cache, interaction)
@@ -63,10 +59,7 @@ export default {
       data.validateCommand(cache, interaction)
     );
 
-    if (
-      !executeData ||
-      (interaction.isAutocomplete() ? false : !commandExecute)
-    ) {
+    if (!executeData || !commandExecute) {
       await deferReply(
         interaction,
         {
@@ -90,7 +83,7 @@ export default {
       );
     }
 
-    if (executeData.config.requiresAccount && !foundUser) {
+    if (commandExecute.requiresAccount && !foundUser) {
       return await deferReply(
         interaction,
         {
@@ -136,9 +129,9 @@ export default {
       );
 
     if (
-      executeData.config.guilds &&
+      commandExecute.guilds &&
       (!interaction.inGuild() ||
-        !executeData.config.guilds.includes(interaction.guildId))
+        !commandExecute.guilds.includes(interaction.guildId))
     )
       return await deferReply(
         interaction,
@@ -157,9 +150,9 @@ export default {
       );
 
     if (
-      typeof executeData.config.disabled == "function"
-        ? executeData.config.disabled(cache)
-        : executeData.config.disabled
+      typeof commandExecute.disabled == "function"
+        ? commandExecute.disabled(cache)
+        : commandExecute.disabled
     )
       return await deferReply(
         interaction,
@@ -201,10 +194,9 @@ export default {
       );
 
     if (
-      (executeData.config.admin &&
-        !foundUser?.permissions.admin &&
-        !foundUser?.permissions.owner) ||
-      (executeData.config.owner && !foundUser?.permissions.owner)
+      commandExecute && "allowedRoles" in commandExecute
+        ? foundUser && commandExecute.allowedRoles?.includes(foundUser.role)
+        : false
     )
       return await deferReply(
         interaction,
@@ -220,11 +212,9 @@ export default {
         { ephemeral: true }
       );
 
-    const commandRequiredPrestige = getInteractionRequiredPrestige(
-      executeData,
-      interaction,
-      cache
-    );
+    const commandRequiredPrestige = commandExecute.requiredPresige
+      ? commandExecute.requiredPresige(cache, interaction)
+      : 1;
 
     if (commandRequiredPrestige > (foundUser?.prestige ?? 1)) {
       return await deferReply(
@@ -243,21 +233,22 @@ export default {
     }
 
     try {
-      if (interaction.isAutocomplete() && executeData.autocomplete) {
-        executeData.config.requiresAccount
-          ? await ((executeData as Command).autocomplete as Execute)(
+      if (interaction.isAutocomplete() && commandExecute.autocomplete) {
+        commandExecute.requiresAccount
+          ? await commandExecute.autocomplete(
               cache,
-              foundUser,
+              foundUser as Investor,
               interaction
             )
-          : await ((executeData as Command).autocomplete as Execute)(
-              cache,
-              interaction
-            );
+          : await (commandExecute as any).autocomplete(cache, interaction);
       } else if (!interaction.isAutocomplete())
-        executeData.config.requiresAccount
-          ? await commandExecute?.execute(cache, foundUser, interaction)
-          : await commandExecute?.execute(cache, interaction);
+        commandExecute.requiresAccount
+          ? await commandExecute.execute(
+              cache,
+              foundUser as Investor,
+              interaction
+            )
+          : await (commandExecute as any).execute(cache, interaction);
       else throw new Error("Invalid Interaction Type");
     } catch (error: any) {
       await deferReply(

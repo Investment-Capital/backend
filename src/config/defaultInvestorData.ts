@@ -1,15 +1,15 @@
+import Roles from "../enum/roles";
 import Investor from "../types/investor";
-import Permissions from "../types/permissions";
 import SavedUser from "../types/savedUser";
 import stocksConfig from "./stocksConfig";
 
 const defaultInvestorData = (
   user: SavedUser,
-  permissions: Permissions,
+  role: Roles,
   authorization: string
 ): Investor => ({
   user,
-  permissions,
+  role,
   created: Date.now(),
   authorization,
   cash: 1000,

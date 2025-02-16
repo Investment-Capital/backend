@@ -6,7 +6,8 @@ const investmentSoldEmbed = (
   user: User,
   image: string,
   amount: number,
-  cashGained: number
+  cashGained: number,
+  incomeLost: number
 ) => {
   return addDefaults(
     new EmbedBuilder()
@@ -15,13 +16,18 @@ const investmentSoldEmbed = (
       .setThumbnail(image)
       .addFields(
         {
-          name: "Amount Sold",
+          name: "Amount",
           value: formatNumber(amount),
           inline: true,
         },
         {
           name: "Cash Gained",
           value: "$" + formatNumber(cashGained),
+          inline: true,
+        },
+        {
+          name: "Income Lost",
+          value: "$" + formatNumber(incomeLost) + "/hour",
           inline: true,
         }
       ),

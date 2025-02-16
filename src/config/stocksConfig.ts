@@ -3,7 +3,7 @@ import StocksConfig from "../types/config/stocksConfig";
 
 const stocksConfig: StocksConfig = {
   sop: {
-    income: 0,
+    income: 1,
     requiredPrestige: 1,
     basePrice: 25,
     volatility: 7.5,

@@ -1,12 +1,4 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ChatInputCommandInteraction,
-  Interaction,
-} from "discord.js";
-import Command from "../../../../../types/command";
-import Cache from "../../../../../types/cache";
-import Investor from "../../../../../types/investor";
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import realEstateConfig from "../../../../../config/realEstateConfig";
 import RealEstate from "../../../../../enum/realEstate";
 import deferReply from "../../../../../functions/deferReply";
@@ -17,17 +9,21 @@ import realEstateViewButton from "../../../../responces/components/buttons/realE
 import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
 import validName from "../../../../../functions/validName";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (_, interaction: Interaction) =>
+  validateCommand: (_, interaction) =>
     interaction.isChatInputCommand()
       ? interaction.options.getSubcommandGroup() == "build"
       : false,
-  execute: async (
-    cache: Cache,
-    investor: Investor,
-    interaction: ChatInputCommandInteraction
-  ) => {
+  requiredPresige: (_, interaction) =>
+    interaction.isChatInputCommand()
+      ? realEstateConfig[interaction.options.getSubcommand() as RealEstate]
+          .requiredPrestige
+      : 1,
+  execute: async (cache, investor, interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+
     const realEstateType = interaction.options.getSubcommand() as RealEstate;
     const name = interaction.options.getString("name", true);
     const config = realEstateConfig[realEstateType];
@@ -112,4 +108,4 @@ export default {
       ],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

@@ -1,7 +1,5 @@
-import { Request, Response } from "express";
 import Route from "../../../types/route";
 import dotenv from "dotenv";
-import Cache from "../../../types/cache";
 import createAccount from "../../../functions/createAccount";
 import getIdBytoken from "../../../functions/getIdByToken";
 import Times from "../../../classes/times";
@@ -13,7 +11,7 @@ export default {
   method: "post",
   ratelimit: 4,
   ratelimitDuration: Times.minute,
-  execute: async (cache: Cache, req: Request, res: Response) => {
+  execute: async (cache, req, res) => {
     const code = req.body?.code;
 
     if (!code) return res.status(401).json({ error: "Invalid code." });

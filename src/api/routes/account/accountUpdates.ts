@@ -1,13 +1,12 @@
 import Route from "../../../types/route";
 import Investor from "../../../types/investor";
 import EmitterValues from "../../../classes/emitterValues";
-import Cache from "../../../types/cache";
 
 export default {
   path: "/account/updates",
   authorized: true,
   method: "ws",
-  execute: (cache: Cache, investor: Investor, ws: WebSocket) => {
+  execute: (cache, investor, ws) => {
     const authorization = { ...investor }.authorization;
 
     const callback = (info: Investor) =>

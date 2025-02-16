@@ -1,16 +1,7 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonInteraction,
-  ChatInputCommandInteraction,
-  Interaction,
-} from "discord.js";
-import Command from "../../../../../types/command";
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import CustomIdManager from "../../../../../classes/customIdManager";
-import Cache from "../../../../../types/cache";
 import RealEstateUpgrades from "../../../../../enum/realEstateUpgrades";
 import realEstateUpgradesConfig from "../../../../../config/realEstateUpgradesConfig";
-import Investor from "../../../../../types/investor";
 import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
 import realEstateConfig from "../../../../../config/realEstateConfig";
@@ -21,20 +12,54 @@ import realEstateUpgradeBoughtEmbed from "../../../../responces/embeds/realEstat
 import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
 import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
+import searchItems from "../../../../../functions/searchItems";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (cache: Cache, interaction: Interaction) =>
-    interaction.isChatInputCommand()
+  validateCommand: (cache, interaction) =>
+    interaction.isChatInputCommand() || interaction.isAutocomplete()
       ? interaction.options.getSubcommandGroup() == "upgrade"
       : interaction.isButton()
       ? CustomIdManager.parse(cache, interaction.customId).id ==
         "realEstateUpgrade"
       : false,
-  execute: async (
-    cache: Cache,
-    investor: Investor,
-    interaction: ChatInputCommandInteraction | ButtonInteraction
-  ) => {
+
+  requiredPresige: (cache, interaction) =>
+    interaction.isChatInputCommand() || interaction.isButton()
+      ? realEstateUpgradesConfig[
+          (interaction.isButton()
+            ? CustomIdManager.parse(cache, interaction.customId).upgrade
+            : interaction.options.getSubcommand()) as RealEstateUpgrades
+        ].requiredPrestige
+      : 1,
+
+  autocomplete: async (_, investor, interaction) => {
+    const upgrade = interaction.options.getSubcommand() as RealEstateUpgrades;
+
+    await interaction.respond(
+      searchItems(
+        interaction.options.getFocused(),
+        investor.realEstate.filter(
+          (realEstate) =>
+            realEstate.built &&
+            realEstateUpgradesConfig[upgrade].allowedRealEstate.includes(
+              realEstate.type
+            ) &&
+            !realEstate.upgrades.find(
+              (upgradeData) => upgradeData.type == upgrade
+            )
+        ),
+        (realEstate) => realEstate.name
+      ).map((realEstate) => ({
+        name: realEstateConfig[realEstate.type].emoji + " " + realEstate.name,
+        value: realEstate.name,
+      }))
+    );
+  },
+
+  execute: async (cache, investor, interaction) => {
+    if (!interaction.isButton() && !interaction.isChatInputCommand()) return;
+
     const upgrade: RealEstateUpgrades = interaction.isChatInputCommand()
       ? interaction.options.getSubcommand()
       : CustomIdManager.parse(cache, interaction.customId).upgrade;
@@ -166,4 +191,4 @@ export default {
       ],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

@@ -1,31 +1,19 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonInteraction,
-  ChatInputCommandInteraction,
-  Interaction,
-} from "discord.js";
-import Command from "../../../../../types/command";
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import deferReply from "../../../../../functions/deferReply";
 import stocksViewEmbed from "../../../../responces/embeds/stocksView";
-import Cache from "../../../../../types/cache";
-import Investor from "../../../../../types/investor";
 import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
 import CustomIdManager from "../../../../../classes/customIdManager";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (cache: Cache, interaction: Interaction) =>
+  validateCommand: (cache, interaction) =>
     interaction.isChatInputCommand()
       ? interaction.options.getSubcommand() == "view"
       : interaction.isButton()
       ? CustomIdManager.parse(cache, interaction.customId).id == "stocksView"
       : false,
-  execute: async (
-    cache: Cache,
-    investor: Investor,
-    interaction: ChatInputCommandInteraction | ButtonInteraction
-  ) =>
+  execute: async (cache, investor, interaction) =>
     await deferReply(interaction, {
       embeds: [
         stocksViewEmbed(interaction.user, investor, cache.markets.stocks),
@@ -36,4 +24,4 @@ export default {
         ),
       ],
     }),
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

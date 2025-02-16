@@ -1,12 +1,4 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ChatInputCommandInteraction,
-  Interaction,
-} from "discord.js";
-import Command from "../../../../../types/command";
-import Cache from "../../../../../types/cache";
-import Investor from "../../../../../types/investor";
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import realEstateConfig from "../../../../../config/realEstateConfig";
 import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
@@ -17,17 +9,30 @@ import buildingSoldEmbed from "../../../../responces/embeds/buildingSold";
 import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
 import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
+import CommandExecute from "../../../../../types/commandExecute";
+import searchItems from "../../../../../functions/searchItems";
 
 export default {
-  validateCommand: (_, interaction: Interaction) =>
-    interaction.isChatInputCommand()
+  validateCommand: (_, interaction) =>
+    interaction.isChatInputCommand() || interaction.isAutocomplete()
       ? interaction.options.getSubcommand() == "sell"
       : false,
-  execute: async (
-    cache: Cache,
-    investor: Investor,
-    interaction: ChatInputCommandInteraction
-  ) => {
+
+  autocomplete: async (_, investor, interaction) =>
+    await interaction.respond(
+      searchItems(
+        interaction.options.getFocused(),
+        investor.realEstate.filter((realEstate) => realEstate.built),
+        (realEstate) => realEstate.name
+      ).map((realEstate) => ({
+        name: realEstateConfig[realEstate.type].emoji + " " + realEstate.name,
+        value: realEstate.name,
+      }))
+    ),
+
+  execute: async (cache, investor, interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+
     const name = interaction.options.getString("name", true);
     const realEstate = investor.realEstate.find(
       (realEstate) => realEstate.name == name
@@ -98,4 +103,4 @@ export default {
       ],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

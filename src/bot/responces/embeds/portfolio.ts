@@ -5,6 +5,7 @@ import MarkdownManager from "../../../classes/markdownManager";
 import DateFormats from "../../../enum/dateFormats";
 import Emojis from "../../../classes/emojis";
 import formatNumber from "../../../functions/formatNumber";
+import getInvestorIncome from "../../../functions/getInvestorIncome";
 
 const portfolioEmbed = (user: User, investor: Investor, isLookup: boolean) => {
   return addDefaults(
@@ -20,6 +21,15 @@ const portfolioEmbed = (user: User, investor: Investor, isLookup: boolean) => {
         {
           name: "Prestige",
           value: Emojis.prestige + " " + investor.prestige,
+          inline: true,
+        },
+        {
+          name: "Income",
+          value:
+            Emojis.moneyBag +
+            " $" +
+            formatNumber(getInvestorIncome(investor)) +
+            "/hour",
           inline: true,
         },
         {

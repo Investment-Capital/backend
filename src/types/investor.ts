@@ -1,6 +1,6 @@
+import Roles from "../enum/roles";
 import Stocks from "../enum/stocks";
 import Blacklist from "./blacklist";
-import Permissions from "./permissions";
 import RealEstate from "./realEstate";
 import SavedUser from "./savedUser";
 
@@ -15,7 +15,7 @@ type Investor = {
 
   user: SavedUser;
   blacklist: Blacklist;
-  permissions: Permissions;
+  role: Roles;
 
   authorization: string;
 };

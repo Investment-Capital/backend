@@ -1,5 +1,4 @@
 import { Application, Request, Response } from "express";
-import Execute from "../../types/execute";
 import Route from "../../types/route";
 import fs from "fs";
 import Cache from "../../types/cache";
@@ -7,7 +6,7 @@ import Times from "../../classes/times";
 import Logger from "../../classes/logger";
 import path from "path";
 
-export default (async (cache: Cache, app: Application) => {
+export default async (cache: Cache, app: Application) => {
   for (const folder of fs.readdirSync(path.join(__dirname, "../routes"))) {
     for (const file of fs.readdirSync(
       path.join(__dirname, `../routes/${folder}`)
@@ -76,7 +75,7 @@ export default (async (cache: Cache, app: Application) => {
         req.ip && requests.push(req.ip);
 
         try {
-          await route.execute(cache, ...data);
+          await (route as any).execute(cache, ...data);
         } catch (err) {
           res.status(403).json({
             error: "Unknown Error",
@@ -87,4 +86,4 @@ export default (async (cache: Cache, app: Application) => {
       });
     }
   }
-}) satisfies Execute;
+};

@@ -1,39 +1,44 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonInteraction,
-  ChatInputCommandInteraction,
-  Interaction,
-  ModalSubmitInteraction,
-} from "discord.js";
-import Command from "../../../../../types/command";
-import Investor from "../../../../../types/investor";
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import realEstateModal from "../../../../responces/modals/realEstate";
 import deferReply from "../../../../../functions/deferReply";
 import errorEmbed from "../../../../responces/embeds/error";
 import realEstateViewEmbed from "../../../../responces/embeds/realEstateView";
-import Cache from "../../../../../types/cache";
 import realEstateUpgradesButtons from "../../../../responces/components/buttons/realEstateUpgrades";
 import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
 import CustomIdManager from "../../../../../classes/customIdManager";
+import searchItems from "../../../../../functions/searchItems";
+import realEstateConfig from "../../../../../config/realEstateConfig";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (cache: Cache, interaction: Interaction) =>
-    interaction.isChatInputCommand()
+  validateCommand: (cache, interaction) =>
+    interaction.isChatInputCommand() || interaction.isAutocomplete()
       ? interaction.options.getSubcommand() == "view"
       : interaction.isButton() || interaction.isModalSubmit()
       ? CustomIdManager.parse(cache, interaction.customId).id ==
         "realEstateView"
       : false,
 
-  execute: async (
-    cache: Cache,
-    investor: Investor,
-    interaction:
-      | ButtonInteraction
-      | ModalSubmitInteraction
-      | ChatInputCommandInteraction
-  ) => {
+  autocomplete: async (_, investor, interaction) =>
+    await interaction.respond(
+      searchItems(
+        interaction.options.getFocused(),
+        investor.realEstate,
+        (realEstate) => realEstate.name
+      ).map((realEstate) => ({
+        name: realEstateConfig[realEstate.type].emoji + " " + realEstate.name,
+        value: realEstate.name,
+      }))
+    ),
+
+  execute: async (cache, investor, interaction) => {
+    if (
+      !interaction.isButton() &&
+      !interaction.isModalSubmit() &&
+      !interaction.isChatInputCommand()
+    )
+      return;
+
     if (interaction.isButton())
       return await interaction.showModal(
         realEstateModal(cache, { id: "realEstateView" })
@@ -81,4 +86,4 @@ export default {
       ],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

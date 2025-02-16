@@ -1,14 +1,8 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonInteraction,
-  ChatInputCommandInteraction,
-  Interaction,
   StringSelectMenuBuilder,
-  StringSelectMenuInteraction,
 } from "discord.js";
-import Command from "../../../../../types/command";
-import Cache from "../../../../../types/cache";
 import MarketGraphLengths from "../../../../../enum/marketGraphLengths";
 import deferReply from "../../../../../functions/deferReply";
 import marketEmbed from "../../../../responces/embeds/market";
@@ -16,9 +10,10 @@ import marketsMenu from "../../../../responces/components/menus/markets";
 import marketGraphLengthsButtons from "../../../../responces/components/buttons/marketGraphLengths";
 import Markets from "../../../../../enum/markets";
 import CustomIdManager from "../../../../../classes/customIdManager";
+import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
-  validateCommand: (cache: Cache, interaction: Interaction) =>
+  validateCommand: (cache, interaction) =>
     interaction.isStringSelectMenu() || interaction.isButton()
       ? (() => {
           const customId = CustomIdManager.parse(cache, interaction.customId);
@@ -34,14 +29,16 @@ export default {
       ? interaction.options.getSubcommand() == "market"
       : false,
 
-  execute: async (
-    cache: Cache,
-    _,
-    interaction:
-      | ButtonInteraction
-      | ChatInputCommandInteraction
-      | StringSelectMenuInteraction
-  ) => {
+  requiresAccount: false,
+
+  execute: async (cache, interaction) => {
+    if (
+      !interaction.isButton() &&
+      !interaction.isChatInputCommand() &&
+      !interaction.isStringSelectMenu()
+    )
+      return;
+
     const graphLength: MarketGraphLengths = interaction.isChatInputCommand()
       ? interaction.options.getString("graph-length")
       : CustomIdManager.parse(cache, interaction.customId).graphLength;
@@ -64,4 +61,4 @@ export default {
       ],
     });
   },
-} satisfies Command["execute"][number];
+} satisfies CommandExecute;

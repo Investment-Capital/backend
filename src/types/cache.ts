@@ -19,7 +19,7 @@ type Cache = {
 
   unsavedCache: UnsavedCache;
   marketGraphs: {
-    [_ in keyof Markets]: { [time in MarketGraphLengths]: string };
+    [_ in keyof Markets]: { [_ in MarketGraphLengths]: string };
   };
 };
 

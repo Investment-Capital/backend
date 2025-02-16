@@ -6,6 +6,7 @@ type LeaderboardData = ReturnType<
 > & {
   position: number;
   value: number;
+  formattedValue: string;
 };
 
 export default LeaderboardData;

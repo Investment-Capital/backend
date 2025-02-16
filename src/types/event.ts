@@ -1,9 +1,7 @@
-import Execute from "./execute";
-
 type Event = {
   event: string;
   once?: boolean;
-  execute: Execute;
+  execute: (...data: any) => any;
 };
 
 export default Event;

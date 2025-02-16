@@ -1,5 +1,3 @@
-import { Request, Response } from "express";
-import Cache from "../../../types/cache";
 import Route from "../../../types/route";
 import LeaderboardsConfig from "../../../config/leaderboardsConfig";
 import getLeaderboardData from "../../../functions/getLeaderboardData";
@@ -8,7 +6,7 @@ import LeaderboardTypes from "../../../enum/leaderboardTypes";
 export default {
   path: "/leaderboard/:type/:leaderboard",
   method: "get",
-  execute: (cache: Cache, req: Request, res: Response) => {
+  execute: (cache, req, res) => {
     const page = parseInt((req.query.page as string | undefined) ?? "1");
     const { type, leaderboard } = req.params;
 
@@ -35,6 +33,7 @@ export default {
       configType.dataSet(cache),
       configLeaderboard.getValue,
       configType.mapData,
+      configLeaderboard.formatValue,
       page
     );
 

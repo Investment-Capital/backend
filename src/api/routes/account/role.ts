@@ -1,8 +1,8 @@
 import Route from "../../../types/route";
 
 export default {
-  path: "/account/data",
+  path: "/account/role",
   authorized: true,
-  execute: (_, investor, __, res) => res.json(investor),
   method: "get",
+  execute: (_, investor, __, res) => res.json(investor.role),
 } satisfies Route;
