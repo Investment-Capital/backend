@@ -8,7 +8,6 @@ import buildingStartedConstructionEmbed from "../../../../responces/embeds/build
 import realEstateViewButton from "../../../../responces/components/buttons/realEstateView";
 import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
-import validName from "../../../../../functions/validName";
 import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
@@ -56,21 +55,6 @@ export default {
             errorEmbed(
               interaction.user,
               "You already have real estate with this name.",
-              "Invalid Name"
-            ),
-          ],
-        },
-        { ephemeral: true }
-      );
-
-    if (!validName(name))
-      return await deferReply(
-        interaction,
-        {
-          embeds: [
-            errorEmbed(
-              interaction.user,
-              "This real estate name is not allowed.",
               "Invalid Name"
             ),
           ],

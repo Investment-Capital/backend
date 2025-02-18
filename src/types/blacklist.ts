@@ -4,7 +4,12 @@ type Blacklist = {
   date: number | null;
   author: string | null;
 
-  history: Omit<Blacklist, "history">[];
+  history: {
+    blacklisted: boolean;
+    reason: string;
+    date: number;
+    author: string;
+  }[];
 };
 
 export default Blacklist;

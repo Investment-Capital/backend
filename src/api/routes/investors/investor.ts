@@ -13,11 +13,6 @@ export default {
         error: "Investor not found.",
       });
 
-    if (investor.blacklist.blacklisted)
-      return res.status(403).json({
-        error: "Investor is blacklisted.",
-      });
-
     res.json(publicInvestor(investor));
   },
 } satisfies Route;

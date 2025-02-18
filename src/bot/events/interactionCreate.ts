@@ -16,6 +16,7 @@ import MarkdownManager from "../../classes/markdownManager";
 import warnEmbed from "../responces/embeds/warning";
 import CustomIdManager from "../../classes/customIdManager";
 import Investor from "../../types/investor";
+import moderationRolesButton from "../responces/components/buttons/moderationRoles";
 
 export default {
   event: Events.InteractionCreate,
@@ -111,36 +112,20 @@ export default {
       );
     }
 
-    if (foundUser?.blacklist.blacklisted)
+    if (foundUser?.blacklist.blacklisted && !commandExecute.bypassBlacklist)
       return await deferReply(
         interaction,
         {
           embeds: [
             errorEmbed(
               interaction.user,
-              `You have been blacklisted. Reason: ${foundUser.blacklist.reason}.`,
+              `You have been blacklisted, please contact anyone with a moderation role to appeal.\nReason: ${foundUser.blacklist.reason}.`,
               "Blacklisted"
             ),
           ],
-        },
-        {
-          ephemeral: true,
-        }
-      );
-
-    if (
-      commandExecute.guilds &&
-      (!interaction.inGuild() ||
-        !commandExecute.guilds.includes(interaction.guildId))
-    )
-      return await deferReply(
-        interaction,
-        {
-          embeds: [
-            warnEmbed(
-              interaction.user,
-              `This command isn't available in this guild.`,
-              "Invalid Guild"
+          components: [
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+              moderationRolesButton(cache)
             ),
           ],
         },
@@ -195,7 +180,7 @@ export default {
 
     if (
       commandExecute && "allowedRoles" in commandExecute
-        ? foundUser && commandExecute.allowedRoles?.includes(foundUser.role)
+        ? !foundUser || !commandExecute.allowedRoles?.includes(foundUser.role)
         : false
     )
       return await deferReply(
@@ -212,9 +197,12 @@ export default {
         { ephemeral: true }
       );
 
-    const commandRequiredPrestige = commandExecute.requiredPresige
-      ? commandExecute.requiredPresige(cache, interaction)
-      : 1;
+    const commandRequiredPrestige =
+      "requiredPresige" in commandExecute && commandExecute.requiredPresige
+        ? typeof commandExecute.requiredPresige == "function"
+          ? commandExecute.requiredPresige(cache, interaction)
+          : commandExecute.requiredPresige
+        : 1;
 
     if (commandRequiredPrestige > (foundUser?.prestige ?? 1)) {
       return await deferReply(

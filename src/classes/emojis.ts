@@ -36,6 +36,10 @@ class Emojis {
   static abandonedHouse = "🏚️";
   static hammer = "🔨";
   static officeWorker = "👨‍💼";
+
+  static crown = "👑";
+  static detective = "🕵️";
+  static worker = "🧑‍🔧";
 }
 
 export default Emojis;

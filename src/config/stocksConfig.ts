@@ -3,7 +3,7 @@ import StocksConfig from "../types/config/stocksConfig";
 
 const stocksConfig: StocksConfig = {
   sop: {
-    income: 1,
+    income: 0,
     requiredPrestige: 1,
     basePrice: 25,
     volatility: 7.5,
@@ -11,7 +11,7 @@ const stocksConfig: StocksConfig = {
     emoji: Emojis.soap,
   },
   abc: {
-    income: 1,
+    income: 0,
     requiredPrestige: 1,
     basePrice: 50,
     volatility: 7.25,
@@ -19,7 +19,7 @@ const stocksConfig: StocksConfig = {
     emoji: Emojis.abacus,
   },
   rbx: {
-    income: 2,
+    income: 1,
     requiredPrestige: 1,
     basePrice: 75,
     volatility: 7,
@@ -27,7 +27,7 @@ const stocksConfig: StocksConfig = {
     emoji: Emojis.mortarBoard,
   },
   apl: {
-    income: 4,
+    income: 1,
     requiredPrestige: 2,
     basePrice: 90,
     volatility: 7,
@@ -35,7 +35,7 @@ const stocksConfig: StocksConfig = {
     emoji: Emojis.apple,
   },
   nvda: {
-    income: 6,
+    income: 1,
     requiredPrestige: 3,
     basePrice: 65,
     volatility: 7.5,
@@ -44,7 +44,7 @@ const stocksConfig: StocksConfig = {
     emoji: Emojis.dividers,
   },
   aal: {
-    income: 8,
+    income: 2,
     requiredPrestige: 5,
     basePrice: 100,
     volatility: 7.75,
@@ -53,7 +53,7 @@ const stocksConfig: StocksConfig = {
     emoji: Emojis.plane,
   },
   goog: {
-    income: 10,
+    income: 2,
     requiredPrestige: 8,
     basePrice: 115,
     volatility: 8,

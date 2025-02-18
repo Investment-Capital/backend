@@ -25,11 +25,16 @@ const investmentSoldEmbed = (
           value: "$" + formatNumber(cashGained),
           inline: true,
         },
-        {
-          name: "Income Lost",
-          value: "$" + formatNumber(incomeLost) + "/hour",
-          inline: true,
-        }
+
+        ...(incomeLost > 0
+          ? [
+              {
+                name: "Income Lost",
+                value: "$" + formatNumber(incomeLost) + "/hour",
+                inline: true,
+              },
+            ]
+          : [])
       ),
     user
   );

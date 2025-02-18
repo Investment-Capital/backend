@@ -34,12 +34,11 @@ export default async (cache: Cache) => {
         ).default;
 
         if (data.requiresAccount == undefined) data.requiresAccount = true;
-
+        if (data.bypassBlacklist == undefined) data.bypassBlacklist = false;
         command.execute.push(data);
       }
 
       cache.commands.push(command);
-
       Logger.info(`Command /${command.data.name} has passed threw the handler`);
     }
   }
@@ -52,9 +51,10 @@ export default async (cache: Cache) => {
     process.env.TOKEN as string
   );
 
-  const clientId = getIdBytoken(process.env.TOKEN as string);
-
-  rest.put(Routes.applicationCommands(clientId), {
-    body: cache.commands.map((command) => command.data),
-  });
+  rest.put(
+    Routes.applicationCommands(getIdBytoken(process.env.TOKEN as string)),
+    {
+      body: cache.commands.map((command) => command.data),
+    }
+  );
 };

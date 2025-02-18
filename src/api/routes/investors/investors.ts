@@ -18,7 +18,7 @@ export default {
 
     const investors = searchItems(
       search,
-      cache.investors.filter((investor) => !investor.blacklist.blacklisted),
+      cache.investors,
       (investor) => investor.user.username
     );
 

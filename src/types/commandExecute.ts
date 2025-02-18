@@ -5,9 +5,8 @@ import Cache from "./cache";
 
 type CommandExecute = {
   validateCommand: (cache: Cache, interaction: Interaction) => boolean;
-  requiredPresige?: (cache: Cache, interaction: Interaction) => number;
   disabled?: boolean | ((cache: Cache) => boolean);
-  guilds?: string[];
+  bypassBlacklist?: boolean;
 } & (
   | {
       requiresAccount?: true;
@@ -22,6 +21,9 @@ type CommandExecute = {
         interaction: AutocompleteInteraction
       ) => any;
       allowedRoles?: Roles[];
+      requiredPresige?:
+        | number
+        | ((cache: Cache, interaction: Interaction) => number);
     }
   | {
       requiresAccount: false;
