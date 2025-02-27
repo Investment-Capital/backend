@@ -2,7 +2,7 @@ import { RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
 import CommandExecute from "./commandExecute";
 
 type Command = {
-  data: RESTPostAPIApplicationCommandsJSONBody;
+  data: RESTPostAPIApplicationCommandsJSONBody[];
   category: string;
   execute: CommandExecute[];
 };

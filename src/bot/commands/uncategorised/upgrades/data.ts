@@ -3,7 +3,7 @@ import Command from "../../../../types/command";
 
 export default [
   new SlashCommandBuilder()
-    .setName("start")
-    .setDescription("Start your investment capital account!")
+    .setName("upgrades")
+    .setDescription("View your total upgrade amounts.")
     .toJSON(),
 ] satisfies Command["data"];

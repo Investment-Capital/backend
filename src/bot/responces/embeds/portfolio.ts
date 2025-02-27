@@ -8,6 +8,7 @@ import formatNumber from "../../../functions/formatNumber";
 import getInvestorIncome from "../../../functions/getInvestorIncome";
 import capitalizeWords from "../../../functions/capitalizeWords";
 import rolesConfig from "../../../config/rolesConfig";
+import getInvestorLevel from "../../../functions/getInvestorLevel";
 
 const portfolioEmbed = (user: User, investor: Investor, isLookup: boolean) => {
   return addDefaults(
@@ -32,6 +33,11 @@ const portfolioEmbed = (user: User, investor: Investor, isLookup: boolean) => {
             " $" +
             formatNumber(getInvestorIncome(investor)) +
             "/hour",
+          inline: true,
+        },
+        {
+          name: "Level",
+          value: Emojis.xp + " " + getInvestorLevel(investor),
           inline: true,
         },
         {

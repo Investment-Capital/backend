@@ -39,7 +39,8 @@ export default {
       return;
 
     const graphLength: MarketGraphLengths = interaction.isChatInputCommand()
-      ? interaction.options.getString("graph-length")
+      ? interaction.options.getString("graph-length") ??
+        Object.values(MarketGraphLengths)[0]
       : CustomIdManager.parse(cache, interaction.customId).graphLength;
 
     await deferReply(interaction, {

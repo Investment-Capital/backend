@@ -1,5 +1,7 @@
 import Emojis from "../classes/emojis";
 import formatNumber from "../functions/formatNumber";
+import getInvestorIncome from "../functions/getInvestorIncome";
+import getInvestorLevel from "../functions/getInvestorLevel";
 import LeaderboardsConfig from "../types/config/leaderboardsConfig";
 import Investor from "../types/investor";
 
@@ -22,6 +24,16 @@ const leaderboardsConfig: LeaderboardsConfig = {
         getValue: (investor: Investor) => investor.prestige,
         formatValue: (value) => `Prestige ${value}`,
         emoji: Emojis.prestige,
+      },
+      income: {
+        getValue: (investor: Investor) => getInvestorIncome(investor),
+        formatValue: (value) => `$${formatNumber(value)}/hour`,
+        emoji: Emojis.moneyBag,
+      },
+      level: {
+        getValue: (investor: Investor) => getInvestorLevel(investor),
+        formatValue: (value) => `Level ${value}`,
+        emoji: Emojis.xp,
       },
     },
   },

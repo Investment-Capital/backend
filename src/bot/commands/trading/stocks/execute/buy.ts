@@ -9,6 +9,9 @@ import stocksViewButton from "../../../../responces/components/buttons/stocksVie
 import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
 import CommandExecute from "../../../../../types/commandExecute";
+import getInvestorUpgradeAmount from "../../../../../functions/getInvestorUpgradeAmount";
+import Upgrades from "../../../../../enum/upgrades";
+import formatNumber from "../../../../../functions/formatNumber";
 
 export default {
   validateCommand: (_, interaction) =>
@@ -27,8 +30,23 @@ export default {
     const stock = interaction.options.getSubcommand() as Stocks;
     const amount = interaction.options.getInteger("amount") ?? 1;
     const config = stocksConfig[stock];
-
+    const maxStocks = getInvestorUpgradeAmount(investor, Upgrades.stocksLimit);
     const totalPrice = amount * cache.markets.stocks[stock].price;
+
+    if (amount + investor.stocks[stock] > maxStocks)
+      return await deferReply(
+        interaction,
+        {
+          embeds: [
+            errorEmbed(
+              interaction.user,
+              `You can only own ${formatNumber(maxStocks)} of each stock.`,
+              "Limit Reached"
+            ),
+          ],
+        },
+        { ephemeral: true }
+      );
 
     if (totalPrice > investor.cash)
       return await deferReply(

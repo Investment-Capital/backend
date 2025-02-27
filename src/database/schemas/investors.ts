@@ -65,6 +65,7 @@ const investor = new Schema<Investor>(
     created: Number,
     role: String,
     authorization: String,
+    xp: Number,
     stocks,
     user,
     blacklist: { ...blacklistData.obj, history: [blacklistData] },

@@ -50,7 +50,7 @@ export default {
 
     const executeData = cache.commands.find((command) =>
       interaction.isCommand() || interaction.isAutocomplete()
-        ? command.data.name == interaction.commandName
+        ? command.data.find((data) => data.name == interaction.commandName)
         : command.execute.some((data) =>
             data.validateCommand(cache, interaction)
           )

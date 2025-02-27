@@ -10,6 +10,8 @@ import CommandExecute from "../../types/commandExecute";
 dotenv.config();
 
 export default async (cache: Cache) => {
+  Logger.info("Passing commands through handler.");
+
   for (const folder of fs.readdirSync(path.join(__dirname, "../commands"))) {
     for (const commandFolder of fs.readdirSync(
       path.join(__dirname, `../commands/${folder}`)
@@ -39,7 +41,6 @@ export default async (cache: Cache) => {
       }
 
       cache.commands.push(command);
-      Logger.info(`Command /${command.data.name} has passed threw the handler`);
     }
   }
 
@@ -54,7 +55,7 @@ export default async (cache: Cache) => {
   rest.put(
     Routes.applicationCommands(getIdBytoken(process.env.TOKEN as string)),
     {
-      body: cache.commands.map((command) => command.data),
+      body: cache.commands.flatMap((command) => command.data),
     }
   );
 };

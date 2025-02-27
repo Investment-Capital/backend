@@ -1,7 +1,9 @@
 import realEstateConfig from "../config/realEstateConfig";
 import stocksConfig from "../config/stocksConfig";
 import Stocks from "../enum/stocks";
+import Upgrades from "../enum/upgrades";
 import Investor from "../types/investor";
+import getInvestorUpgradeAmount from "./getInvestorUpgradeAmount";
 
 const getInvestorIncome = (investor: Investor) => {
   let income = 0;
@@ -18,7 +20,9 @@ const getInvestorIncome = (investor: Investor) => {
     income += config.rent;
   }
 
-  return income;
+  return Math.ceil(
+    income * (getInvestorUpgradeAmount(investor, Upgrades.incomeIncrease) / 100)
+  );
 };
 
 export default getInvestorIncome;

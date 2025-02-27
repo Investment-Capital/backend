@@ -7,6 +7,8 @@ import Emojis from "../../../classes/emojis";
 import Stocks from "../../../enum/stocks";
 import formatNumber from "../../../functions/formatNumber";
 import Markets from "../../../types/markets/markets";
+import getInvestorUpgradeAmount from "../../../functions/getInvestorUpgradeAmount";
+import Upgrades from "../../../enum/upgrades";
 
 const stocksViewEmbed = (
   user: User,
@@ -27,8 +29,8 @@ const stocksViewEmbed = (
             value:
               config.requiredPrestige > investor.prestige
                 ? `${Emojis.lock} Unlocked at prestige ${config.requiredPrestige}.`
-                : `Owned: ${formatNumber(
-                    investor.stocks[name]
+                : `Owned: ${formatNumber(investor.stocks[name])}/${formatNumber(
+                    getInvestorUpgradeAmount(investor, Upgrades.stocksLimit)
                   )}\nTotal Value: $${formatNumber(
                     investor.stocks[name] * stockMarket[name].price
                   )}`,

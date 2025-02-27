@@ -9,6 +9,8 @@ import realEstateViewButton from "../../../../responces/components/buttons/realE
 import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
 import CommandExecute from "../../../../../types/commandExecute";
+import getInvestorUpgradeAmount from "../../../../../functions/getInvestorUpgradeAmount";
+import Upgrades from "../../../../../enum/upgrades";
 
 export default {
   validateCommand: (_, interaction) =>
@@ -27,6 +29,25 @@ export default {
     const name = interaction.options.getString("name", true);
     const config = realEstateConfig[realEstateType];
     const price = cache.markets.realEstate[realEstateType].price;
+    const maxRealEstateAmount = getInvestorUpgradeAmount(
+      investor,
+      Upgrades.realEstateLimit
+    );
+
+    if (investor.realEstate.length + 1 > maxRealEstateAmount)
+      return await deferReply(
+        interaction,
+        {
+          embeds: [
+            errorEmbed(
+              interaction.user,
+              `You can only own ${maxRealEstateAmount} real estate proporties at one time.`,
+              "Limit Reached"
+            ),
+          ],
+        },
+        { ephemeral: true }
+      );
 
     if (price > investor.cash)
       return await deferReply(

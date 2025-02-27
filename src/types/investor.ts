@@ -8,6 +8,7 @@ type Investor = {
   cash: number;
   prestige: number;
   created: number;
+  xp: number;
   stocks: {
     [_ in Stocks]: number;
   };

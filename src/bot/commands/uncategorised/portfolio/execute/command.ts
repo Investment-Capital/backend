@@ -15,7 +15,7 @@ import CommandExecute from "../../../../../types/commandExecute";
 
 export default {
   validateCommand: (cache, interaction) =>
-    interaction.isChatInputCommand()
+    interaction.isCommand()
       ? true
       : "customId" in interaction
       ? CustomIdManager.parse(cache, interaction.customId).id == "portfolio"
@@ -26,6 +26,8 @@ export default {
       ? interaction.options.getUser("user") ?? interaction.user
       : interaction.isUserSelectMenu()
       ? (interaction.users.get(interaction.values[0]) as User)
+      : interaction.isUserContextMenuCommand()
+      ? interaction.targetUser
       : interaction.user;
 
     const userData = cache.investors.find(

@@ -13,6 +13,7 @@ class Emojis {
   static moneyBag = "💰";
   static car = "🚙";
   static castle = "🏰";
+  static xp = "💎";
 
   static arrowForward = "▶️";
   static doubleArrowForward = "⏭️";
