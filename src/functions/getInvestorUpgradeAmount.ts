@@ -12,7 +12,7 @@ const getInvestorUpgradeAmount = (investor: Investor, upgrade: Upgrades) => {
       !config.rewards ||
       !config.rewards.upgrade ||
       config.rewards.upgrade.type !== upgrade ||
-      parseInt(levelString) > getInvestorLevel(investor)
+      parseInt(levelString) > getInvestorLevel(investor.xp)
     )
       continue;
 

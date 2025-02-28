@@ -32,6 +32,9 @@ const defaultInvestorData = (
     },
     {}
   ),
+  cooldowns: {
+    commandXp: Date.now(),
+  },
 });
 
 export default defaultInvestorData;

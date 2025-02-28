@@ -58,6 +58,15 @@ const realEstate = new Schema<RealEstate>(
   }
 );
 
+const cooldowns = new Schema<Investor["cooldowns"]>(
+  {
+    commandXp: Number,
+  },
+  {
+    _id: false,
+  }
+);
+
 const investor = new Schema<Investor>(
   {
     cash: Number,
@@ -66,6 +75,7 @@ const investor = new Schema<Investor>(
     role: String,
     authorization: String,
     xp: Number,
+    cooldowns,
     stocks,
     user,
     blacklist: { ...blacklistData.obj, history: [blacklistData] },

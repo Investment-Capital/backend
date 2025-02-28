@@ -17,6 +17,9 @@ import warnEmbed from "../responces/embeds/warning";
 import CustomIdManager from "../../classes/customIdManager";
 import Investor from "../../types/investor";
 import moderationRolesButton from "../responces/components/buttons/moderationRoles";
+import giveInvestorXp from "../../functions/giveInvestorXp";
+import editInvestor from "../../functions/editInvestor";
+import commandXpCooldown from "../../config/commandXpCooldown";
 
 export default {
   event: Events.InteractionCreate,
@@ -229,7 +232,16 @@ export default {
               interaction
             )
           : await (commandExecute as any).autocomplete(cache, interaction);
-      } else if (!interaction.isAutocomplete())
+      } else if (!interaction.isAutocomplete()) {
+        if (foundUser && foundUser.cooldowns.commandXp < Date.now()) {
+          giveInvestorXp(cache, foundUser, 1);
+          editInvestor(
+            cache,
+            foundUser,
+            () =>
+              (foundUser.cooldowns.commandXp = Date.now() + commandXpCooldown)
+          );
+        }
         commandExecute.requiresAccount
           ? await commandExecute.execute(
               cache,
@@ -237,7 +249,7 @@ export default {
               interaction
             )
           : await (commandExecute as any).execute(cache, interaction);
-      else throw new Error("Invalid Interaction Type");
+      } else throw new Error("Invalid Interaction Type");
     } catch (error: any) {
       await deferReply(
         interaction,

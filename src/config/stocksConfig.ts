@@ -3,7 +3,7 @@ import StocksConfig from "../types/config/stocksConfig";
 
 const stocksConfig: StocksConfig = {
   sop: {
-    income: 0,
+    income: 0.25,
     requiredPrestige: 1,
     basePrice: 25,
     volatility: 7.5,
@@ -11,7 +11,7 @@ const stocksConfig: StocksConfig = {
     emoji: Emojis.soap,
   },
   abc: {
-    income: 0,
+    income: 0.5,
     requiredPrestige: 1,
     basePrice: 50,
     volatility: 7.25,

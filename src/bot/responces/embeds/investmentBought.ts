@@ -25,16 +25,11 @@ const investmentBoughtEmbed = (
           value: "$" + formatNumber(totalPrice),
           inline: true,
         },
-
-        ...(incomeGained > 0
-          ? [
-              {
-                name: "Income Gained",
-                value: "$" + formatNumber(incomeGained) + "/hour",
-                inline: true,
-              },
-            ]
-          : [])
+        {
+          name: "Income Gained",
+          value: "$" + formatNumber(incomeGained) + "/hour",
+          inline: true,
+        }
       ),
     user
   );

@@ -31,7 +31,7 @@ const leaderboardsConfig: LeaderboardsConfig = {
         emoji: Emojis.moneyBag,
       },
       level: {
-        getValue: (investor: Investor) => getInvestorLevel(investor),
+        getValue: (investor: Investor) => getInvestorLevel(investor.xp),
         formatValue: (value) => `Level ${value}`,
         emoji: Emojis.xp,
       },

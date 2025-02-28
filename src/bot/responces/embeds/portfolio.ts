@@ -37,7 +37,7 @@ const portfolioEmbed = (user: User, investor: Investor, isLookup: boolean) => {
         },
         {
           name: "Level",
-          value: Emojis.xp + " " + getInvestorLevel(investor),
+          value: Emojis.xp + " " + getInvestorLevel(investor.xp),
           inline: true,
         },
         {

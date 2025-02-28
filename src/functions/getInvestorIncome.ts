@@ -20,7 +20,7 @@ const getInvestorIncome = (investor: Investor) => {
     income += config.rent;
   }
 
-  return Math.ceil(
+  return (
     income * (getInvestorUpgradeAmount(investor, Upgrades.incomeIncrease) / 100)
   );
 };

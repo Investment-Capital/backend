@@ -33,7 +33,9 @@ const stocksViewEmbed = (
                     getInvestorUpgradeAmount(investor, Upgrades.stocksLimit)
                   )}\nTotal Value: $${formatNumber(
                     investor.stocks[name] * stockMarket[name].price
-                  )}`,
+                  )}\nTotal Income: $${formatNumber(
+                    config.income * investor.stocks[name]
+                  )}/hour`,
           };
         })
       ),

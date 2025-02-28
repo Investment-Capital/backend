@@ -9,16 +9,18 @@ type Investor = {
   prestige: number;
   created: number;
   xp: number;
-  stocks: {
-    [_ in Stocks]: number;
-  };
   realEstate: RealEstate[];
-
   user: SavedUser;
   blacklist: Blacklist;
   role: Roles;
-
   authorization: string;
+
+  stocks: {
+    [_ in Stocks]: number;
+  };
+  cooldowns: {
+    commandXp: number;
+  };
 };
 
 export default Investor;

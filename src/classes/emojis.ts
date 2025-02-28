@@ -41,6 +41,7 @@ class Emojis {
   static crown = "👑";
   static detective = "🕵️";
   static worker = "🧑‍🔧";
+  static clamp = "🗜️";
 }
 
 export default Emojis;
