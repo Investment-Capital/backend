@@ -1,5 +1,5 @@
 import Times from "../classes/times";
 
-const commandXpCooldown = Times.minute;
+const commandXpCooldown = Times.second * 30;
 
 export default commandXpCooldown;

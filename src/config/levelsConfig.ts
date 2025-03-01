@@ -6,7 +6,7 @@ const levelsConfig: LevelsConfig = {
     xpRequired: 0,
   },
   2: {
-    xpRequired: 150,
+    xpRequired: 50,
     rewards: {
       upgrade: {
         type: Upgrades.stocksLimit,
@@ -15,13 +15,13 @@ const levelsConfig: LevelsConfig = {
     },
   },
   3: {
-    xpRequired: 300,
+    xpRequired: 100,
     rewards: {
       cash: 3_000,
     },
   },
   4: {
-    xpRequired: 500,
+    xpRequired: 175,
     rewards: {
       upgrade: {
         type: Upgrades.startingCash,
@@ -30,13 +30,13 @@ const levelsConfig: LevelsConfig = {
     },
   },
   5: {
-    xpRequired: 750,
+    xpRequired: 250,
     rewards: {
       cash: 5_500,
     },
   },
   6: {
-    xpRequired: 1_000,
+    xpRequired: 300,
     rewards: {
       upgrade: {
         type: Upgrades.incomeIncrease,
@@ -45,19 +45,19 @@ const levelsConfig: LevelsConfig = {
     },
   },
   7: {
-    xpRequired: 1_300,
+    xpRequired: 400,
     rewards: {
       cash: 8_000,
     },
   },
   8: {
-    xpRequired: 1_650,
+    xpRequired: 550,
     rewards: {
       cash: 9_500,
     },
   },
   9: {
-    xpRequired: 2_000,
+    xpRequired: 700,
     rewards: {
       upgrade: {
         type: Upgrades.startingCash,
@@ -66,7 +66,7 @@ const levelsConfig: LevelsConfig = {
     },
   },
   10: {
-    xpRequired: 2_500,
+    xpRequired: 800,
     rewards: {
       cash: 12_000,
       upgrade: {
@@ -76,13 +76,13 @@ const levelsConfig: LevelsConfig = {
     },
   },
   11: {
-    xpRequired: 3_100,
+    xpRequired: 950,
     rewards: {
       cash: 15_000,
     },
   },
   12: {
-    xpRequired: 3_800,
+    xpRequired: 1_050,
     rewards: {
       upgrade: {
         type: Upgrades.stocksLimit,
@@ -91,13 +91,13 @@ const levelsConfig: LevelsConfig = {
     },
   },
   13: {
-    xpRequired: 4_600,
+    xpRequired: 1_200,
     rewards: {
       cash: 18_000,
     },
   },
   14: {
-    xpRequired: 5_500,
+    xpRequired: 1_450,
     rewards: {
       upgrade: {
         type: Upgrades.realEstateLimit,
@@ -106,7 +106,7 @@ const levelsConfig: LevelsConfig = {
     },
   },
   15: {
-    xpRequired: 6_500,
+    xpRequired: 1_700,
     rewards: {
       cash: 25_000,
       upgrade: {

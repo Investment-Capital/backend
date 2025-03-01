@@ -1,4 +1,4 @@
-import { EmbedBuilder, User } from "discord.js";
+import { EmbedBuilder, escapeMarkdown, User } from "discord.js";
 
 import LeaderboardData from "../../../types/leaderboardData";
 import addDefaults from "./defaults/addDefaults";
@@ -25,7 +25,7 @@ const leaderboardEmbed = (
         data
           .map(
             (data) =>
-              `**${ordinal(data.position)}:** ${data.name} • ${
+              `**${ordinal(data.position)}:** ${escapeMarkdown(data.name)} • ${
                 data.formattedValue
               }`
           )

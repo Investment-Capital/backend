@@ -9,6 +9,7 @@ import CustomIdManager from "../../../../../classes/customIdManager";
 import searchItems from "../../../../../functions/searchItems";
 import realEstateConfig from "../../../../../config/realEstateConfig";
 import CommandExecute from "../../../../../types/commandExecute";
+import realEstateSellButton from "../../../../responces/components/buttons/realEstateSell";
 
 export default {
   validateCommand: (cache, interaction) =>
@@ -81,7 +82,8 @@ export default {
           realEstateUpgradesButtons(cache, investor, realEstate)
         ),
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          realEstateViewButton(cache)
+          realEstateViewButton(cache),
+          realEstateSellButton(cache, interaction.user, realEstate)
         ),
       ],
     });

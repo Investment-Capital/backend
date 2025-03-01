@@ -14,6 +14,9 @@ class Emojis {
   static car = "🚙";
   static castle = "🏰";
   static xp = "💎";
+  static noEntrySign = "🚫";
+  static shoppingCart = "🛒";
+  static label = "🏷️";
 
   static arrowForward = "▶️";
   static doubleArrowForward = "⏭️";

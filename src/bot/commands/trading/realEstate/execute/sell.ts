@@ -11,11 +11,15 @@ import marketButton from "../../../../responces/components/buttons/market";
 import Markets from "../../../../../enum/markets";
 import CommandExecute from "../../../../../types/commandExecute";
 import searchItems from "../../../../../functions/searchItems";
+import CustomIdManager from "../../../../../classes/customIdManager";
 
 export default {
-  validateCommand: (_, interaction) =>
+  validateCommand: (cache, interaction) =>
     interaction.isChatInputCommand() || interaction.isAutocomplete()
       ? interaction.options.getSubcommand() == "sell"
+      : interaction.isButton()
+      ? CustomIdManager.parse(cache, interaction.customId).id ==
+        "realEstateSell"
       : false,
 
   autocomplete: async (_, investor, interaction) =>
@@ -31,9 +35,11 @@ export default {
     ),
 
   execute: async (cache, investor, interaction) => {
-    if (!interaction.isChatInputCommand()) return;
+    if (!interaction.isChatInputCommand() && !interaction.isButton()) return;
 
-    const name = interaction.options.getString("name", true);
+    const name = interaction.isChatInputCommand()
+      ? interaction.options.getString("name", true)
+      : CustomIdManager.parse(cache, interaction.customId).name;
     const realEstate = investor.realEstate.find(
       (realEstate) => realEstate.name == name
     );
