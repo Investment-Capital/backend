@@ -1,4 +1,5 @@
 import levelsConfig from "../config/levelsConfig";
+import prestigeConfig from "../config/prestigeConfig";
 import upgradesConfig from "../config/upgradesConfig";
 import Upgrades from "../enum/upgrades";
 import Investor from "../types/investor";
@@ -16,7 +17,17 @@ const getInvestorUpgradeAmount = (investor: Investor, upgrade: Upgrades) => {
     )
       continue;
 
-    amount += config.rewards?.upgrade?.amount;
+    amount += config.rewards.upgrade.amount;
+  }
+
+  for (const [prestigeString, config] of Object.entries(prestigeConfig)) {
+    const foundUpgrade = config.rewards.upgrades.find(
+      (configUpgrade) => configUpgrade.type == upgrade
+    );
+
+    if (parseInt(prestigeString) > investor.prestige || !foundUpgrade) continue;
+
+    amount += foundUpgrade.amount;
   }
 
   return amount;
