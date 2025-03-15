@@ -17,12 +17,11 @@ class Emojis {
   static noEntrySign = "🚫";
   static shoppingCart = "🛒";
   static label = "🏷️";
-
+  static skull = "☠️";
   static arrowForward = "▶️";
   static doubleArrowForward = "⏭️";
   static arrowBackward = "◀️";
   static doubleArrowBackward = "⏮️";
-
   static soap = "🧼";
   static abacus = "🧮";
   static mortarBoard = "🎓";
@@ -30,7 +29,6 @@ class Emojis {
   static dividers = "🗂️";
   static magnifyingGlass = "🔍";
   static plane = "✈️";
-
   static paint = "🖌️";
   static office = "🏢";
   static cityScape = "🏙️";
@@ -40,11 +38,11 @@ class Emojis {
   static abandonedHouse = "🏚️";
   static hammer = "🔨";
   static officeWorker = "👨‍💼";
-
   static crown = "👑";
   static detective = "🕵️";
   static worker = "🧑‍🔧";
   static clamp = "🗜️";
+  static dna = "🧬";
 }
 
 export default Emojis;

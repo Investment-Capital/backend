@@ -1,7 +1,7 @@
 import Upgrade from "../upgrade";
 
 type PrestigeConfig = {
-  [prestige: number]: {
+  [_: number]: {
     rewards: {
       xp: number;
       upgrades: Upgrade[];

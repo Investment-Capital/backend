@@ -28,7 +28,7 @@ const stocksConfig: StocksConfig = {
   },
   apl: {
     income: 1,
-    requiredPrestige: 2,
+    requiredPrestige: 1,
     basePrice: 90,
     volatility: 7,
     image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f34e.png",
@@ -36,7 +36,7 @@ const stocksConfig: StocksConfig = {
   },
   nvda: {
     income: 1,
-    requiredPrestige: 3,
+    requiredPrestige: 2,
     basePrice: 65,
     volatility: 7.5,
     image:
@@ -45,7 +45,7 @@ const stocksConfig: StocksConfig = {
   },
   aal: {
     income: 2,
-    requiredPrestige: 5,
+    requiredPrestige: 4,
     basePrice: 100,
     volatility: 7.75,
     image:
@@ -54,7 +54,7 @@ const stocksConfig: StocksConfig = {
   },
   goog: {
     income: 2,
-    requiredPrestige: 8,
+    requiredPrestige: 6,
     basePrice: 115,
     volatility: 8,
     emoji: Emojis.magnifyingGlass,

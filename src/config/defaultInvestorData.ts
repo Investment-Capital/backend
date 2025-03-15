@@ -1,4 +1,5 @@
 import Roles from "../enum/roles";
+import ShopItems from "../enum/shopItems";
 import Investor from "../types/investor";
 import SavedUser from "../types/savedUser";
 import stocksConfig from "./stocksConfig";
@@ -27,11 +28,14 @@ const defaultInvestorData = (
   stocks: Object.entries(stocksConfig).reduce(
     (object: any, [stock, { requiredPrestige }]) => {
       object[stock] = requiredPrestige == 1 ? Math.ceil(Math.random() * 8) : 0;
-
       return object;
     },
     {}
   ),
+  shop: Object.values(ShopItems).reduce((prev: any, item) => {
+    prev[item] = 0;
+    return prev;
+  }, {}),
   cooldowns: {
     commandXp: Date.now(),
   },

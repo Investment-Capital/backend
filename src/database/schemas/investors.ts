@@ -4,6 +4,7 @@ import SavedUser from "../../types/savedUser";
 import Blacklist from "../../types/blacklist";
 import Stocks from "../../enum/stocks";
 import RealEstate from "../../types/realEstate";
+import ShopItems from "../../enum/shopItems";
 
 const user = new Schema<SavedUser>(
   {
@@ -29,7 +30,7 @@ const blacklistData = new Schema<Omit<Blacklist, "history">>(
   }
 );
 
-const stocks = new Schema<{ [_ in Stocks]: number }>(
+const stocks = new Schema<Investor["stocks"]>(
   Object.values(Stocks).reduce((object: any, stock) => {
     object[stock] = Number;
     return object;
@@ -39,11 +40,26 @@ const stocks = new Schema<{ [_ in Stocks]: number }>(
   }
 );
 
-const realEstateUpgrades = new Schema<RealEstate["upgrades"][number]>({
-  completed: Boolean,
-  created: Number,
-  type: String,
-});
+const shop = new Schema<Investor["shop"]>(
+  Object.values(ShopItems).reduce((object: any, item) => {
+    object[item] = Number;
+    return object;
+  }, {}),
+  {
+    _id: false,
+  }
+);
+
+const realEstateUpgrades = new Schema<RealEstate["upgrades"][number]>(
+  {
+    completed: Boolean,
+    created: Number,
+    type: String,
+  },
+  {
+    _id: false,
+  }
+);
 
 const realEstate = new Schema<RealEstate>(
   {
@@ -75,6 +91,7 @@ const investor = new Schema<Investor>(
     role: String,
     authorization: String,
     xp: Number,
+    shop,
     cooldowns,
     stocks,
     user,

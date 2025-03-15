@@ -1,4 +1,5 @@
 import Roles from "../enum/roles";
+import ShopItems from "../enum/shopItems";
 import Stocks from "../enum/stocks";
 import Blacklist from "./blacklist";
 import RealEstate from "./realEstate";
@@ -15,6 +16,9 @@ type Investor = {
   role: Roles;
   authorization: string;
 
+  shop: {
+    [_ in ShopItems]: number;
+  };
   stocks: {
     [_ in Stocks]: number;
   };

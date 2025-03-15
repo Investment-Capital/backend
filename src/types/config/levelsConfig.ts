@@ -1,7 +1,7 @@
 import Upgrade from "../upgrade";
 
 type LevelsConfig = {
-  [level: number]: {
+  [_: number]: {
     xpRequired: number;
     rewards?: {
       cash?: number;
