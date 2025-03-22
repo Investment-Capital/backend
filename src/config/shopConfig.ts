@@ -25,6 +25,17 @@ const shopConfig: ShopConfig = {
       amount: 2_500,
     },
   },
+  mastery: {
+    requiredPresige: 1,
+    resetOnPrestige: false,
+    basePrice: 75_000,
+    priceMultiplier: 2,
+    emoji: Emojis.xp,
+    upgrade: {
+      type: Upgrades.xpIncrease,
+      amount: 10,
+    },
+  },
   expansion: {
     requiredPresige: 2,
     resetOnPrestige: true,
@@ -45,17 +56,6 @@ const shopConfig: ShopConfig = {
     upgrade: {
       type: Upgrades.startingCash,
       amount: 3_000,
-    },
-  },
-  mastery: {
-    requiredPresige: 4,
-    resetOnPrestige: false,
-    basePrice: 75_000,
-    priceMultiplier: 2,
-    emoji: Emojis.xp,
-    upgrade: {
-      type: Upgrades.xpIncrease,
-      amount: 10,
     },
   },
 };

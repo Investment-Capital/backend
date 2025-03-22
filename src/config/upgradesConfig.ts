@@ -22,14 +22,14 @@ const upgradesConfig: UpgradesConfig = {
     name: "Income Increase",
     emoji: Emojis.moneyBag,
     image: "",
-    formatValue: (value) => `+${formatNumber(value)}%`,
+    formatValue: (value) => `${formatNumber(value)}%`,
   },
   xpIncrease: {
     default: 100,
     emoji: Emojis.xp,
     image: "",
     name: "Xp Increase",
-    formatValue: (value) => `+${formatNumber(value)}%`,
+    formatValue: (value) => `${formatNumber(value)}%`,
   },
   startingCash: {
     default: 1_000,

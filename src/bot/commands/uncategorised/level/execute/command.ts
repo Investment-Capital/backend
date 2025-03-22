@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import deferReply from "../../../../../functions/deferReply";
 import CommandExecute from "../../../../../types/commandExecute";
-import levelInfomationEmbed from "../../../../responces/embeds/levelInfomationEmbed";
+import levelInfomationEmbed from "../../../../responces/embeds/levelInfomation";
 import portfolioButton from "../../../../responces/components/buttons/portfolio";
 import upgradesViewButton from "../../../../responces/components/buttons/upgrades";
 
