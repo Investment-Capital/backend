@@ -1,9 +1,9 @@
 enum ShopItems {
   inheritance = "inheritance",
-  insurance = "insurance",
   mastery = "mastery",
-  expansion = "expansion",
   trader = "trader",
+  expansion = "expansion",
+  insurance = "insurance",
 }
 
 export default ShopItems;

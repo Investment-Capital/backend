@@ -31,7 +31,7 @@ const shopViewEmbed = (user: User, investor: Investor) => {
             value:
               config.requiredPresige > investor.prestige
                 ? `${Emojis.lock} Unlocked at prestige ${config.requiredPresige}.`
-                : ` Level: ${investor.shop[item]}\nCost: ${formatNumber(
+                : ` Level: ${investor.shop[item]}\nCost: $${formatNumber(
                     cost
                   )}\nReward: +${upgradeConfig.formatValue(
                     config.upgrade.amount

@@ -2,7 +2,7 @@ import Route from "../../../types/route";
 import leaderboardsConfig from "../../../config/leaderboardsConfig";
 
 export default {
-  path: "/config/leaderboard",
+  path: "/config/leaderboards",
   method: "get",
   execute: (_, __, res) =>
     res.json(
