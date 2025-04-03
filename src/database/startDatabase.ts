@@ -2,7 +2,7 @@ import fs from "fs";
 import { connect, connection } from "mongoose";
 import markets from "./schemas/markets";
 import Event from "../types/event";
-import defaultMarketData from "../config/defaultMarketData";
+import defaultMarketData from "../defaults/defaultMarketData";
 import fetchInvestors from "../functions/fetchInvestors";
 import fetchMarkets from "../functions/fetchMarkets";
 import path from "path";

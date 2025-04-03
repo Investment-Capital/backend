@@ -15,6 +15,7 @@ const portfolioEmbed = (user: User, investor: Investor, isLookup: boolean) => {
     new EmbedBuilder()
       .setTitle(`${isLookup ? user.displayName + "'s " : ""}Portfolio`)
       .setColor("Blue")
+      .setThumbnail(rolesConfig[investor.role].image)
       .addFields(
         {
           name: "Cash",

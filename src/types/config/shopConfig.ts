@@ -9,6 +9,7 @@ type ShopConfig = {
     basePrice: number;
     priceMultiplier: number;
     emoji: string;
+    image: string;
   };
 };
 

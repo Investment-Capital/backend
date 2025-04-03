@@ -3,7 +3,7 @@ import PrestigeConfig from "../types/config/prestigeConfig";
 
 const prestigeConfig: PrestigeConfig = {
   2: {
-    cashRequired: 100_000,
+    cashRequired: 200_000,
     rewards: {
       xp: 100,
       upgrades: [
@@ -19,7 +19,7 @@ const prestigeConfig: PrestigeConfig = {
     },
   },
   3: {
-    cashRequired: 350_000,
+    cashRequired: 1_500_000,
     rewards: {
       xp: 250,
       upgrades: [

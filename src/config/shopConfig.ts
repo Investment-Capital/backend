@@ -9,6 +9,7 @@ const shopConfig: ShopConfig = {
     basePrice: 25_000,
     priceMultiplier: 3,
     emoji: Emojis.dna,
+    image: "",
     upgrade: {
       type: Upgrades.startingCash,
       amount: 2_000,
@@ -24,12 +25,14 @@ const shopConfig: ShopConfig = {
       type: Upgrades.stocksLimit,
       amount: 2_500,
     },
+    image: "",
   },
   mastery: {
     requiredPresige: 1,
     resetOnPrestige: false,
     basePrice: 75_000,
     priceMultiplier: 2,
+    image: "",
     emoji: Emojis.xp,
     upgrade: {
       type: Upgrades.xpIncrease,
@@ -38,6 +41,7 @@ const shopConfig: ShopConfig = {
   },
   expansion: {
     requiredPresige: 2,
+    image: "",
     resetOnPrestige: true,
     basePrice: 60_000,
     priceMultiplier: 2.25,
@@ -49,6 +53,7 @@ const shopConfig: ShopConfig = {
   },
   insurance: {
     resetOnPrestige: false,
+    image: "",
     requiredPresige: 3,
     basePrice: 50_000,
     priceMultiplier: 2.5,

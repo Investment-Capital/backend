@@ -1,7 +1,7 @@
 import Cache from "../types/cache";
 import EmitterValues from "../classes/emitterValues";
 import SavedUser from "../types/savedUser";
-import defaultInvestorData from "../config/defaultInvestorData";
+import defaultInvestorData from "../defaults/defaultInvestorData";
 import generateCode from "./generateCode";
 import Roles from "../enum/roles";
 

@@ -3,32 +3,21 @@ import {
   ButtonBuilder,
   StringSelectMenuBuilder,
 } from "discord.js";
+import CustomIdManager from "../../../../../classes/customIdManager";
 import MarketGraphLengths from "../../../../../enum/marketGraphLengths";
+import Markets from "../../../../../enum/markets";
 import deferReply from "../../../../../functions/deferReply";
+import CommandExecute from "../../../../../types/commandExecute";
 import marketEmbed from "../../../../responces/embeds/market";
 import marketsMenu from "../../../../responces/components/menus/markets";
 import marketGraphLengthsButtons from "../../../../responces/components/buttons/marketGraphLengths";
-import Markets from "../../../../../enum/markets";
-import CustomIdManager from "../../../../../classes/customIdManager";
-import CommandExecute from "../../../../../types/commandExecute";
+import marketsConfig from "../../../../../config/marketsConfig";
 
 export default {
   validateCommand: (cache, interaction) =>
-    interaction.isStringSelectMenu() || interaction.isButton()
-      ? (() => {
-          const customId = CustomIdManager.parse(cache, interaction.customId);
-
-          return (
-            customId.id == "market" &&
-            (interaction.isButton()
-              ? customId.market
-              : interaction.values[0]) == Markets.realEstate
-          );
-        })()
-      : interaction.isChatInputCommand()
-      ? interaction.options.getSubcommand() == "market"
-      : false,
-
+    interaction.isChatInputCommand() ||
+    ("customId" in interaction &&
+      CustomIdManager.parse(cache, interaction.customId).id == "market"),
   requiresAccount: false,
   execute: async (cache, interaction) => {
     if (
@@ -37,6 +26,15 @@ export default {
       !interaction.isChatInputCommand()
     )
       return;
+
+    const market: Markets = interaction.isChatInputCommand()
+      ? Object.values(Markets).find(
+          (market) =>
+            market.toLowerCase() == interaction.options.getSubcommand()
+        )
+      : interaction.isButton()
+      ? CustomIdManager.parse(cache, interaction.customId).market
+      : interaction.values[0];
 
     const graphLength: MarketGraphLengths = interaction.isChatInputCommand()
       ? interaction.options.getString("graph-length") ??
@@ -47,16 +45,17 @@ export default {
       embeds: [
         marketEmbed(
           interaction.user,
-          cache.markets.realEstate,
-          cache.marketGraphs.realEstate[graphLength]
+          marketsConfig[market].image,
+          cache.markets[market],
+          cache.marketGraphs[market][graphLength]
         ),
       ],
       components: [
         new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-          marketsMenu(cache, Markets.realEstate, graphLength)
+          marketsMenu(cache, market, graphLength)
         ),
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          marketGraphLengthsButtons(cache, Markets.realEstate, graphLength)
+          marketGraphLengthsButtons(cache, market, graphLength)
         ),
       ],
     });

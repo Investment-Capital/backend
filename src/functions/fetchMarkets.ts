@@ -4,7 +4,7 @@ import markets from "../database/schemas/markets";
 import Markets from "../types/markets/markets";
 import modifyUndefinedValues from "./modifyUndefinedValues";
 import objectifyDocument from "./objectifyDocument";
-import defaultMarketData from "../config/defaultMarketData";
+import defaultMarketData from "../defaults/defaultMarketData";
 
 const fetchMarkets = async (): Promise<Markets | null> => {
   const data = await markets.findOne();

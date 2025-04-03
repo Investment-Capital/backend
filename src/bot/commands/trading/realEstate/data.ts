@@ -2,7 +2,6 @@ import { SlashCommandBuilder } from "discord.js";
 import Command from "../../../../types/command";
 import RealEstate from "../../../../enum/realEstate";
 import RealEstateUpgrades from "../../../../enum/realEstateUpgrades";
-import MarketGraphLengths from "../../../../enum/marketGraphLengths";
 
 export default [
   new SlashCommandBuilder()
@@ -65,22 +64,6 @@ export default [
 
       return subcommandGroup;
     })
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName("market")
-        .setDescription("View the real estate market.")
-        .addStringOption((option) =>
-          option
-            .setName("graph-length")
-            .setDescription("Change the graph duration")
-            .addChoices(
-              ...Object.values(MarketGraphLengths).map((length) => ({
-                name: length,
-                value: length,
-              }))
-            )
-        )
-    )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("view")

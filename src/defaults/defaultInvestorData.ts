@@ -2,8 +2,8 @@ import Roles from "../enum/roles";
 import ShopItems from "../enum/shopItems";
 import Investor from "../types/investor";
 import SavedUser from "../types/savedUser";
-import stocksConfig from "./stocksConfig";
-import upgradesConfig from "./upgradesConfig";
+import stocksConfig from "../config/stocksConfig";
+import upgradesConfig from "../config/upgradesConfig";
 
 const defaultInvestorData = (
   user: SavedUser,

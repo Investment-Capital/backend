@@ -1,64 +1,63 @@
 import Emojis from "../classes/emojis";
+import Images from "../classes/images";
 import StocksConfig from "../types/config/stocksConfig";
 
 const stocksConfig: StocksConfig = {
   sop: {
-    income: 0.25,
+    income: 0.1,
     requiredPrestige: 1,
     basePrice: 25,
     volatility: 7.5,
-    image: "https://em-content.zobj.net/source/twitter/408/soap_1f9fc.png",
+    image: Images.soap,
     emoji: Emojis.soap,
   },
   abc: {
-    income: 0.5,
+    income: 0.2,
     requiredPrestige: 1,
     basePrice: 50,
     volatility: 7.25,
-    image: "https://em-content.zobj.net/source/twitter/408/abacus_1f9ee.png",
+    image: Images.abacus,
     emoji: Emojis.abacus,
   },
   rbx: {
-    income: 1,
+    income: 0.4,
     requiredPrestige: 1,
     basePrice: 75,
     volatility: 7,
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f393.png",
+    image: Images.mortarBoard,
     emoji: Emojis.mortarBoard,
   },
   apl: {
-    income: 1,
+    income: 0.6,
     requiredPrestige: 1,
     basePrice: 90,
     volatility: 7,
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f34e.png",
+    image: Images.apple,
     emoji: Emojis.apple,
   },
   nvda: {
-    income: 1,
+    income: 0.8,
     requiredPrestige: 2,
     basePrice: 65,
     volatility: 7.5,
-    image:
-      "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f5c2-fe0f.png",
+    image: Images.dividers,
     emoji: Emojis.dividers,
   },
   aal: {
-    income: 2,
+    income: 1,
     requiredPrestige: 4,
     basePrice: 100,
     volatility: 7.75,
-    image:
-      "https://emoji.aranja.com/static/emoji-data/img-apple-160/2708-fe0f.png",
+    image: Images.plane,
     emoji: Emojis.plane,
   },
   goog: {
-    income: 2,
+    income: 1.4,
     requiredPrestige: 6,
     basePrice: 115,
     volatility: 8,
     emoji: Emojis.magnifyingGlass,
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f50d.png",
+    image: Images.magnifyingGlass,
   },
 };
 

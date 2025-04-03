@@ -19,7 +19,7 @@ import Investor from "../../types/investor";
 import moderationRolesButton from "../responces/components/buttons/moderationRoles";
 import giveInvestorXp from "../../functions/giveInvestorXp";
 import editInvestor from "../../functions/editInvestor";
-import commandXpCooldown from "../../config/commandXpCooldown";
+import cooldowns from "../../config/cooldowns";
 
 export default {
   event: Events.InteractionCreate,
@@ -239,7 +239,7 @@ export default {
             cache,
             foundUser,
             () =>
-              (foundUser.cooldowns.commandXp = Date.now() + commandXpCooldown)
+              (foundUser.cooldowns.commandXp = Date.now() + cooldowns.commandXp)
           );
         }
         commandExecute.requiresAccount

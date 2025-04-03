@@ -4,6 +4,7 @@ type MarketsConfig = {
   [_ in Markets]: {
     emoji: string;
     name: string;
+    image: string;
   };
 };
 

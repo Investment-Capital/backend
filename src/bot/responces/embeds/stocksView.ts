@@ -9,6 +9,7 @@ import formatNumber from "../../../functions/formatNumber";
 import Markets from "../../../types/markets/markets";
 import getInvestorUpgradeAmount from "../../../functions/getInvestorUpgradeAmount";
 import Upgrades from "../../../enum/upgrades";
+import marketsConfig from "../../../config/marketsConfig";
 
 const stocksViewEmbed = (
   user: User,
@@ -19,6 +20,7 @@ const stocksViewEmbed = (
     new EmbedBuilder()
       .setColor("Blue")
       .setTitle("Owned Stocks")
+      .setThumbnail(marketsConfig.stocks.image)
       .addFields(
         Object.values(Stocks).map((name) => {
           const config = stocksConfig[name];

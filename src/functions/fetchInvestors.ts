@@ -1,6 +1,6 @@
 import { model } from "mongoose";
 import Logger from "../classes/logger";
-import defaultInvestorData from "../config/defaultInvestorData";
+import defaultInvestorData from "../defaults/defaultInvestorData";
 import investors from "../database/schemas/investors";
 import Investor from "../types/investor";
 import modifyUndefinedValues from "./modifyUndefinedValues";

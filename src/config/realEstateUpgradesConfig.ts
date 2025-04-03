@@ -1,12 +1,12 @@
 import Emojis from "../classes/emojis";
+import Images from "../classes/images";
 import Times from "../classes/times";
 import RealEstate from "../enum/realEstate";
 import RealEstateUpgradesConfig from "../types/config/realEstateUpgradesConfig";
 
 const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
   paint: {
-    image:
-      "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f58c-fe0f.png",
+    image: Images.paint,
     emoji: Emojis.paint,
     price: 10_000,
     upgradeTime: Times.hour * 6,
@@ -16,8 +16,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
   },
 
   decor: {
-    image:
-      "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f6cb-fe0f.png",
+    image: Images.paint,
     emoji: Emojis.couch,
     price: 25_000,
     upgradeTime: Times.hour * 12,
@@ -33,7 +32,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
   },
 
   parking: {
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f699.png",
+    image: Images.paint,
     emoji: Emojis.car,
     price: 35_000,
     valueMultiplier: 1.15,
@@ -47,7 +46,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
   },
 
   heating: {
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f525.png",
+    image: Images.fire,
     emoji: Emojis.fire,
     price: 50_000,
     upgradeTime: Times.day,
@@ -62,7 +61,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
   },
 
   expansion: {
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f528.png",
+    image: Images.hammer,
     emoji: Emojis.hammer,
     price: 70_000,
     upgradeTime: Times.day * 3,
@@ -76,8 +75,7 @@ const realEstateUpgradesConfig: RealEstateUpgradesConfig = {
   },
 
   security: {
-    image:
-      "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f482-200d-2642-fe0f.png",
+    image: Images.guard,
     emoji: Emojis.guard,
     requiredPrestige: 9,
     price: 140_000,

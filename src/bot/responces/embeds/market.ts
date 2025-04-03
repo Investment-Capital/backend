@@ -8,15 +8,17 @@ import Markets from "../../../enum/markets";
 
 const marketEmbed = (
   user: User,
-  market: MarketsType[Markets],
+  image: string,
+  marketData: MarketsType[Markets],
   graph: string
 ) => {
   return addDefaults(
     new EmbedBuilder()
       .setTitle(`Market Infomation`)
       .setImage(graph)
+      .setThumbnail(image)
       .addFields(
-        Object.entries(market).map(([name, data]) => ({
+        Object.entries(marketData).map(([name, data]) => ({
           name:
             getInvestmentConfig(name as any).emoji +
             " " +

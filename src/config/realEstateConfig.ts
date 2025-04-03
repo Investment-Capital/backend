@@ -1,4 +1,5 @@
 import Emojis from "../classes/emojis";
+import Images from "../classes/images";
 import Times from "../classes/times";
 import RealEstateConfig from "../types/config/realEstateConfig";
 
@@ -7,8 +8,7 @@ const realEstateConfig: RealEstateConfig = {
     basePrice: 125_000,
     requiredPrestige: 2,
     volatility: 6,
-    image:
-      "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3da-fe0f.png",
+    image: Images.appartment,
     emoji: Emojis.abandonedHouse,
     rent: 750,
     buildTime: Times.hour * 12,
@@ -18,7 +18,7 @@ const realEstateConfig: RealEstateConfig = {
     basePrice: 200_000,
     requiredPrestige: 2,
     volatility: 6.5,
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3e0.png",
+    image: Images.house,
     emoji: Emojis.house,
     rent: 2_000,
     buildTime: Times.day,
@@ -28,7 +28,7 @@ const realEstateConfig: RealEstateConfig = {
     basePrice: 325_000,
     requiredPrestige: 3,
     volatility: 6.75,
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3e2.png",
+    image: Images.warehouse,
     emoji: Emojis.office,
     rent: 5_000,
     buildTime: Times.day * 1.5,
@@ -38,8 +38,7 @@ const realEstateConfig: RealEstateConfig = {
     basePrice: 600_000,
     requiredPrestige: 5,
     volatility: 7,
-    image:
-      "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3d9-fe0f.png",
+    image: Images.skyscraper,
     emoji: Emojis.cityScape,
     rent: 7_500,
     buildTime: Times.day * 3,
@@ -49,7 +48,7 @@ const realEstateConfig: RealEstateConfig = {
     basePrice: 500_000,
     requiredPrestige: 8,
     volatility: 7.25,
-    image: "https://emoji.aranja.com/static/emoji-data/img-apple-160/1f3f0.png",
+    image: Images.castle,
     emoji: Emojis.castle,
     rent: 10_000,
     buildTime: Times.day * 2.5,
