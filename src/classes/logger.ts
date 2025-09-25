@@ -1,59 +1,12 @@
 import chalk from "chalk";
-import { WebhookClient } from "discord.js";
-import dotenv from "dotenv";
-dotenv.config();
 
-const webhook = new WebhookClient({
-  url: process.env.WEBHOOK_LOGGING_URL as string,
-});
-
-const formatDateValue = (number: number) =>
-  number < 10 ? `0${number}` : number.toString();
-
-const log = (logs: any) => {
-  const date = new Date();
-
-  console.log(
-    chalk.grey(
-      `${formatDateValue(date.getDate())}/${formatDateValue(
-        date.getMonth() + 1
-      )}/${
-        date.getFullYear().toString().charAt(2) +
-        date.getFullYear().toString().charAt(3)
-      } ${formatDateValue(date.getHours())}:${formatDateValue(
-        date.getMinutes()
-      )}:${formatDateValue(date.getSeconds())}`
-    ) +
-      chalk.bold(" => ") +
-      logs
-  );
-};
+const log = (text: any, color: string) => console.log(chalk.hex(color)(text));
 
 class Logger {
-  static success = (text: any) => {
-    webhook.send({
-      content: `Success: ${text}`,
-    });
-    log(chalk.green(text));
-  };
-  static info = (text: any) => {
-    webhook.send({
-      content: `Info: ${text}`,
-    });
-    log(chalk.blue(text));
-  };
-  static warn = (text: any) => {
-    log(chalk.yellow(text));
-    webhook.send({
-      content: `Warning: ${text}`,
-    });
-  };
-  static error = (error: Error) => {
-    log(chalk.red(error.stack));
-    webhook.send({
-      content: `Error Occurred: ${error.message}`,
-    });
-  };
+  static success = (text: any) => log(text, "#00FF00");
+  static info = (text: any) => log(text, "#0000FF");
+  static warn = (text: any) => log(text, "#FFEA00");
+  static error = (error: Error) => log(error, "#FF0000");
 }
 
 export default Logger;

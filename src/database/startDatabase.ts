@@ -1,34 +1,29 @@
-import fs from "fs";
 import { connect, connection } from "mongoose";
-import markets from "./schemas/markets";
-import Event from "../types/event";
-import defaultMarketData from "../defaults/defaultMarketData";
-import fetchInvestors from "../functions/fetchInvestors";
-import fetchMarkets from "../functions/fetchMarkets";
+import fs from "fs";
 import path from "path";
+import DatabaseEvent from "../types/databaseEvent";
+import { config } from "dotenv";
+import Cache from "../types/cache";
+import DatabaseWatcher from "../types/databaseWatcher";
+config();
 
-const startDatabase = async () => {
+const startDatabase = async (cache: Cache) => {
   for (const file of fs.readdirSync(path.join(__dirname, "./events"))) {
-    const event: Event = (await import(`./events/${file}`)).default;
-    (connection as any).on(event.event, (...data: any[]) =>
-      event.execute(...data)
-    );
+    const event: DatabaseEvent = (await import(`./events/${file}`)).default;
+    connection.on(event.event, (...data: any[]) => event.execute(...data));
+  }
+
+  for (const file of fs.readdirSync(path.join(__dirname, "./watchers"))) {
+    const watcher: DatabaseWatcher = (await import(`./watchers/${file}`))
+      .default;
+    watcher.model
+      .watch()
+      .on("change", (change) => watcher.execute(cache, change));
   }
 
   await connect(process.env.MONGODB_CONNECTION_STRING as string, {
     dbName: process.env.DATABASE_NAME,
   });
-
-  let [investorData, marketData] = await Promise.all([
-    fetchInvestors(),
-    fetchMarkets(),
-  ]);
-  if (!marketData) marketData = await new markets(defaultMarketData).save();
-
-  return {
-    investorData,
-    marketData,
-  };
 };
 
 export default startDatabase;

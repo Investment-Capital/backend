@@ -2,55 +2,24 @@ import { Request, Response } from "express";
 import Cache from "./cache";
 import Investor from "./investor";
 
-type RouteBase = {
-  path: string;
-  category?: string;
-  ratelimit?: number;
-  ratelimitDuration?: number;
+type AuthorizedRoute = {
+  authorized: true;
+  execute: (
+    cache: Cache,
+    req: Request,
+    res: Response,
+    investor: Investor
+  ) => any;
 };
 
-type WebSocketRoute = RouteBase & {
-  method: "ws";
-} & (
-    | {
-        authorized: true;
-        execute: (
-          cache: Cache,
-          investor: Investor,
-          websocket: WebSocket,
-          req: Request,
-          res: Response
-        ) => any;
-      }
-    | {
-        authorized?: false;
-        execute: (
-          cache: Cache,
-          websocket: WebSocket,
-          req: Request,
-          res: Response
-        ) => any;
-      }
-  );
+type UnauthorizedRoute = {
+  authorized?: false;
+  execute: (cache: Cache, req: Request, res: Response) => any;
+};
 
-type HttpRoute = RouteBase & {
+type Route = {
   method: "post" | "get";
-} & (
-    | {
-        authorized: true;
-        execute: (
-          cache: Cache,
-          investor: Investor,
-          req: Request,
-          res: Response
-        ) => any;
-      }
-    | {
-        authorized?: false;
-        execute: (cache: Cache, req: Request, res: Response) => any;
-      }
-  );
-
-type Route = WebSocketRoute | HttpRoute;
+  path: string;
+} & (UnauthorizedRoute | AuthorizedRoute);
 
 export default Route;
