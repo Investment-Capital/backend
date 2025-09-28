@@ -1,6 +1,12 @@
+import stockMarketHistory from "../../database/schemas/stockMarketHistory";
 import ScheduledJob from "../../types/scheduledJob";
 
 export default {
-  time: { second: 0 },
-  execute: () => console.log("job test, runs every minute change"),
+  time: "*/1 * * * * *",
+  execute: () =>
+    new stockMarketHistory({
+      stock: "SOAP",
+      price: Math.random() * 100,
+      date: Date.now(),
+    }).save(), // test
 } satisfies ScheduledJob;

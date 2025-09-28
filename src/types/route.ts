@@ -4,6 +4,7 @@ import Investor from "./investor";
 
 type AuthorizedRoute = {
   authorized: true;
+  method: "get" | "post";
   execute: (
     cache: Cache,
     req: Request,
@@ -12,14 +13,22 @@ type AuthorizedRoute = {
   ) => any;
 };
 
+type UnauthorizedWebSocketRoute = {
+  authorized?: false;
+  method: "ws";
+  event: string;
+  filter?: (cache: Cache, req: Request, res: Response, data: any) => boolean;
+  map?: (cache: Cache, req: Request, res: Response, data: any) => any;
+};
+
 type UnauthorizedRoute = {
   authorized?: false;
+  method: "get" | "post";
   execute: (cache: Cache, req: Request, res: Response) => any;
 };
 
 type Route = {
-  method: "post" | "get";
   path: string;
-} & (UnauthorizedRoute | AuthorizedRoute);
+} & (UnauthorizedWebSocketRoute | UnauthorizedRoute | AuthorizedRoute); // authorized websocket soon
 
 export default Route;
