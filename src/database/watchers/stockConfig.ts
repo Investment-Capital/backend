@@ -1,12 +1,12 @@
 import DatabaseWatcher from "../../types/databaseWatcher";
-import stockMarketHistory from "../schemas/stockMarketHistory";
+import stockConfig from "../schemas/stockConfig";
 
 export default {
-  model: stockMarketHistory,
+  model: stockConfig,
   execute: (cache, change) => {
-    if (change.operationType == "insert")
+    if (change.operationType == "insert" || change.operationType == "update")
       cache.events.emit("stocks", {
-        type: "market",
+        type: "config",
         data: change.fullDocument,
       });
   },

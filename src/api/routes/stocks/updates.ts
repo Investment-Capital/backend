@@ -2,6 +2,6 @@ import Route from "../../../types/route";
 
 export default {
   method: "ws",
-  event: "stockMarket",
-  path: "/stocks/marketUpdates",
+  event: "stocks",
+  path: "/stocks/updates",
 } satisfies Route;

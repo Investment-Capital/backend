@@ -1,24 +1,31 @@
-import stockMarketHistory from "../../../database/schemas/stockMarketHistory";
+import StockMarket from "../../../classes/stockMarket";
+import stockConfig from "../../../database/schemas/stockConfig";
 import Route from "../../../types/route";
 
 export default {
   path: "/stocks/market",
   method: "get",
   execute: async (__, _, res) => {
-    // will also return stockConfig data (icons) soon
-    const data = await stockMarketHistory.aggregate([
-      { $sort: { stock: 1, date: -1 } },
-      {
-        $group: {
-          _id: "$stock",
-          stock: { $first: "$stock" },
-          price: { $first: "$price" },
-          date: { $first: "$date" },
-        },
-      },
-      { $project: { date: 1, price: 1, stock: 1, _id: 0 } },
+    const [config, marketData] = await Promise.all([
+      stockConfig.find(),
+      StockMarket.currentPrices(),
     ]);
 
-    res.json(data);
+    res.json(
+      config.map((config) => {
+        const { name, prestigeRequirement, icon, defaultOwnershipLimit } =
+          config;
+        const currentPrice =
+          marketData.find((data) => data.stock == name)?.price ?? null;
+
+        return {
+          price: currentPrice,
+          name,
+          icon,
+          prestigeRequirement,
+          defaultOwnershipLimit,
+        };
+      })
+    );
   },
 } satisfies Route;
