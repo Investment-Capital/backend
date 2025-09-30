@@ -1,15 +1,15 @@
-import StockMarket from "../../../classes/stockMarket";
+import stockConfig from "../../../database/schemas/stockConfig";
 import Route from "../../../types/route";
 
 export default {
-  path: "/stocks/market",
+  path: "/stocks/config",
   method: "get",
   execute: async (__, _, res) => {
-    const data = await StockMarket.currentPrices();
+    const data = await stockConfig.find({}, { _id: 0 });
 
     if (data.length == 0)
       return res.status(404).json({
-        error: "No stock history data is found",
+        error: "No stocks have been uploaded",
       });
 
     res.json(data);

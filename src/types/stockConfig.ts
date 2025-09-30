@@ -3,8 +3,8 @@ type StockConfig = {
   icon: string;
   priceChangeRange: number;
   prestigeRequirement: number;
-  maxSaleTaxPercentage: number;
-
+  maxTaxPercentage: number;
+  dividendPercentage: number;
   defaultPrice: number;
   defaultOwnershipLimit: number;
 };

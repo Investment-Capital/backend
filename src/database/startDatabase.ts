@@ -16,8 +16,21 @@ const startDatabase = async (cache: Cache) => {
   for (const file of fs.readdirSync(path.join(__dirname, "./watchers"))) {
     const watcher: DatabaseWatcher = (await import(`./watchers/${file}`))
       .default;
+
     watcher.model
-      .watch()
+      .watch(
+        [
+          {
+            $project: {
+              "fullDocument._id": 0,
+              "fullDocument.__v": 0,
+            },
+          },
+        ],
+        {
+          fullDocument: "required",
+        }
+      )
       .on("change", (change) => watcher.execute(cache, change));
   }
 

@@ -6,7 +6,8 @@ const stockConfig = new Schema<StockConfig>({
   icon: String,
   priceChangeRange: Number,
   prestigeRequirement: Number,
-  maxSaleTaxPercentage: Number,
+  maxTaxPercentage: Number,
+  dividendPercentage: Number,
   defaultPrice: Number,
   defaultOwnershipLimit: Number,
 });

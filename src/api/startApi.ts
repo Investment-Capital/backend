@@ -45,11 +45,18 @@ const startApi = async (cache: Cache) => {
         const res: Response = data[route.method == "ws" ? 2 : 1];
 
         if (route.authorized) {
-          const investor = {};
+          const investor = {
+            admin: true,
+          };
 
           if (!investor)
             return res.status(404).json({
               error: "Unauthorized",
+            });
+
+          if (route.admin && !investor.admin)
+            return res.status(404).json({
+              error: "Invalid Permissions",
             });
 
           return await route.execute(cache, req, res, investor);

@@ -19,7 +19,9 @@ export default {
       const currentPrice =
         currentPrices.find((data) => data.stock == name)?.price ?? defaultPrice;
       const newPrice =
-        currentPrice + Math.random() * priceChangeRange * 2 - priceChangeRange;
+        Math.max(currentPrice, defaultPrice / 2) +
+        Math.random() * priceChangeRange * 2 -
+        priceChangeRange;
 
       new stockMarketHistory({
         stock: name,
