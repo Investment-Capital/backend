@@ -1,7 +1,7 @@
 import Route from "../../../types/route";
 
 export default {
-  path: "/investor/icon/:id",
+  path: "/investors/icon/:id",
   method: "get",
   execute: (_, req, res) => {
     const { id } = req.params;

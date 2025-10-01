@@ -8,6 +8,7 @@ import fs from "fs";
 import Route from "../types/route";
 import http from "http";
 import enableWs from "express-ws";
+import z from "zod";
 config();
 
 const startApi = async (cache: Cache) => {
@@ -44,7 +45,16 @@ const startApi = async (cache: Cache) => {
         const req: Request = data[route.method == "ws" ? 1 : 0];
         const res: Response = data[route.method == "ws" ? 2 : 1];
 
-        if (route.authorized) {
+        if (route.method == "post" && "schema" in route) {
+          const validate = z.object(route.schema).safeParse(req.body);
+
+          if (validate.error)
+            return res.json({
+              error: `Error in body schema: ${validate.error}`,
+            });
+        }
+
+        if ("authorized" in route && route.authorized) {
           const investor = {
             admin: true,
           };
@@ -56,7 +66,7 @@ const startApi = async (cache: Cache) => {
 
           if (route.admin && !investor.admin)
             return res.status(404).json({
-              error: "Invalid Permissions",
+              error: "Invalid Permissions, route requires admin",
             });
 
           return await route.execute(cache, req, res, investor);
@@ -68,13 +78,13 @@ const startApi = async (cache: Cache) => {
           const callback = (data: any) => {
             if (
               typeof route.filter == "function" &&
-              !route.filter(cache, req, res, data)
+              !route.filter(cache, req, data)
             )
               return;
 
             websocket.send(
               typeof route.map == "function"
-                ? route.map(cache, req, res, data)
+                ? route.map(cache, req, data)
                 : JSON.stringify(data)
             );
           };

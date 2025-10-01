@@ -1,3 +1,4 @@
+import z from "zod";
 import Route from "../../../types/route";
 
 export default {
@@ -5,8 +6,12 @@ export default {
   method: "post",
   authorized: true,
   admin: true,
+  schema: {
+    soap: z.number(),
+  },
   execute: (_, req, res) => {
-    const { stock } = req.query;
+    const { stock } = req.params;
+
     res.json({
       stock,
     });

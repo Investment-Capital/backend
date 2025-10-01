@@ -2,11 +2,14 @@ import { Request, Response } from "express";
 import Cache from "./cache";
 import Investor from "./investor";
 
-type AuthorizedRoute = {
+type UnauthorizedHttpRoute = {
+  authorized?: false;
+  execute: (cache: Cache, req: Request, res: Response) => any;
+};
+
+type AuthorizedHttpRoute = {
   authorized: true;
   admin?: boolean;
-  method: "get" | "post";
-  path: string;
   execute: (
     cache: Cache,
     req: Request,
@@ -15,22 +18,29 @@ type AuthorizedRoute = {
   ) => any;
 };
 
+type PostRoute = {
+  method: "post";
+  schema: {
+    [key: string]: any;
+  };
+};
+
+type GetRoute = {
+  method: "get";
+};
+
+type HttpRoute = { path: string } & (PostRoute | GetRoute) &
+  (AuthorizedHttpRoute | UnauthorizedHttpRoute);
+
 type WebSocketRoute = {
-  authorized?: undefined;
   method: "ws";
-  event: string;
-  filter?: (cache: Cache, req: Request, res: Response, data: any) => boolean;
-  map?: (cache: Cache, req: Request, res: Response, data: any) => any;
-};
-
-type UnauthorizedRoute = {
-  authorized?: false;
-  method: "get" | "post";
-  execute: (cache: Cache, req: Request, res: Response) => any;
-};
-
-type Route = {
   path: string;
-} & (WebSocketRoute | UnauthorizedRoute | AuthorizedRoute);
+  event: string;
+  authorized?: undefined;
+  filter?: (cache: Cache, req: Request, data: any) => boolean;
+  map?: (cache: Cache, req: Request, data: any) => any;
+};
+
+type Route = HttpRoute | WebSocketRoute;
 
 export default Route;
