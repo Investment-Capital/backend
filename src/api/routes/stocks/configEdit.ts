@@ -1,5 +1,7 @@
 import z from "zod";
 import Route from "../../../types/route";
+import StockConfig from "../../../types/stockConfig";
+import stockConfig from "../../../database/schemas/stockConfig";
 
 export default {
   path: "/stocks/config/:stock",
@@ -7,13 +9,28 @@ export default {
   authorized: true,
   admin: true,
   schema: {
-    soap: z.number(),
+    icon: z.string(),
+    priceChangeRange: z.number().gt(0),
+    maxTaxPercentage: z.number().gte(0),
+    dividendPercentage: z.number().gte(0),
+    defaultPrice: z.number().gt(0),
+    defaultOwnershipLimit: z.number().gte(1),
+    prestigeRequirement: z.number().gte(1),
   },
-  execute: (_, req, res) => {
+  execute: async (_, req, res) => {
     const { stock } = req.params;
 
-    res.json({
-      stock,
-    });
+    const data: StockConfig = {
+      name: stock,
+      ...req.body,
+    };
+
+    await stockConfig.updateOne(
+      { name: stock },
+      { $set: data },
+      { upsert: true }
+    );
+
+    res.json(data);
   },
 } satisfies Route;

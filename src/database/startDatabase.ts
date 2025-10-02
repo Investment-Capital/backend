@@ -13,9 +13,18 @@ const startDatabase = async (cache: Cache) => {
     connection.on(event.event, (...data: any[]) => event.execute(...data));
   }
 
+  await connect(process.env.MONGODB_CONNECTION_STRING as string, {
+    dbName: process.env.DATABASE_NAME,
+  });
+
   for (const file of fs.readdirSync(path.join(__dirname, "./watchers"))) {
     const watcher: DatabaseWatcher = (await import(`./watchers/${file}`))
       .default;
+
+    connection.db?.command({
+      collMod: watcher.model.collection.name,
+      changeStreamPreAndPostImages: { enabled: true },
+    });
 
     watcher.model
       .watch(
@@ -33,10 +42,6 @@ const startDatabase = async (cache: Cache) => {
       )
       .on("change", (change) => watcher.execute(cache, change));
   }
-
-  await connect(process.env.MONGODB_CONNECTION_STRING as string, {
-    dbName: process.env.DATABASE_NAME,
-  });
 };
 
 export default startDatabase;

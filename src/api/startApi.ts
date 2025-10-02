@@ -46,30 +46,12 @@ const startApi = async (cache: Cache) => {
         const res: Response = data[route.method == "ws" ? 2 : 1];
 
         if (route.method == "post" && "schema" in route) {
-          const validate = z.object(route.schema).safeParse(req.body);
+          const validate = z.strictObject(route.schema).safeParse(req.body);
 
           if (validate.error)
             return res.json({
               error: `Error in body schema: ${validate.error}`,
             });
-        }
-
-        if ("authorized" in route && route.authorized) {
-          const investor = {
-            admin: true,
-          };
-
-          if (!investor)
-            return res.status(404).json({
-              error: "Unauthorized",
-            });
-
-          if (route.admin && !investor.admin)
-            return res.status(404).json({
-              error: "Invalid Permissions, route requires admin",
-            });
-
-          return await route.execute(cache, req, res, investor);
         }
 
         if (route.method == "ws") {
@@ -93,6 +75,24 @@ const startApi = async (cache: Cache) => {
           return websocket.addEventListener("close", () =>
             cache.events.off(route.event, callback)
           );
+        }
+
+        if ("authorized" in route && route.authorized) {
+          const investor = {
+            admin: true,
+          };
+
+          if (!investor)
+            return res.status(404).json({
+              error: "Unauthorized",
+            });
+
+          if (route.admin && !investor.admin)
+            return res.status(404).json({
+              error: "Invalid Permissions, route requires admin",
+            });
+
+          return await route.execute(cache, req, res, investor);
         }
 
         await route.execute(cache, req, res);
