@@ -20,9 +20,7 @@ type AuthorizedHttpRoute = {
 
 type PostRoute = {
   method: "post";
-  schema: {
-    [key: string]: any;
-  };
+  schema: Record<string, any>;
 };
 
 type GetRoute = {

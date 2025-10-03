@@ -9,6 +9,7 @@ import Route from "../types/route";
 import http from "http";
 import enableWs from "express-ws";
 import z from "zod";
+import investors from "../database/schemas/investors";
 config();
 
 const startApi = async (cache: Cache) => {
@@ -78,9 +79,11 @@ const startApi = async (cache: Cache) => {
         }
 
         if ("authorized" in route && route.authorized) {
-          const investor = {
-            admin: true,
-          };
+          const { authorization } = req.headers;
+
+          const investor = await investors.findOne({
+            account: { infomation: { authorization } },
+          });
 
           if (!investor)
             return res.status(404).json({
