@@ -82,7 +82,7 @@ const startApi = async (cache: Cache) => {
           const { authorization } = req.headers;
 
           const investor = await investors.findOne({
-            account: { infomation: { authorization } },
+            "account.infomation.authorization": authorization,
           });
 
           if (!investor)

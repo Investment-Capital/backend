@@ -12,11 +12,11 @@ const investors = new Schema<Investor>({
       id: String,
     },
   },
-
-  cash: Number,
-  stocks: Object,
-  admin: Boolean,
   created: Number,
+
+  cash: { type: Number, default: 1_000 },
+  stocks: { type: Object, default: {} },
+  admin: { type: Boolean, default: false },
 });
 
 export default model("investors", investors);
