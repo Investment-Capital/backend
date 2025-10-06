@@ -12,7 +12,7 @@ export default {
   path: "/auth/signup",
   method: "post",
   schema: {
-    username: z.string(),
+    username: z.string().max(24),
     password: z.string().min(MIN_PASSWORD_LENGTH),
   },
   execute: async (_, req, res) => {
@@ -28,7 +28,8 @@ export default {
           "An account with this username already exists, pick a different username or login",
       });
 
-    const authorization = randomUUID();
+    const id = randomUUID();
+    const authorization = id + " " + randomUUID();
 
     await new investors({
       created: Date.now(),
@@ -39,7 +40,7 @@ export default {
         },
         profile: {
           username,
-          id: randomUUID(),
+          id,
         },
       },
     }).save();

@@ -81,9 +81,15 @@ const startApi = async (cache: Cache) => {
         if ("authorized" in route && route.authorized) {
           const { authorization } = req.headers;
 
-          const investor = await investors.findOne({
-            "account.infomation.authorization": authorization,
-          });
+          const investor = await investors.findOne(
+            {
+              "account.infomation.authorization": authorization,
+            },
+            {
+              _id: 0,
+              __v: 0,
+            }
+          );
 
           if (!investor)
             return res.status(404).json({
@@ -95,7 +101,7 @@ const startApi = async (cache: Cache) => {
               error: "Invalid Permissions, route requires admin",
             });
 
-          return await route.execute(cache, req, res, investor);
+          return await route.execute(cache, req, res, investor.toObject());
         }
 
         await route.execute(cache, req, res);
