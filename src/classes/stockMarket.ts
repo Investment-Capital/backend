@@ -6,7 +6,19 @@ config();
 const MAX_HISTORY_LENGTH = parseInt(process.env.MAX_HISTORY_LENGTH as string);
 
 class StockMarket {
-  static currentPrices = (): Promise<StockMarketHistory[]> =>
+  static price = async (stock: string): Promise<number | undefined> => {
+    const data = await stockMarketHistory
+      .findOne({
+        stock,
+      })
+      .sort({
+        date: -1,
+      });
+
+    return data?.price;
+  };
+
+  static prices = (): Promise<StockMarketHistory[]> =>
     stockMarketHistory.aggregate([
       { $sort: { stock: 1, date: -1 } },
       {

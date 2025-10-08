@@ -11,7 +11,8 @@ type Investor = {
   };
 
   cash: number;
-  stocks: Record<string, number>;
+  prestige: number;
+  stocks: Map<string, number>;
 
   admin: boolean;
   created: number;

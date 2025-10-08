@@ -10,7 +10,7 @@ export default {
   execute: async () => {
     const [configData, currentPrices] = await Promise.all([
       stockConfig.find(),
-      StockMarket.currentPrices(),
+      StockMarket.prices(),
     ]);
 
     for (const config of configData) {

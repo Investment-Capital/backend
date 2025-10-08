@@ -5,7 +5,7 @@ export default {
   path: "/stocks/market",
   method: "get",
   execute: async (__, _, res) => {
-    const data = await StockMarket.currentPrices();
+    const data = await StockMarket.prices();
 
     if (data.length == 0)
       return res.status(404).json({
