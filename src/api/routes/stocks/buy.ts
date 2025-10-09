@@ -3,7 +3,7 @@ import Route from "../../../types/route";
 import stockConfig from "../../../database/schemas/stockConfig";
 import StockMarket from "../../../classes/stockMarket";
 import investors from "../../../database/schemas/investors";
-import Stocks from "../../../classes/stocks";
+import Stock from "../../../classes/stock";
 
 export default {
   authorized: true,
@@ -29,7 +29,12 @@ export default {
       });
 
     const cost = price * amount;
-    const ownershipLimit = Stocks.ownershipLimit(config);
+    const ownershipLimit = Stock.ownershipLimit(config);
+
+    if (config.prestigeRequirement > investor.prestige)
+      return res.json({
+        error: `You need to be prestige ${config.prestigeRequirement} to buy this stock`,
+      });
 
     if (investor.cash < cost)
       return res.json({
