@@ -11,7 +11,7 @@ class Investor {
   ) => {
     let income = 0;
 
-    for (const stock in investor.stocks) {
+    for (const stock of investor.stocks.keys()) {
       const owned = investor.stocks.get(stock);
       const config = stockConfigs.find((config) => config.name == stock);
       const price = stockPrices.find((data) => data.stock == stock)?.price;
