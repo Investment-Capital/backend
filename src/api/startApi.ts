@@ -46,7 +46,7 @@ const startApi = async (cache: Cache) => {
         const req: Request = data[route.method == "ws" ? 1 : 0];
         const res: Response = data[route.method == "ws" ? 2 : 1];
 
-        if (route.method == "post" && "schema" in route) {
+        if (route.method == "post" && route.schema) {
           const validate = z.strictObject(route.schema).safeParse(req.body);
 
           if (validate.error)

@@ -11,16 +11,16 @@ export default {
   path: "/stocks/buy",
   schema: {
     amount: z.number(),
-    stock: z.string(),
+    id: z.string(),
   },
   execute: async (_, req, res, investor) => {
-    const { stock, amount } = req.body;
+    const { id, amount } = req.body;
 
     const [config, price] = await Promise.all([
       stockConfig.findOne({
-        name: stock,
+        id,
       }),
-      StockMarket.price(stock),
+      StockMarket.price(id),
     ]);
 
     if (!config || !price)
@@ -41,7 +41,7 @@ export default {
         error: "You don't have enough cash for this",
       });
 
-    if (investor.stocks.get(stock) + amount > ownershipLimit)
+    if (investor.stocks.get(id) + amount > ownershipLimit)
       return res.json({
         error: `You can only own ${ownershipLimit} of this stock`,
       });
@@ -52,7 +52,7 @@ export default {
       },
       {
         $inc: {
-          [`stocks.${stock}`]: amount,
+          [`stocks.${id}`]: amount,
           cash: -cost,
         },
       }

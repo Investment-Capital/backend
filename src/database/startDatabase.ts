@@ -21,7 +21,8 @@ const startDatabase = async (cache: Cache) => {
     const watcher: DatabaseWatcher = (await import(`./watchers/${file}`))
       .default;
 
-    connection.db?.command({
+    await watcher.model.syncIndexes();
+    await connection.db?.command({
       collMod: watcher.model.collection.name,
       changeStreamPreAndPostImages: { enabled: true },
     });

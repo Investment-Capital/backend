@@ -8,8 +8,8 @@ const stockConfig = new Schema<StockConfig>({
   prestigeRequirement: Number,
   maxTaxPercentage: Number,
   dividendPercentage: Number,
-  defaultPrice: Number,
   defaultOwnershipLimit: Number,
+  id: String,
 });
 
 export default model("stockConfig", stockConfig);

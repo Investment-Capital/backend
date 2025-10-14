@@ -14,7 +14,7 @@ class Investor {
     for (const stock of investor.stocks.keys()) {
       const owned = investor.stocks.get(stock);
       const config = stockConfigs.find((config) => config.name == stock);
-      const price = stockPrices.find((data) => data.stock == stock)?.price;
+      const price = stockPrices.find((data) => data.id == stock)?.price;
 
       if (!config || !price || !owned) continue;
       income += Stock.calculateDividend(price, owned, config);

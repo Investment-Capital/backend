@@ -4,7 +4,7 @@ import StockMarketHistory from "../../types/stockMarketHistory";
 const stockMarketHistory = new Schema<StockMarketHistory>({
   date: Number,
   price: Number,
-  stock: String,
+  id: String,
 });
 
 export default model("stockMarketHistory", stockMarketHistory);

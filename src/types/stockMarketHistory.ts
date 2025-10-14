@@ -1,7 +1,7 @@
 type StockMarketHistory = {
   date: number;
   price: number;
-  stock: string;
+  id: string;
 };
 
 export default StockMarketHistory;

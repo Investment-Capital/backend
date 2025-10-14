@@ -6,10 +6,10 @@ config();
 const MAX_HISTORY_LENGTH = parseInt(process.env.MAX_HISTORY_LENGTH as string);
 
 class StockMarket {
-  static price = async (stock: string): Promise<number | undefined> => {
+  static price = async (id: string): Promise<number | undefined> => {
     const data = await stockMarketHistory
       .findOne({
-        stock,
+        id,
       })
       .sort({
         date: -1,
@@ -20,24 +20,24 @@ class StockMarket {
 
   static prices = (): Promise<StockMarketHistory[]> =>
     stockMarketHistory.aggregate([
-      { $sort: { stock: 1, date: -1 } },
+      { $sort: { id: 1, date: -1 } },
       {
         $group: {
-          _id: "$stock",
-          stock: { $first: "$stock" },
+          _id: "$id",
+          id: { $first: "$id" },
           price: { $first: "$price" },
           date: { $first: "$date" },
         },
       },
-      { $project: { date: 1, price: 1, stock: 1, _id: 0 } },
+      { $project: { date: 1, price: 1, id: 1, _id: 0 } },
     ]);
 
   static history = (
-    stock: string,
+    id: string,
     time: number
-  ): Promise<Omit<StockMarketHistory, "stock">[]> =>
+  ): Promise<Omit<StockMarketHistory, "id">[]> =>
     stockMarketHistory.aggregate([
-      { $match: { date: { $gte: Date.now() - time }, stock } },
+      { $match: { date: { $gte: Date.now() - time }, id } },
       { $sort: { date: 1 } },
       {
         $setWindowFields: {

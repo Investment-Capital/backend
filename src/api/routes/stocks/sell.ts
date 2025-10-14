@@ -8,24 +8,24 @@ import investors from "../../../database/schemas/investors";
 export default {
   path: "/stocks/sell",
   schema: {
-    stock: z.string(),
+    id: z.string(),
     amount: z.number(),
   },
   authorized: true,
   method: "post",
   execute: async (_, req, res, investor) => {
-    const { stock, amount } = req.body;
+    const { id, amount } = req.body;
 
-    if ((investor.stocks.get(stock) ?? 0) < amount)
+    if ((investor.stocks.get(id) ?? 0) < amount)
       return res.json({
         error: `You don't have ${amount} of this stock`,
       });
 
     const [config, price] = await Promise.all([
       stockConfig.findOne({
-        name: stock,
+        id,
       }),
-      StockMarket.price(stock),
+      StockMarket.price(id),
     ]);
 
     if (!price || !config)
@@ -36,7 +36,7 @@ export default {
     const salesPrice = Stock.salesPrice(
       price,
       amount,
-      investor.stocks.get(stock) ?? 0,
+      investor.stocks.get(id) ?? 0,
       config
     );
 
@@ -47,7 +47,7 @@ export default {
       {
         $inc: {
           cash: salesPrice,
-          [`stocks.${stock}`]: -amount,
+          [`stocks.${id}`]: -amount,
         },
       }
     );

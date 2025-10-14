@@ -5,8 +5,8 @@ type StockConfig = {
   prestigeRequirement: number;
   maxTaxPercentage: number;
   dividendPercentage: number;
-  defaultPrice: number;
   defaultOwnershipLimit: number;
+  id: string;
 };
 
 export default StockConfig;

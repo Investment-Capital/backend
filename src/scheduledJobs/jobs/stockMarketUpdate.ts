@@ -3,10 +3,11 @@ import stockMarketHistory from "../../database/schemas/stockMarketHistory";
 import ScheduledJob from "../../types/scheduledJob";
 import stockConfig from "../../database/schemas/stockConfig";
 import StockMarket from "../../classes/stockMarket";
+import Logger from "../../classes/logger";
 config();
 
 export default {
-  time: `*/${process.env.STOCKS_CHANGE_TIME} * * * * *`,
+  time: `*/5 * * * * *`,
   execute: async () => {
     const [configData, currentPrices] = await Promise.all([
       stockConfig.find(),
@@ -14,18 +15,20 @@ export default {
     ]);
 
     for (const config of configData) {
-      const { name, defaultPrice, priceChangeRange } = config;
+      const { name, id, priceChangeRange } = config;
+      const currentPrice = currentPrices.find((data) => data.id == id)?.price;
 
-      const currentPrice =
-        currentPrices.find((data) => data.stock == name)?.price ?? defaultPrice;
-      const newPrice =
-        Math.max(currentPrice, defaultPrice / 2) +
-        Math.random() * priceChangeRange * 2 -
-        priceChangeRange;
+      if (!currentPrice) {
+        Logger.error(`No price found for stock name: ${name}, id: ${id}`);
+        continue;
+      }
 
       new stockMarketHistory({
-        stock: name,
-        price: newPrice,
+        id,
+        price:
+          currentPrice +
+          Math.random() * priceChangeRange * 2 -
+          priceChangeRange,
         date: Date.now(),
       }).save();
     }
