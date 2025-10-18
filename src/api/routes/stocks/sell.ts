@@ -9,7 +9,7 @@ export default {
   path: "/stocks/sell",
   schema: {
     id: z.string(),
-    amount: z.number(),
+    amount: z.int().gte(1),
   },
   authorized: true,
   method: "post",

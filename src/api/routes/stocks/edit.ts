@@ -13,8 +13,8 @@ export default {
     priceChangeRange: z.number().gt(0).optional(),
     maxTaxPercentage: z.number().gte(0).optional(),
     dividendPercentage: z.number().gte(0).optional(),
-    defaultOwnershipLimit: z.number().gte(1).optional(),
-    prestigeRequirement: z.number().gte(1).optional(),
+    defaultOwnershipLimit: z.int().gte(1).optional(),
+    prestigeRequirement: z.int().gte(1).optional(),
   },
   execute: async (_, req, res) => {
     const { id } = req.params;

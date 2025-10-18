@@ -10,7 +10,7 @@ export default {
   method: "post",
   path: "/stocks/buy",
   schema: {
-    amount: z.number(),
+    amount: z.int().gte(1),
     id: z.string(),
   },
   execute: async (_, req, res, investor) => {
