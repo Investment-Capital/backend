@@ -1,8 +1,8 @@
 import DatabaseWatcher from "../../types/databaseWatcher";
-import stockConfig from "../schemas/stockConfig";
+import investors from "../schemas/investors";
 
 export default {
-  model: stockConfig,
+  model: investors,
   execute: (cache, change) => {
     if (change.operationType == "insert" || change.operationType == "update")
       cache.events.emit("investor", change.fullDocument);

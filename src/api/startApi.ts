@@ -66,9 +66,11 @@ const startApi = async (cache: Cache) => {
               return;
 
             websocket.send(
-              typeof route.map == "function"
-                ? route.map(cache, req, data)
-                : JSON.stringify(data)
+              JSON.stringify(
+                typeof route.map == "function"
+                  ? route.map(cache, req, data)
+                  : data
+              )
             );
           };
 
