@@ -1,5 +1,6 @@
 import Route from "../../../types/route";
 import stockConfig from "../../../database/schemas/stockConfig";
+import stockMarketHistory from "../../../database/schemas/stockMarketHistory";
 
 export default {
   path: "/stocks/delete/:id",
@@ -8,7 +9,10 @@ export default {
   admin: true,
   execute: async (_, req, res) => {
     const { id } = req.params;
-    const data = await stockConfig.deleteOne({ id });
+    const [data] = await Promise.all([
+      stockConfig.deleteOne({ id }),
+      stockMarketHistory.deleteMany({ id }),
+    ]);
 
     if (data.deletedCount == 0)
       return res.json({
