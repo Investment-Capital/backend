@@ -20,14 +20,17 @@ export default {
     const { id } = req.params;
     const { name } = req.body;
 
-    const nameData = await stockConfig.findOne({ name });
-    if (nameData && nameData.id !== id)
-      return res.json({
-        error: "Another stock has this name already",
-      });
+    if (name) {
+      const nameData = await stockConfig.findOne({ name });
+      if (nameData && nameData.id !== id)
+        return res.json({
+          error:
+            "Another stock has this name already, pick a different name to change to",
+        });
+    }
 
-    const data = await stockConfig.updateOne({ id }, req.body);
-    if (data.matchedCount == 0)
+    const update = await stockConfig.updateOne({ id }, req.body);
+    if (update.matchedCount == 0)
       return res.json({
         error: "No stock with this ID exists.",
       });
