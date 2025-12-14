@@ -25,7 +25,7 @@ export default {
     if (foundUser)
       return res.json({
         error:
-          "An account with this username already exists, pick a different username or login",
+          "An account with this username already exists, pick a different username or login to your account",
       });
 
     const id = randomUUID();
