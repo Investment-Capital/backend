@@ -23,12 +23,14 @@ export default {
         continue;
       }
 
+      const newPrice =
+        Math.max(currentPrice, priceChangeRange * 50) +
+        Math.random() * priceChangeRange * 2 -
+        priceChangeRange;
+
       new stockMarketHistory({
         id,
-        price:
-          currentPrice +
-          Math.random() * priceChangeRange * 2 -
-          priceChangeRange,
+        price: newPrice,
         date: Date.now(),
       }).save();
     }

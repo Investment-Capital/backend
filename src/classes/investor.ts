@@ -11,10 +11,10 @@ class Investor {
   ) => {
     let income = 0;
 
-    for (const stock of investor.stocks.keys()) {
-      const owned = investor.stocks.get(stock);
-      const config = stockConfigs.find((config) => config.name == stock);
-      const price = stockPrices.find((data) => data.id == stock)?.price;
+    for (const stockId of investor.stocks.keys()) {
+      const owned = investor.stocks.get(stockId);
+      const config = stockConfigs.find((config) => config.id == stockId);
+      const price = stockPrices.find((data) => data.id == stockId)?.price;
 
       if (!config || !price || !owned) continue;
       income += Stock.calculateDividend(price, owned, config);
