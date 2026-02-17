@@ -7,4 +7,7 @@ const stockMarketHistory = new Schema<StockMarketHistory>({
   id: String,
 });
 
+stockMarketHistory.index({ id: 1, date: -1 });
+stockMarketHistory.index({ id: 1, date: 1 });
+
 export default model("stockMarketHistory", stockMarketHistory);

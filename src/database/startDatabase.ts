@@ -39,7 +39,7 @@ const startDatabase = async (cache: Cache) => {
         ],
         {
           fullDocument: "required",
-        }
+        },
       )
       .on("change", (change) => watcher.execute(cache, change));
   }

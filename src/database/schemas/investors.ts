@@ -15,6 +15,7 @@ const investors = new Schema<Investor>({
   created: Number,
 
   cash: { type: Number, default: 1_000 },
+  xp: { type: Number, default: 0 },
   prestige: { type: Number, default: 1 },
   stocks: { type: Map, of: Number, default: new Map() },
   admin: { type: Boolean, default: false },

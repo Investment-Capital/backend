@@ -34,37 +34,23 @@ class StockMarket {
 
   static history = (
     id: string,
-    time: number
+    time: number,
   ): Promise<Omit<StockMarketHistory, "id">[]> =>
     stockMarketHistory.aggregate([
-      { $match: { date: { $gte: Date.now() - time }, id } },
+      { $match: { id, date: { $gte: Date.now() - time } } },
       { $sort: { date: 1 } },
       {
-        $setWindowFields: {
-          sortBy: { date: 1 },
-          output: {
-            idx: { $documentNumber: {} },
-            total: { $count: {} },
-          },
-        },
-      },
-      {
-        $addFields: {
-          scaled: {
+        $group: {
+          _id: {
             $floor: {
-              $divide: [{ $multiply: ["$idx", MAX_HISTORY_LENGTH] }, "$total"],
+              $divide: ["$date", Math.ceil(time / MAX_HISTORY_LENGTH)],
             },
           },
-        },
-      },
-      {
-        $group: {
-          _id: "$scaled",
           doc: { $first: "$$ROOT" },
         },
       },
       { $replaceRoot: { newRoot: "$doc" } },
-      { $project: { date: 1, price: 1, _id: 0 } },
+      { $project: { _id: 0, date: 1, price: 1 } },
     ]);
 }
 

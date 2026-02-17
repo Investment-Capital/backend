@@ -17,7 +17,7 @@ export default {
 
     if (data.length == 0)
       return res.status(404).json({
-        error: `No history data is found for stock id: ${id}`,
+        error: `No history data is found for stock id: ${id} in this time frame`,
       });
 
     res.json(data);

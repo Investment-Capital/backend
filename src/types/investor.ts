@@ -11,6 +11,7 @@ type Investor = {
   };
 
   cash: number;
+  xp: number;
   prestige: number;
   stocks: Map<string, number>;
 
