@@ -1,10 +1,9 @@
 import Route from "../../../types/route";
 import levelConfig from "../../../database/schemas/levelConfig";
 import create from "./create";
-import z from "zod";
 
 export default {
-  path: "/levels/edit",
+  path: "/levels/edit/:level",
   method: "post",
   authorized: true,
   admin: true,
@@ -13,25 +12,25 @@ export default {
       all[key] = schema.optional();
       return all;
     },
-    {
-      level: z.int().gte(1),
-    },
+    {},
   ),
   execute: async (_, req, res) => {
+    const { level } = req.params;
+
     const update = await levelConfig.updateOne(
       {
-        level: req.body.level,
+        level: parseInt(level),
       },
       req.body,
     );
 
     if (update.matchedCount == 0)
       return res.json({
-        error: `Level ${req.body.level} doesn't exist`,
+        error: `Level ${level} doesn't exist`,
       });
 
     res.json({
-      success: "updated level",
+      success: `updated level ${level}`,
     });
   },
 } satisfies Route;
