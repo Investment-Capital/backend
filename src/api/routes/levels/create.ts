@@ -11,7 +11,7 @@ export default {
     xpRequired: z.int().gte(1),
     rewards: z.object({
       cash: z.number().gte(0).optional(),
-      stocks: z.map(z.string(), z.number().gt(0)).optional(),
+      stocks: z.record(z.string(), z.number().gt(0)).optional(),
     }),
   },
   execute: async (_, req, res) => {
