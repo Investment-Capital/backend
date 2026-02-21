@@ -1,9 +1,11 @@
 import z from "zod";
 import Route from "../../../types/route";
-import stockConfig from "../../../database/schemas/stockConfig";
+import stockConfigSchema from "../../../database/schemas/stockConfig";
 import StockMarket from "../../../classes/stockMarket";
 import investors from "../../../database/schemas/investors";
 import Stock from "../../../classes/stock";
+import levelConfigSchema from "../../../database/schemas/levelConfig";
+import Investor from "../../../classes/investor";
 
 export default {
   authorized: true,
@@ -16,24 +18,31 @@ export default {
   execute: async (_, req, res, investor) => {
     const { id, amount } = req.body;
 
-    const [config, price] = await Promise.all([
-      stockConfig.findOne({
+    const [stockConfig, levelConfigs, price] = await Promise.all([
+      stockConfigSchema.findOne({
         id,
       }),
+      levelConfigSchema.find(),
       StockMarket.price(id),
     ]);
 
-    if (!config || !price)
+    if (!stockConfig || !price)
       return res.json({
         error: "No infomation about this stock.",
       });
 
     const cost = price * amount;
-    const ownershipLimit = Stock.ownershipLimit(config);
+    const ownershipLimit = Stock.ownershipLimit(stockConfig);
+    const level = Investor.level(investor.xp, levelConfigs);
 
-    if (config.prestigeRequirement > investor.prestige)
+    if (stockConfig.prestigeRequirement > investor.prestige)
       return res.json({
-        error: `You need to be prestige ${config.prestigeRequirement} to buy this stock`,
+        error: `You need to be prestige ${stockConfig.prestigeRequirement} to buy this stock`,
+      });
+
+    if (stockConfig.levelRequirement > level)
+      return res.json({
+        error: `You need to be level ${stockConfig.levelRequirement} to buy this stock`,
       });
 
     if (investor.cash < cost)
@@ -55,7 +64,7 @@ export default {
           [`stocks.${id}`]: amount,
           cash: -cost,
         },
-      }
+      },
     );
 
     res.json({

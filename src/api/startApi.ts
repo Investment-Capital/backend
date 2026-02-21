@@ -10,6 +10,8 @@ import http from "http";
 import enableWs from "express-ws";
 import z from "zod";
 import investors from "../database/schemas/investors";
+import Investor from "../classes/investor";
+import levelConfig from "../database/schemas/levelConfig";
 config();
 
 const startApi = async (cache: Cache) => {
@@ -23,7 +25,7 @@ const startApi = async (cache: Cache) => {
   app.use(
     cors({
       origin: "*",
-    })
+    }),
   );
   app.use(json());
   app.use((error: any, _: any, res: Response, next: NextFunction) => {
@@ -37,7 +39,7 @@ const startApi = async (cache: Cache) => {
 
   for (const folder of fs.readdirSync(path.join(__dirname, "../api/routes"))) {
     for (const file of fs.readdirSync(
-      path.join(__dirname, `../api/routes/${folder}`)
+      path.join(__dirname, `../api/routes/${folder}`),
     )) {
       const route: Route = (await import(`../api/routes/${folder}/${file}`))
         .default;
@@ -69,29 +71,32 @@ const startApi = async (cache: Cache) => {
               JSON.stringify(
                 typeof route.map == "function"
                   ? route.map(cache, req, data)
-                  : data
-              )
+                  : data,
+              ),
             );
           };
 
           cache.events.addListener(route.event, callback);
           return websocket.addEventListener("close", () =>
-            cache.events.off(route.event, callback)
+            cache.events.off(route.event, callback),
           );
         }
 
         if ("authorized" in route && route.authorized) {
           const { authorization } = req.headers;
 
-          const investor = await investors.findOne(
-            {
-              "account.infomation.authorization": authorization,
-            },
-            {
-              _id: 0,
-              __v: 0,
-            }
-          );
+          const [investor, levelConfigs] = await Promise.all([
+            investors.findOne(
+              {
+                "account.infomation.authorization": authorization,
+              },
+              {
+                _id: 0,
+                __v: 0,
+              },
+            ),
+            levelConfig.find(),
+          ]);
 
           if (!investor)
             return res.status(404).json({
@@ -103,6 +108,7 @@ const startApi = async (cache: Cache) => {
               error: "Invalid Permissions, route requires admin",
             });
 
+          Investor.giveXp(1, investor, levelConfigs);
           return await route.execute(cache, req, res, investor.toObject());
         }
 
@@ -112,7 +118,7 @@ const startApi = async (cache: Cache) => {
   }
 
   server.listen(process.env.PORT, () =>
-    Logger.success(`Running API at http://localhost:${process.env.PORT}`)
+    Logger.success(`Running API at http://localhost:${process.env.PORT}`),
   );
 };
 

@@ -4,7 +4,6 @@ import StockConfig from "../../../types/stockConfig";
 import stockConfig from "../../../database/schemas/stockConfig";
 import { randomUUID } from "crypto";
 import stockMarketHistory from "../../../database/schemas/stockMarketHistory";
-import stocksEditRoute from "./edit";
 
 export default {
   path: "/stocks/create",
@@ -12,7 +11,15 @@ export default {
   authorized: true,
   admin: true,
   schema: {
-    ...stocksEditRoute.schema,
+    name: z.string(),
+    icon: z.string(),
+    priceChangeRange: z.number().gt(0),
+    maxTaxPercentage: z.number().gte(0),
+    dividendPercentage: z.number().gte(0),
+    defaultOwnershipLimit: z.int().gte(1),
+    prestigeRequirement: z.int().gte(1),
+    levelRequirement: z.int().gte(0),
+
     startingPrice: z.number().gt(0),
   },
   execute: async (_, req, res) => {

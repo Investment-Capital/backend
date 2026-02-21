@@ -1,21 +1,19 @@
 import Route from "../../../types/route";
 import stockConfig from "../../../database/schemas/stockConfig";
-import z from "zod";
+import create from "./create";
 
 export default {
   path: "/stocks/edit/:id",
   method: "post",
   authorized: true,
   admin: true,
-  schema: {
-    name: z.string().optional(),
-    icon: z.string().optional(),
-    priceChangeRange: z.number().gt(0).optional(),
-    maxTaxPercentage: z.number().gte(0).optional(),
-    dividendPercentage: z.number().gte(0).optional(),
-    defaultOwnershipLimit: z.int().gte(1).optional(),
-    prestigeRequirement: z.int().gte(1).optional(),
-  },
+  schema: Object.entries(create.schema).reduce(
+    (all: Record<string, any>, [key, schema]) => {
+      if (key !== "startingPrice") all[key] = schema.optional();
+      return all;
+    },
+    {},
+  ),
   execute: async (_, req, res) => {
     const { id } = req.params;
     const { name } = req.body;

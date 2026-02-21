@@ -10,6 +10,7 @@ const stockConfig = new Schema<StockConfig>({
   dividendPercentage: Number,
   defaultOwnershipLimit: Number,
   id: String,
+  levelRequirement: Number,
 });
 
 export default model("stockConfig", stockConfig);

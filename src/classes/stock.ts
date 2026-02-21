@@ -2,16 +2,16 @@ import StockConfig from "../types/stockConfig";
 
 class Stock {
   static ownershipLimit = (config: StockConfig) => config.defaultOwnershipLimit; // will add upgrades etc eventually
-  static taxPercentage = (ownership: number, config: StockConfig) =>
+  static taxPercentage = (owned: number, config: StockConfig) =>
     Math.min(
-      (ownership / Stock.ownershipLimit(config)) * config.maxTaxPercentage,
-      config.maxTaxPercentage
+      (owned / Stock.ownershipLimit(config)) * config.maxTaxPercentage,
+      config.maxTaxPercentage,
     );
 
   static calculateDividend = (
     price: number,
     owned: number,
-    config: StockConfig
+    config: StockConfig,
   ) =>
     ((price * owned * config.dividendPercentage) / 100) *
     (1 - Stock.taxPercentage(owned, config) / 100);
@@ -20,7 +20,7 @@ class Stock {
     stockPrice: number,
     amountSold: number,
     owned: number,
-    config: StockConfig
+    config: StockConfig,
   ) =>
     stockPrice *
     amountSold *
