@@ -5,6 +5,6 @@ export default {
   model: levelConfig,
   execute: (cache, change) => {
     if (change.operationType == "insert" || change.operationType == "update")
-      cache.events.emit("levels", change);
+      cache.events.emit("levels", change.fullDocument);
   },
 } satisfies DatabaseWatcher;
